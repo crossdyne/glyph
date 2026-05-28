@@ -1,0 +1,6 @@
+@Crossdyne.Glyph.Bff_HostAddress = http://localhost:5195
+
+GET {{Crossdyne.Glyph.Bff_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
