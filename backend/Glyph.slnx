@@ -1,8 +1,11 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/Crossdyne.Glyph.Api/Crossdyne.Glyph.Api.csproj" />
-    <Project Path="src/Crossdyne.Glyph.Application/Crossdyne.Glyph.Application.csproj" />
-    <Project Path="src/Crossdyne.Glyph.Domain/Crossdyne.Glyph.Domain.csproj" />
-    <Project Path="src/Crossdyne.Glyph.Infrastructure/Crossdyne.Glyph.Infrastructure.csproj" />
+    <Project Path="src/microservice/Crossdyne.Glyph.Api/Crossdyne.Glyph.Api.csproj" />
+    <Project Path="src/microservice/Crossdyne.Glyph.Application/Crossdyne.Glyph.Application.csproj" />
+    <Project Path="src/microservice/Crossdyne.Glyph.Domain/Crossdyne.Glyph.Domain.csproj" />
+    <Project Path="src/microservice/Crossdyne.Glyph.Infrastructure/Crossdyne.Glyph.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/bff/">
+    <Project Path="src/bff/Crossdyne.Glyph.Bff/Crossdyne.Glyph.Bff.csproj" />
   </Folder>
 </Solution>
