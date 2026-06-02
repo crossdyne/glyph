@@ -1,0 +1,36 @@
+using Crossdyne.Glyph.Domain.Models;
+using Crossdyne.Glyph.Domain.ValueObjects.Categories;
+using Crossdyne.Glyph.Domain.ValueObjects.Shared;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Crossdyne.Glyph.Infrastructure.Persistence.Configurations
+{
+    public sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    {
+        public void Configure(EntityTypeBuilder<Category> builder)
+        {
+            builder.ToTable("categories");
+            builder.HasKey(c => c.Id);
+
+            builder.Property(c => c.Id)
+                .HasColumnName("id")
+                .HasConversion(id => id.Value, db => CategoryId.From(db))
+                .ValueGeneratedNever();
+
+            builder.Property(a => a.UserId)
+                .HasColumnName("user_id")
+                .HasConversion(userId => userId.HasValue ? userId.Value.Value : (Guid?)null, db => db == null ? null : UserId.From(db.Value))
+                .IsRequired(false);
+
+            builder.Property(c => c.Name)
+                .HasColumnName("name")
+                .HasConversion(name => name.Value, db => CategoryName.Create(db))
+                .IsRequired();
+
+            builder.Property(c => c.IsPublic)
+                .HasColumnName("is_public")
+                .IsRequired();
+        }
+    }
+}
