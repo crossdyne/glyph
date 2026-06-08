@@ -38,7 +38,7 @@ namespace Crossdyne.Glyph.Domain.ValueObjects.Assets
             ArgumentNullException.ThrowIfNull(folders);
             ArgumentNullException.ThrowIfNull(fileName);
 
-            return new (bucket, [.. folders], fileName);
+            return new (bucket, [.. folders], $"{Guid.CreateVersion7()}-{fileName}");
         }
 
         public static S3Key Restore(string value)
