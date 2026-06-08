@@ -63,8 +63,9 @@ namespace Crossdyne.Glyph.Domain.Models
             UpdateAt = DateTime.UtcNow;
         }
 
-        public void UpdateContent(Format format, MimeType mimeType, AssetType assetType, SizeBytes sizeBytes)
+        public void UpdateContent(S3Key s3Key, Format format, MimeType mimeType, AssetType assetType, SizeBytes sizeBytes)
         {
+            S3Key = s3Key;
             Format = format;
             MimeType = mimeType;
             AssetType = assetType;
