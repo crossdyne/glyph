@@ -66,7 +66,7 @@ namespace Crossdyne.Glyph.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeleteAssetRequest request)
+        public async Task<IActionResult> Delete([FromBody] DeletePersonalAssetRequest request)
         {
             var command = new DeletePersonalAssetCommand(Guid.Parse(request.UserId), Guid.Parse(request.AssetId));
 
