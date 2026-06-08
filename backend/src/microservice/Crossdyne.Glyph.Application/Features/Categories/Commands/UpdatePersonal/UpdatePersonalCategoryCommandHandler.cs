@@ -6,7 +6,7 @@ using Crossdyne.Toolkit.Primitives;
 using Crossdyne.Toolkit.Results;
 using MediatR;
 
-namespace Crossdyne.Glyph.Application.Features.Categories.Commands.Update
+namespace Crossdyne.Glyph.Application.Features.Categories.Commands.UpdatePersonal
 {
     public sealed class UpdatePersonalCategoryCommandHandler(
         ICategoryRepository repository,

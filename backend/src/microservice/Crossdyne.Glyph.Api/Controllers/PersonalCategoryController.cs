@@ -1,7 +1,7 @@
 using Crossdyne.Glyph.Api.Extensions;
 using Crossdyne.Glyph.Application.Features.Categories.Commands.CreatePersonal;
-using Crossdyne.Glyph.Application.Features.Categories.Commands.Delete;
-using Crossdyne.Glyph.Application.Features.Categories.Commands.Update;
+using Crossdyne.Glyph.Application.Features.Categories.Commands.DeletePersonal;
+using Crossdyne.Glyph.Application.Features.Categories.Commands.UpdatePersonal;
 using Crossdyne.Glyph.Application.Features.Categories.Queries.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

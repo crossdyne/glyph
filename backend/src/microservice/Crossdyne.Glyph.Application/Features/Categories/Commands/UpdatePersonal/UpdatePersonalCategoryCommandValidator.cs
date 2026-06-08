@@ -1,7 +1,7 @@
 using Crossdyne.Glyph.Application.Validators.Implementation;
 using FluentValidation;
 
-namespace Crossdyne.Glyph.Application.Features.Categories.Commands.Update
+namespace Crossdyne.Glyph.Application.Features.Categories.Commands.UpdatePersonal
 {
     public sealed class UpdatePersonalCategoryCommandValidator : AbstractValidator<UpdatePersonalCategoryCommand>
     {

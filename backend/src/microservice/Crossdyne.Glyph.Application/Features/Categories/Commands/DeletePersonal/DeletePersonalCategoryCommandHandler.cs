@@ -5,7 +5,7 @@ using Crossdyne.Toolkit.Primitives;
 using Crossdyne.Toolkit.Results;
 using MediatR;
 
-namespace Crossdyne.Glyph.Application.Features.Categories.Commands.Delete
+namespace Crossdyne.Glyph.Application.Features.Categories.Commands.DeletePersonal
 {
     public sealed class DeletePersonalCategoryCommandHandler(
         ICategoryRepository repository, 
