@@ -22,12 +22,12 @@ namespace Crossdyne.Glyph.Domain.Models
             IsPublic = userId == null;
         }
 
-        public static Category Create(CategoryName name, UserId? userId)
+        public static Category Create(CategoryName name, UserId? userId = null)
         {
             return new(name, userId);
         }
 
-        public bool CanAccess(UserId userId) => UserId == userId;
+        public bool CanAccess(UserId userId) => UserId == null || UserId == userId;
 
         public void UpdateName(CategoryName categoryName)
         {

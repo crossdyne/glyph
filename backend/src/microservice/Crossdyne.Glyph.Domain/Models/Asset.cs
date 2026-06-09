@@ -28,10 +28,15 @@ namespace Crossdyne.Glyph.Domain.Models
             
         }
 
-        private Asset(S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId> projectIds, UserId? userId) : base(AssetId.New())
+        private Asset(S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds, UserId? userId) : base(AssetId.New())
         {
-            foreach (var projectId in projectIds)
-                AttachToProject(projectId);
+            if (projectIds is not null)
+            {
+                foreach (var projectId in projectIds)
+                {
+                    AttachToProject(projectId);
+                }   
+            }
 
             S3Key = s3Key;
             AssetType = assetType;
@@ -48,7 +53,7 @@ namespace Crossdyne.Glyph.Domain.Models
             IsPublic = UserId == null;
         }
 
-        public static Asset Create(S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId> projectIds, UserId? userId)
+        public static Asset Create(S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds = null, UserId? userId = null)
         {
             return new(s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
         }
