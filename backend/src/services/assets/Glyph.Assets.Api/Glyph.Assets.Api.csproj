@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Shared.Contracts\Shared.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\shared\contracts\Shared.Contracts\Shared.Contracts.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Application\Glyph.Assets.Application.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Infrastructure\Glyph.Assets.Infrastructure.csproj" />
   </ItemGroup>
