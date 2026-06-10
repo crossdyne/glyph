@@ -1,4 +1,5 @@
 <Solution>
+  <Folder Name="/core/" />
   <Folder Name="/src/">
     <Project Path="src/services/assets/Glyph.Assets.Api/Glyph.Assets.Api.csproj" />
     <Project Path="src/services/assets/Glyph.Assets.Application/Glyph.Assets.Application.csproj" />
@@ -10,5 +11,12 @@
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/shared/contracts/Shared.Contracts/Shared.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/contracts/" />
+  <Folder Name="/src/Shared/core/">
+    <Project Path="src/shared/core/Shared.Kernel/Shared.Kernel.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/infrastructure/">
+    <Project Path="src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj" />
   </Folder>
 </Solution>
