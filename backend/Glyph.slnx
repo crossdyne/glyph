@@ -8,4 +8,7 @@
   <Folder Name="/src/bff/">
     <Project Path="src/bff/Crossdyne.Glyph.Bff/Crossdyne.Glyph.Bff.csproj" />
   </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/Shared.Contracts/Shared.Contracts.csproj" />
+  </Folder>
 </Solution>
