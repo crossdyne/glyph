@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>Glyph.Assets.Bff</RootNamespace>
-    <AssemblyName>Glyph.Assets.Bff</AssemblyName>
+    <RootNamespace>Glyph.Bff</RootNamespace>
+    <AssemblyName>Glyph.Bff</AssemblyName>
   </PropertyGroup>
 
 </Project>

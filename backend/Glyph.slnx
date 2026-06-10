@@ -6,7 +6,7 @@
     <Project Path="src/services/assets/Glyph.Assets.Infrastructure/Glyph.Assets.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/bff/">
-    <Project Path="src/apps/Glyph.Assets.Bff/Glyph.Assets.Bff.csproj" />
+    <Project Path="src/apps/Glyph.Bff/Glyph.Bff.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Shared.Contracts/Shared.Contracts.csproj" />
