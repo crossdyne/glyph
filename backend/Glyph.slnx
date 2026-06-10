@@ -1,12 +1,12 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/microservice/Glyph.Api/Glyph.Api.csproj" />
-    <Project Path="src/microservice/Glyph.Application/Glyph.Application.csproj" />
-    <Project Path="src/microservice/Glyph.Domain/Glyph.Domain.csproj" />
-    <Project Path="src/microservice/Glyph.Infrastructure/Glyph.Infrastructure.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Api/Glyph.Assets.Api.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Application/Glyph.Assets.Application.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Domain/Glyph.Assets.Domain.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Infrastructure/Glyph.Assets.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/bff/">
-    <Project Path="src/bff/Glyph.Bff/Glyph.Bff.csproj" />
+    <Project Path="src/apps/Glyph.Assets.Bff/Glyph.Assets.Bff.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Shared.Contracts/Shared.Contracts.csproj" />
