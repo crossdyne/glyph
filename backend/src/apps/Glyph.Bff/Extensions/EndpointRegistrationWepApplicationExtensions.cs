@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace Glyph.Bff.Extensions
 {
-    public static class EndpointRegistrationExtensions
+    public static class EndpointRegistrationWepApplicationExtensions
     {
         public static void MapEndpoints(this IEndpointRouteBuilder app, Assembly assembly)
         {
