@@ -19,4 +19,7 @@
   <Folder Name="/src/Shared/infrastructure/">
     <Project Path="src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj" />
   </Folder>
+  <Folder Name="/src/Shared/web/">
+    <Project Path="src/shared/web/Shared.Web/Shared.Web.csproj" />
+  </Folder>
 </Solution>
