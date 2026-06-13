@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Crossdyne.Toolkit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\shared\contracts\Shared.Contracts\Shared.Contracts.csproj" />
+    <ProjectReference Include="..\Glyph.Assets.Domain\Glyph.Assets.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <RootNamespace>Glyph.Assets.Application</RootNamespace>
+    <AssemblyName>Glyph.Assets.Application</AssemblyName>
+  </PropertyGroup>
+
+</Project>

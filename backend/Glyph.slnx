@@ -1,14 +1,25 @@
 <Solution>
+  <Folder Name="/core/" />
   <Folder Name="/src/">
-    <Project Path="src/microservice/Crossdyne.Glyph.Api/Crossdyne.Glyph.Api.csproj" />
-    <Project Path="src/microservice/Crossdyne.Glyph.Application/Crossdyne.Glyph.Application.csproj" />
-    <Project Path="src/microservice/Crossdyne.Glyph.Domain/Crossdyne.Glyph.Domain.csproj" />
-    <Project Path="src/microservice/Crossdyne.Glyph.Infrastructure/Crossdyne.Glyph.Infrastructure.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Api/Glyph.Assets.Api.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Application/Glyph.Assets.Application.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Domain/Glyph.Assets.Domain.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Infrastructure/Glyph.Assets.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/bff/">
-    <Project Path="src/bff/Crossdyne.Glyph.Bff/Crossdyne.Glyph.Bff.csproj" />
+    <Project Path="src/apps/Glyph.Bff/Glyph.Bff.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
-    <Project Path="src/Shared/Shared.Contracts/Shared.Contracts.csproj" />
+    <Project Path="src/shared/contracts/Shared.Contracts/Shared.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/contracts/" />
+  <Folder Name="/src/Shared/core/">
+    <Project Path="src/shared/core/Shared.Kernel/Shared.Kernel.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/infrastructure/">
+    <Project Path="src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/web/">
+    <Project Path="src/shared/web/Shared.Web/Shared.Web.csproj" />
   </Folder>
 </Solution>
