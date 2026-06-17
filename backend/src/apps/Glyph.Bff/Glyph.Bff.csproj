@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
     <PackageReference Include="MediatR" />
+    <PackageReference Include="DistributedLock.Redis" />
     <PackageReference Include="Crossdyne.Toolkit" />
   </ItemGroup>
 

@@ -15,6 +15,7 @@ builder.Services
     .ConfigureOptions()
     .AddServices(configuration)
     .AddHttpClients(configuration)
+    .AddDistributedLock()
     .UseCors()
     .AddSharedCryptoKeyForDecryptCookie(configuration)
     .AddCookie(environment);
