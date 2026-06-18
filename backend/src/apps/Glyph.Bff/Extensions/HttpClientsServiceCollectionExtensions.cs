@@ -1,5 +1,7 @@
 
+using Glyph.Bff.Handlers;
 using Glyph.Bff.Infrastructure.Clients;
+using Glyph.Bff.Interfaces.Clients;
 
 namespace Glyph.Bff.Extensions
 {
@@ -13,7 +15,8 @@ namespace Glyph.Bff.Extensions
 
             var assetsBaseUrl = configuration["Urls:AssetsServicesBase"];
             string assetsServices = "AssetsServices";
-            services.AddHttpClient<IPersonalCategoriesClient, PersonalCategoriesClient>(assetsServices, client => client.BaseAddress = new Uri(assetsBaseUrl!));
+            services.AddHttpClient(assetsServices, client => client.BaseAddress = new Uri(assetsBaseUrl!)).AddHttpMessageHandler<AccessTokenHandler>();
+            services.AddHttpClient<IPersonalCategoriesClient, PersonalCategoriesClient>(assetsServices);
 
             return services;
         }
