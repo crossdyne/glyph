@@ -11,8 +11,10 @@ builder.Services
     // Default
     .AddOpenApi()
     .AddAuthorization()
+    .AddHttpContextAccessor()
     // Custom
     .ConfigureOptions()
+    .AddDelegationsHandlers()
     .AddServices(configuration)
     .AddHttpClients(configuration)
     .AddDistributedLock()

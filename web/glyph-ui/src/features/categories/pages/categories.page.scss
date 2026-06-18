@@ -1,0 +1,14 @@
+.category-page-container{
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    width: 100%;
+}
+
+.category-form{
+    grid-column: 1;
+}
+
+.category-list{
+    grid-column: 2;
+}

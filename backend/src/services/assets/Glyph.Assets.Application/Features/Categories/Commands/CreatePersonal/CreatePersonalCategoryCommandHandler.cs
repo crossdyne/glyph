@@ -10,9 +10,9 @@ namespace Glyph.Assets.Application.Features.Categories.Commands.CreatePersonal
 {
     public sealed class CreatePersonalCategoryCommandHandler(
         ICategoryRepository repository, 
-        IUnitOfWork unitOfWork) : IRequestHandler<CreatePersonalCategoryCommand, Result>
+        IUnitOfWork unitOfWork) : IRequestHandler<CreatePersonalCategoryCommand, Result<string>>
     {
-        public async Task<Result> Handle(CreatePersonalCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(CreatePersonalCategoryCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -21,11 +21,11 @@ namespace Glyph.Assets.Application.Features.Categories.Commands.CreatePersonal
                 await repository.AddAsync(category, cancellationToken);
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                return Result.Success();
+                return Result<string>.Success(category.Id.ToString());
             }
             catch (Exception ex)
             {
-                return Result.Failure(new Error(ErrorCode.Save, $"Произошла ошибка сохранения: {ex}"));
+                return Result<string>.Failure(new Error(ErrorCode.Save, $"Произошла ошибка сохранения: {ex}"));
             }
         }
     }

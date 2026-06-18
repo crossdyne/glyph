@@ -14,7 +14,7 @@ namespace Glyph.Assets.Api.Controllers
     public sealed class GlobalCategoryController(IMediator mediator) : Controller
     {
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateGlobalCategoryRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
         {
             var command = new CreateGlobalCategoryCommand(request.Name);
             var result = await mediator.Send(command);
@@ -25,10 +25,10 @@ namespace Glyph.Assets.Api.Controllers
             return Ok();
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> Update([FromBody] UpdateGlobalCategoryRequest request)
+        [HttpPatch("{categoryId:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid categoryId, [FromBody] UpdateCategoryRequest request)
         {
-            var command = new UpdateGlobalCategoryCommand(Guid.Parse(request.CategoryId), request.Name);
+            var command = new UpdateGlobalCategoryCommand(categoryId, request.Name);
             var result = await mediator.Send(command);
 
             if (result.IsFailure)
@@ -37,10 +37,10 @@ namespace Glyph.Assets.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeleteGlobalCategoryRequest request)
+        [HttpDelete("{categoryId:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid categoryId)
         {
-            var command = new DeleteGlobalCategoryCommand(Guid.Parse(request.CategoryId));
+            var command = new DeleteGlobalCategoryCommand(categoryId);
             var result = await mediator.Send(command);
 
             if (result.IsFailure)

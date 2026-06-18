@@ -6,6 +6,7 @@ using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Requests;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Glyph.Assets.Api.Controllers
 {
@@ -14,9 +15,33 @@ namespace Glyph.Assets.Api.Controllers
     public sealed class PersonalCategoryController(IMediator mediator) : Controller
     {
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreatePersonalCategoryRequest request)
+        [Authorize]
+        public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
         {
-            var command = new CreatePersonalCategoryCommand(Guid.Parse(request.UserId), request.Name);
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var command = new CreatePersonalCategoryCommand(extractResult.Value.UserId, request.Name);
+            var result = await mediator.Send(command);
+
+            if (result.IsFailure)
+                return this.MapActionResult(result.Errors);
+
+            return Ok(result.Value);
+        }
+
+        [HttpPatch("{categoryId:guid}")]
+        [Authorize]
+        public async Task<IActionResult> Update([FromRoute] Guid categoryId, [FromBody] UpdateCategoryRequest request)
+        {
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var command = new UpdatePersonalCategoryCommand(categoryId, extractResult.Value.UserId, request.Name);
             var result = await mediator.Send(command);
 
             if (result.IsFailure)
@@ -25,22 +50,16 @@ namespace Glyph.Assets.Api.Controllers
             return Ok();
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> Update([FromBody] UpdatePersonalCategoryRequest request)
+        [HttpDelete("{categoryId:guid}")]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] Guid categoryId)
         {
-            var command = new UpdatePersonalCategoryCommand(Guid.Parse(request.CategoryId), Guid.Parse(request.UserId), request.Name);
-            var result = await mediator.Send(command);
+            var extractResult = this.ExtractCredentials(User);
 
-            if (result.IsFailure)
-                return this.MapActionResult(result.Errors);
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
 
-            return Ok();
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeletePersonalCategoryRequest request)
-        {
-            var command = new DeletePersonalCategoryCommand(Guid.Parse(request.CategoryId), Guid.Parse(request.UserId));
+            var command = new DeletePersonalCategoryCommand(categoryId, extractResult.Value.UserId);
             var result = await mediator.Send(command);
 
             if (result.IsFailure)
@@ -49,10 +68,16 @@ namespace Glyph.Assets.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("{userId:guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
         {
-            var query = new GetAllPersonalCategoriesQuery(userId);
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var query = new GetAllPersonalCategoriesQuery(extractResult.Value.UserId);
             var result = await mediator.Send(query);
 
             if (result.IsFailure)

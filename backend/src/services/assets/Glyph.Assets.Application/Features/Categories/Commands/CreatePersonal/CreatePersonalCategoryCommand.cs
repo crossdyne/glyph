@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Glyph.Assets.Application.Features.Categories.Commands.CreatePersonal
 {
-    public sealed record CreatePersonalCategoryCommand(Guid UserId, string Name) : IRequest<Result>, IHasUserIdGuid, IHasCategoryName;
+    public sealed record CreatePersonalCategoryCommand(Guid UserId, string Name) : IRequest<Result<string>>, IHasUserIdGuid, IHasCategoryName;
 }

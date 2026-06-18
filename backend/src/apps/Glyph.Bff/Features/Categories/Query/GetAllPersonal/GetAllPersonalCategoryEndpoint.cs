@@ -8,7 +8,7 @@ namespace Glyph.Bff.Features.Categories.Query.GetAllPersonal
     {
         public static void MapGetAllPersonalCategory(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/api/v1/personal/categories", async (
+            app.MapGet("/api/v1/personal/category", async (
                 HttpContext httpContext, 
                 [FromServices] IMediator mediator,
                 CancellationToken ct = default) =>

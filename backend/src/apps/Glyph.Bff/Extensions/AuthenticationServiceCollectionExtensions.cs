@@ -1,5 +1,5 @@
 using Glyph.Bff.Extensions;
-using Glyph.Bff.Infrastructure.Clients;
+using Glyph.Bff.Interfaces.Clients;
 using Glyph.Bff.Services;
 using Medallion.Threading;
 using Medallion.Threading.Redis;

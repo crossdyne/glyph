@@ -1,0 +1,23 @@
+<div class="categories-list">
+    <h2>Категории</h2>
+
+    @if (categories().length > 0) {
+        <ul>
+            @for (category of categories(); track category.categoryId) {
+                <li>
+                    {{ category.name }}
+                    <div class="actions">
+                        <edit-button (click)="onEdit(category.categoryId)" size="sm">
+                            Редактировать
+                        </edit-button>
+                        <delete-button (click)="onDelete(category.categoryId)" size="sm">
+                            Удалить
+                        </delete-button>
+                    </div>
+                </li>
+            }
+        </ul>
+    } @else {
+        <p>Список пуст</p>
+    }
+</div>
