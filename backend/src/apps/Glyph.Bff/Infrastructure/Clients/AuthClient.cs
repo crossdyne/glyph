@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Crossdyne.Toolkit.Results;
+using Glyph.Bff.Interfaces.Clients;
 using Microsoft.Extensions.Options;
 using Shared.Contracts.Authentication.Responses;
 using Shared.Kernel.Errors;

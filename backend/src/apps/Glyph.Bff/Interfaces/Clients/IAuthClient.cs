@@ -2,7 +2,7 @@ using Crossdyne.Toolkit.Results;
 using Shared.Contracts.Authentication.Requests;
 using Shared.Contracts.Authentication.Responses;
 
-namespace Glyph.Bff.Infrastructure.Clients
+namespace Glyph.Bff.Interfaces.Clients
 {
     public interface IAuthClient
     {
