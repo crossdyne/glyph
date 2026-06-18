@@ -17,6 +17,7 @@
     <Project Path="src/shared/core/Shared.Kernel/Shared.Kernel.csproj" />
   </Folder>
   <Folder Name="/src/Shared/infrastructure/">
+    <Project Path="src/shared/infrastructure/Shared.Http/Shared.Http.csproj" />
     <Project Path="src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj" />
   </Folder>
   <Folder Name="/src/Shared/web/">
