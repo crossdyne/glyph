@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'variables' as *;
+
+ html {
+     scroll-behavior: smooth;
+ }
+
+ body {
+     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, sans-serif;
+     background: $color-bg;
+     color: $text-primary;
+     line-height: 1.7;
+ }
+
+ a {
+     text-decoration: none;
+     color: inherit;
+ }
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #ffffff !important;
+}
+
+.logo span {
+  background: $color-logo;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

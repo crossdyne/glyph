@@ -1,0 +1,45 @@
+@use '../../../../variables' as *;
+@use '../../../../styles/buttons';
+
+.category-form{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-field{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+    label{
+        font-weight: 500;
+        font-size: 20px;
+        color: $color-text-primary;
+        align-self: center;
+    }
+
+    input{
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+
+        &:focus{
+            outline: none;
+            border-color: #4a90e2;
+        }
+    }
+
+h2{
+    font-weight: 500;
+    color: $color-text-primary;
+    align-self: center;
+}

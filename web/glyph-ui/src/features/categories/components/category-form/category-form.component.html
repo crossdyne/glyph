@@ -1,0 +1,35 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="category-form">
+    <h2>{{ category() ? 'Редактирование' : 'Создание' }}</h2>
+
+    <div class="form-field">
+        <label for="name">Название</label>
+        <input 
+            id="name" 
+            type="text"
+            formControlName="name"
+            placeholder="Введите название категории">
+
+        @if (nameControl.touched && nameControl.errors) {
+            <div class="error-message">
+                @if (nameControl.errors['required']) {
+                    <span>Название обязательно</span>
+                }
+                @if (nameControl.errors['minlength']) {
+                    <span>Минимум 2 символа</span>
+                }
+                @if (nameControl.errors['maxlength']) {
+                    <span>Максимум 50 символов</span>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="form-actions">
+        <button
+            type="submit"
+            [disabled]="form.invalid">
+            <span class="text">{{ category() ? 'Обновить' : 'Создать' }}</span>
+        </button>
+        <button type="button" (click)="onCancel()"><span class="text">Отмена</span></button>
+    </div>
+</form>

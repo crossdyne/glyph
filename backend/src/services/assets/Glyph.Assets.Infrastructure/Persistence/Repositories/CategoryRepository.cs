@@ -11,9 +11,9 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
         public async Task<bool> IsGlobal(Guid id) => await _entity.Where(x => x.Id == id).Select(x => x.UserId == null).FirstOrDefaultAsync();
 
         public async Task<List<CategoryResponse>> GetAllAsync(Guid userId)
-            => await _entity.AsNoTracking().Where(x => x.UserId == userId).Select(x => new CategoryResponse(x.Id.ToString(), x.Name, x.UserId.HasValue ? x.UserId.Value.ToString() : null)).ToListAsync();
+            => await _entity.AsNoTracking().Where(x => x.UserId == userId).Select(x => new CategoryResponse(x.Id.ToString(), x.Name)).ToListAsync();
 
         public async Task<List<CategoryResponse>> GetAllGlobalAsync()
-            => await _entity.AsNoTracking().Select(x => new CategoryResponse(x.Id.ToString(), x.Name, null)).ToListAsync();
+            => await _entity.AsNoTracking().Select(x => new CategoryResponse(x.Id.ToString(), x.Name)).ToListAsync();
     }
 }
