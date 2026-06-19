@@ -1,12 +1,12 @@
-<div class="categories-list">
+<div class="categories-list-container">
     <h2>Категории</h2>
 
     @if (categories().length > 0) {
         <ul>
             @for (category of categories(); track category.categoryId) {
                 <li>
-                    {{ category.name }}
-                    <div class="actions">
+                    <span class="category-name">{{ category.name }}</span> 
+                    <div class="actions-container">
                         <edit-button (click)="onEdit(category.categoryId)" size="sm">
                             Редактировать
                         </edit-button>

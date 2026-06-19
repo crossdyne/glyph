@@ -1,7 +1,17 @@
+@use '../../../../variables' as *;
+@use '../../../../styles/buttons';
+
 .category-form{
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
 }
 
 .form-field{
@@ -9,11 +19,10 @@
     flex-direction: column;
     gap: 6px;
 }
-
     label{
         font-weight: 500;
         font-size: 20px;
-        color: #333;
+        color: $color-text-primary;
         align-self: center;
     }
 
@@ -31,6 +40,6 @@
 
 h2{
     font-weight: 500;
-    color: #333;
+    color: $color-text-primary;
     align-self: center;
 }

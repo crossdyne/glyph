@@ -3,12 +3,14 @@
     grid-template-columns: 320px 1fr;
     gap: 24px;
     width: 100%;
+    height: 100%;
 }
 
 .category-form{
     grid-column: 1;
 }
 
-.category-list{
+.categories-list {
     grid-column: 2;
+    min-height: 0;
 }

@@ -10,7 +10,7 @@ export class EditButton {
   disabled = input(false);
   size = input<'sm' | 'md' | 'lg'>('md');
   type = input<'button' | 'submit' | 'reset'>('button');
-  ariaLabel = input('Удалить');
+  ariaLabel = input('Изменить');
 
   clicked = output<void>();
 

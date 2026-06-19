@@ -28,8 +28,8 @@
         <button
             type="submit"
             [disabled]="form.invalid">
-            {{ category() ? 'Обновить' : 'Создать' }}
+            <span class="text">{{ category() ? 'Обновить' : 'Создать' }}</span>
         </button>
-        <button type="button" (click)="onCancel()">Отмена</button>
+        <button type="button" (click)="onCancel()"><span class="text">Отмена</span></button>
     </div>
 </form>
