@@ -1,0 +1,18 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="svg-form">
+    <h2>{{ asset() ? 'Редактирование' : 'Создание' }}</h2>
+
+    <div class="svg-preview">
+        <img [src]="svgPreviewUrl" alt="SVG Preview" >
+    </div>
+
+    <div class="form-actions">
+        <button 
+            type="submit"
+            [disabled]="form.invalid">
+            <span class="text">{{ asset() ? 'Обновить' : 'Создать' }}</span>
+        </button>
+        <button type="button" (click)="onCancel()">
+            <span class="text">Отмена</span>
+        </button>
+    </div>
+</form>

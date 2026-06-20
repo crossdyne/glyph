@@ -1,0 +1,68 @@
+.drop-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: #f8fafc00;
+  outline: none;
+  margin: 10px;
+}
+
+.drop-zone:hover, 
+.drop-zone:focus-visible {
+  border-color: #3b82f6;
+  background-color: #0f70f0;
+}
+
+.drop-zone.drag-over {
+  border-color: #2563eb;
+  background-color: #dbeafe;
+  transform: scale(1.01);
+}
+
+.drop-zone-content {
+  pointer-events: none;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
+  margin-bottom: 12px;
+  transition: color 0.2s;
+}
+
+.drop-zone:hover .icon,
+.drop-zone.drag-over .icon {
+  color: #3b82f6;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #334155;
+  margin: 0 0 4px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.link {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 12px;
+}
+
+.hidden-input {
+  display: none;
+}

@@ -38,7 +38,9 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
             ArgumentNullException.ThrowIfNull(folders);
             ArgumentNullException.ThrowIfNull(fileName);
 
-            return new (bucket, [.. folders], $"{Guid.CreateVersion7()}-{fileName}");
+            string extension = Path.GetExtension(fileName).ToLowerInvariant();
+
+            return new (bucket, [.. folders], $"{Guid.CreateVersion7()}{extension}");
         }
 
         public static S3Key Restore(string value)

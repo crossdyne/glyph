@@ -17,6 +17,7 @@ namespace Glyph.Bff.Extensions
             string assetsServices = "AssetsServices";
             services.AddHttpClient(assetsServices, client => client.BaseAddress = new Uri(assetsBaseUrl!)).AddHttpMessageHandler<AccessTokenHandler>();
             services.AddHttpClient<IPersonalCategoriesClient, PersonalCategoriesClient>(assetsServices);
+            services.AddHttpClient<IPersonalAssetClient, PersonalAssetClient>(assetsServices);
 
             return services;
         }
