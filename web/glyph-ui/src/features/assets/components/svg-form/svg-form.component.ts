@@ -16,12 +16,13 @@ export class SvgFormComponent implements OnInit {
   asset = input<AssetResponse | null>(null);
   externalSvgCode = input<string | null>(null);
 
-  created = output<void>(); 
+  created = output<string>(); 
   updated = output<UpdateAssetRequest>();
   cancelled = output<void>();
 
   form!: FormGroup;
   svgPreviewUrl: SafeResourceUrl = '';
+  name = signal('');
   saving = signal(false);
   
   private currentBlobUrl: string | null = null;
@@ -38,7 +39,8 @@ export class SvgFormComponent implements OnInit {
   
   ngOnInit() {   
     this.form = new FormGroup({
-      svgCode: new FormControl(this.asset()?.svgCode || '', Validators.required)
+      svgCode: new FormControl(this.asset()?.svgCode || '', Validators.required),
+      assetName: new FormControl(this.name() || '', Validators.required)
     });
     
     this.updatePreview();
@@ -69,13 +71,14 @@ export class SvgFormComponent implements OnInit {
         return;
 
     const svgCode = this.form.get('svgCode')?.value as string;
+    const assetName = this.form.get('assetName')?.value as string;
     const existing = this.asset();
 
     if (existing) {
-      this.updated.emit({ assetId: existing.assetId, svgCode } as UpdateAssetRequest);
+      this.updated.emit({ assetId: existing.assetId, svgCode, assetName } as UpdateAssetRequest);
       this.svgPreviewUrl = '';
     } else {
-      this.created.emit();
+      this.created.emit(assetName);
       this.svgPreviewUrl = '';
     }
   }

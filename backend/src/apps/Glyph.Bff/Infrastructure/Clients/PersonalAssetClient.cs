@@ -16,7 +16,8 @@ namespace Glyph.Bff.Infrastructure.Clients
             string fileName,
             string categoryId,
             string projectIdsJson,
-            Stream file)
+            Stream file,
+            string assetName)
         {
             using var content = new MultipartFormDataContent();
 
@@ -27,6 +28,7 @@ namespace Glyph.Bff.Infrastructure.Clients
             content.Add(new StringContent(fileName), "FileName");
             content.Add(new StringContent(categoryId.ToString()), "CategoryId");
             content.Add(new StringContent(projectIdsJson), "ProjectIdsJson");
+            content.Add(new StringContent(assetName), "AssetName");
 
             if (file.CanSeek)
                 file.Position = 0;

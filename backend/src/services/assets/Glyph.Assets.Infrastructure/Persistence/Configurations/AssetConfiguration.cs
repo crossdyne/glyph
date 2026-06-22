@@ -29,6 +29,11 @@ namespace Glyph.Assets.Infrastructure.Persistence.Configurations
                 .HasConversion(id => id.Value, db => CategoryId.From(db))
                 .IsRequired();
 
+            builder.Property(a => a.AssetName)
+                .HasColumnName("asset_name")
+                .HasConversion(assetName => assetName.Value, db => AssetName.Create(db))
+                .IsRequired();
+
             builder.Property(a => a.S3Key)
                 .HasColumnName("s3_key")
                 .HasConversion(key => key.Value, db => S3Key.Restore(db))

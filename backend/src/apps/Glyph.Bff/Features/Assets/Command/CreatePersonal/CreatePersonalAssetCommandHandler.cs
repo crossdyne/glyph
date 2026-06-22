@@ -15,6 +15,7 @@ namespace Glyph.Bff.Features.Assets.Command.CreatePersonal
                 request.FileName, 
                 request.CategoryId, 
                 request.ProjectIdsJson, 
-                request.File).CatchAsync();
+                request.File,
+                request.AssetName).CatchAsync();
     }
 }

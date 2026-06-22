@@ -15,7 +15,7 @@ namespace Glyph.Bff.Features.Assets.Command.CreatePersonal
             {
                 await using var fileStream = request.File.OpenReadStream();
 
-                var command = new CreatePersonalAssetCommand(fileStream, request.File.FileName, request.CategoryId, request.ProjectIdsJson);
+                var command = new CreatePersonalAssetCommand(fileStream, request.File.FileName, request.CategoryId, request.ProjectIdsJson, request.AssetName);
                 var result = await mediator.Send(command);
 
                 if (result.IsFailure)

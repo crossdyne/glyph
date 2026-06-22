@@ -37,6 +37,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
 
                 var detected = await detector.DetectAsync(request.FileContent, request.FileName, cancellationToken);
                 
+                var assetName = AssetName.Create(request.AssetName);
                 var s3Key = S3Key.Create(storageAsset.S3Key.Bucket, [.. storageAsset.S3Key.Folders], request.FileName);
                 var format = Format.FromName(detected.FormatName);
                 var mimeType = MimeType.FromFormat(format); 
@@ -46,7 +47,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
                 if (request.FileContent.CanSeek)
                     request.FileContent.Position = 0;
 
-                storageAsset.UpdateContent(s3Key, format, mimeType, assetType, sizeBytes);
+                storageAsset.UpdateContent(assetName, s3Key, format, mimeType, assetType, sizeBytes);
 
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 

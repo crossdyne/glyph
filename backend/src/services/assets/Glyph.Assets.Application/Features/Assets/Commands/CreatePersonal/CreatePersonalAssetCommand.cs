@@ -9,6 +9,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal
         string Bucket, List<string> Folders, string FileName,
         Guid CategoryId,
         IReadOnlyCollection<string> ProjectIds,
+        string AssetName,
         Guid UserId
     ) : IRequest<Result>;
 }

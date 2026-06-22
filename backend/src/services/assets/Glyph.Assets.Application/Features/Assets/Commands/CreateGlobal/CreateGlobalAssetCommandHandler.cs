@@ -30,6 +30,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreateGlobal
                 if (request.FileContent.CanSeek)
                     request.FileContent.Position = 0;
 
+                var assetName = AssetName.Create(request.AssetName);
                 var s3Key = S3Key.Create(request.Bucket, [.. request.Folders], request.FileName);
 
                 var format = Format.FromName(detected.FormatName);
@@ -38,7 +39,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreateGlobal
                 var sizeBytes = SizeBytes.Create(request.SizeBytes);
                 var categoryId = CategoryId.From(request.CategoryId);
 
-                Asset asset = Asset.Create(s3Key, assetType, format, mimeType, sizeBytes, categoryId);
+                Asset asset = Asset.Create(assetName, s3Key, assetType, format, mimeType, sizeBytes, categoryId);
 
                 await assetRepository.AddAsync(asset, cancellationToken);
                 await unitOfWork.SaveChangesAsync(cancellationToken);

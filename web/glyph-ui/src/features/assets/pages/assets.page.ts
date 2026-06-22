@@ -53,7 +53,7 @@ export class AssetsPage {
         reader.readAsText(file);
     }
 
-    async onCreate() {
+    async onCreate(assetName: string) {
         const file = this.selectedFile();
         if (!file){
             this.uploadError.set('Файл не был выбран');
@@ -66,6 +66,7 @@ export class AssetsPage {
                 file: file,
                 categoryId: 'e0a825c8-0541-4db6-a837-7dc6a0b9597b',
                 projectIdsJson: JSON.stringify(['74668ee9-4908-463e-82cd-4cdd92e33870']), 
+                assetName: assetName
             }
 
             await this.http.create(request);

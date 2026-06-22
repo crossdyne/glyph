@@ -1,5 +1,5 @@
 export interface AssetUrlResponse {
     assetId: string;
-    name: string;
+    assetName: string;
     url: string;
 }

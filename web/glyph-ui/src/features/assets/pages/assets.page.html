@@ -25,7 +25,7 @@
         <div class="asset-form">
             <svg-form 
                 [externalSvgCode]="selectedSvgCode()"
-                (created)="onCreate()"
+                (created)="onCreate($event)"
                 (updated)="onUpdate($event)">
             </svg-form>
 

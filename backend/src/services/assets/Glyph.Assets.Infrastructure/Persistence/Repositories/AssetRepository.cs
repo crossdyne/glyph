@@ -35,7 +35,7 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
             => await _entity
                 .AsNoTracking()
                     .Where(x => x.UserId == userId).
-                        Select(x => new AssetMetadataResponse(x.Id.ToString(), new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath)))
+                        Select(x => new AssetMetadataResponse(x.Id.ToString(), x.AssetName, new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath)))
                             .ToListAsync();
     }
 }

@@ -8,6 +8,7 @@ namespace Glyph.Assets.Domain.Models
 {
     public sealed class Asset : AggregateRoot<AssetId>
     {
+        public AssetName AssetName { get; private set; }
         public S3Key S3Key { get; private set; }
         public AssetType AssetType { get; private set; }
         public Format Format { get; private set; }
@@ -28,7 +29,7 @@ namespace Glyph.Assets.Domain.Models
             
         }
 
-        private Asset(S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds, UserId? userId) : base(AssetId.New())
+        private Asset(AssetName assetName, S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds, UserId? userId) : base(AssetId.New())
         {
             if (projectIds is not null)
             {
@@ -38,6 +39,7 @@ namespace Glyph.Assets.Domain.Models
                 }   
             }
 
+            AssetName = assetName;
             S3Key = s3Key;
             AssetType = assetType;
             Format = format;
@@ -53,9 +55,9 @@ namespace Glyph.Assets.Domain.Models
             IsPublic = UserId == null;
         }
 
-        public static Asset Create(S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds = null, UserId? userId = null)
+        public static Asset Create(AssetName assetName, S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds = null, UserId? userId = null)
         {
-            return new(s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
+            return new(assetName, s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
         }
 
         public void AttachToProject(ProjectId projectId)
@@ -68,8 +70,9 @@ namespace Glyph.Assets.Domain.Models
             UpdateAt = DateTime.UtcNow;
         }
 
-        public void UpdateContent(S3Key s3Key, Format format, MimeType mimeType, AssetType assetType, SizeBytes sizeBytes)
+        public void UpdateContent(AssetName assetName, S3Key s3Key, Format format, MimeType mimeType, AssetType assetType, SizeBytes sizeBytes)
         {
+            AssetName = assetName;
             S3Key = s3Key;
             Format = format;
             MimeType = mimeType;

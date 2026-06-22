@@ -41,6 +41,7 @@ namespace Glyph.Assets.Api.Controllers
                 request.FileName,
                 Guid.Parse(request.CategoryId),
                 projectIds,
+                request.AssetName,
                 extractResult.Value.UserId); 
 
             var result = await mediator.Send(command);
@@ -69,7 +70,8 @@ namespace Glyph.Assets.Api.Controllers
                 fileStream, 
                 file.Length, 
                 request.FileName, 
-                Guid.Parse(request.AssetId), 
+                request.AssetName,
+                Guid.Parse(request.AssetId),
                 extractResult.Value.UserId);
 
             var result = await mediator.Send(command);

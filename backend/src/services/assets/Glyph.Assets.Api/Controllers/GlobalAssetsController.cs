@@ -28,6 +28,7 @@ namespace Glyph.Assets.Api.Controllers
                 request.Bucket, 
                 folders,
                 request.FileName,
+                request.AssetName,
                 Guid.Parse(request.CategoryId)); 
 
             var result = await mediator.Send(command);
@@ -49,7 +50,8 @@ namespace Glyph.Assets.Api.Controllers
             var command = new UpdateGlobalAssetCommand(
                 fileStream, 
                 file.Length, 
-                request.FileName, 
+                request.FileName,
+                request.AssetName,
                 Guid.Parse(request.AssetId));
 
             var result = await mediator.Send(command);

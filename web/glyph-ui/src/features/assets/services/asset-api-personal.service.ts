@@ -21,6 +21,7 @@ export class AssetApiPersonalService {
 
         formData.append('CategoryId', data.categoryId);
         formData.append('ProjectIdsJson', data.projectIdsJson);
+        formData.append('AssetName', data.assetName);
         formData.append('File', data.file);
 
         return await firstValueFrom(this.http.post<string>(`${this.pathUrl}`, formData));

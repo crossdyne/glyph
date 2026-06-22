@@ -5,5 +5,6 @@ namespace Shared.Contracts.Requests
         string FoldersJson, 
         string FileName,
         string CategoryId,
-        string ProjectIdsJson);
+        string ProjectIdsJson,
+        string AssetName);
 }

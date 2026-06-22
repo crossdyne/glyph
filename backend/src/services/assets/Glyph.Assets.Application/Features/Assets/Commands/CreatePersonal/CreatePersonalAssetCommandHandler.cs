@@ -27,6 +27,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal
                 if (request.FileContent.CanSeek)
                     request.FileContent.Position = 0;
 
+                var assetName = AssetName.Create(request.AssetName);
                 var s3Key = S3Key.Create(request.Bucket, [.. request.Folders], request.FileName);
 
                 var format = Format.FromName(detected.FormatName);
@@ -38,7 +39,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal
                 var projectIds = request.ProjectIds.Select(x => ProjectId.From(Guid.Parse(x))).ToList();
                 var userId = UserId.From(request.UserId);
 
-                Asset asset = Asset.Create(s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
+                Asset asset = Asset.Create(assetName, s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
 
                 var fileResult = await fileStorage.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 

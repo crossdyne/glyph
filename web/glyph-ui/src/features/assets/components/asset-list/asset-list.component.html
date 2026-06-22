@@ -1,6 +1,8 @@
-@for (asset of assets(); track asset.assetId) {
-    <div class="svg-card-container">
-        <img [src]="asset.url" [alt]="asset.name">
-        <span class="name">{{asset.name}}</span>
-    </div> 
-}
+<div class="assets-container">
+    @for (asset of assets(); track asset.assetId) {
+        <div class="svg-card-container">
+            <img [src]="asset.url" [alt]="asset.assetName">
+            <span class="name" [title]="asset.assetName">{{asset.assetName}}</span>
+        </div> 
+    }
+</div>
