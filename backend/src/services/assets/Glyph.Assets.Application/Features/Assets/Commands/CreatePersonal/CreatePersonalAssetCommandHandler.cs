@@ -1,6 +1,5 @@
 using Crossdyne.Toolkit.Results;
 using Glyph.Assets.Application.Interfaces;
-using Glyph.Assets.Application.Interfaces.Clients;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Application.Interfaces.Services;
 using Glyph.Assets.Domain.Models;
@@ -9,6 +8,7 @@ using Glyph.Assets.Domain.ValueObjects.Categories;
 using Glyph.Assets.Domain.ValueObjects.Projects;
 using Glyph.Assets.Domain.ValueObjects.Shared;
 using MediatR;
+using Shared.Contracts.FileService.Interfaces;
 
 namespace Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal
 {
@@ -16,7 +16,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal
         IAssetRepository repository,
         IUnitOfWork unitOfWork,
         IFileMetadataDetector metadataDetector,
-        IFileStorageClient fileStorage) : IRequestHandler<CreatePersonalAssetCommand, Result>
+        IFileServiceClient fileStorage) : IRequestHandler<CreatePersonalAssetCommand, Result>
     {
         public async Task<Result> Handle(CreatePersonalAssetCommand request, CancellationToken cancellationToken)
         {
@@ -40,7 +40,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal
 
                 Asset asset = Asset.Create(s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
 
-                var fileResult = await fileStorage.Upload(s3Key, mimeType, request.FileContent);
+                var fileResult = await fileStorage.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
                 if (fileResult.IsFailure)
                     return fileResult;

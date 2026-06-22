@@ -1,29 +1,31 @@
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using Crossdyne.Toolkit.Results;
-using Glyph.Assets.Application.Errors;
-using Glyph.Assets.Application.Interfaces.Clients;
-using Glyph.Assets.Domain.ValueObjects.Assets;
+using Shared.Contracts.FileService.Interfaces;
+using Shared.Contracts.FileService.Requests;
+using Shared.Contracts.FileService.Responses;
+using Shared.Kernel.Errors;
 
-namespace Glyph.Assets.Infrastructure.Clients
+namespace FileService.Client
 {
-    internal sealed class FileStorageClient(HttpClient http) : IFileStorageClient
+    internal sealed class FileStorageClient(HttpClient http) : IFileServiceClient
     {
-        public async Task<Result> Upload(S3Key s3key, MimeType mimeType, Stream file)
+        public async Task<Result> Upload(string bucket, string folderPath, string fileName, string mimeType, Stream file)
         {
             if (file.CanSeek)
                 file.Position = 0;
         
             using var formData = new MultipartFormDataContent
             {
-                { new StringContent(s3key.Bucket), "bucket" },
-                { new StringContent(s3key.FolderPath), "folder" },
-                { new StringContent(s3key.FileName), "key" },
+                { new StringContent(bucket), "bucket" },
+                { new StringContent(folderPath), "folder" },
+                { new StringContent(fileName), "key" },
             };
 
             var streamContent = new StreamContent(file);
-            streamContent.Headers.ContentType = new MediaTypeHeaderValue(mimeType.Value);
+            streamContent.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
 
-            formData.Add(streamContent, "file", s3key.FileName);
+            formData.Add(streamContent, "file", fileName);
 
             var response = await http.PostAsync("api/files/upload", formData);
 
@@ -51,6 +53,16 @@ namespace Glyph.Assets.Infrastructure.Clients
                 return Result<string>.Failure(new Error(AppErrors.Http, await response.Content.ReadAsStringAsync()));
 
             return Result<string>.Success(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<Result<BatchUrlResponse>> GetUrls(BatchUrlRequest request)
+        {
+            var response = await http.PostAsJsonAsync("api/files/urls", request);
+            
+            if (!response.IsSuccessStatusCode)
+                return Result<BatchUrlResponse>.Failure(new Error(AppErrors.Http, await response.Content.ReadAsStringAsync()));
+
+            return Result<BatchUrlResponse>.Success(await response.Content.ReadFromJsonAsync<BatchUrlResponse>());
         }
     }
 }

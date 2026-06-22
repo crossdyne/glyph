@@ -13,5 +13,7 @@ namespace Glyph.Bff.Interfaces.Clients
             string categoryId,
             string projectIdsJson,
             Stream file);
+            
+        Task<Result<List<AssetMetadataResponse>>> GetFilesMetadata();
     }
 }

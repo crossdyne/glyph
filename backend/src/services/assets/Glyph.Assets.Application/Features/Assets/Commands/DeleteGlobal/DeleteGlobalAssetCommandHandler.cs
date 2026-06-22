@@ -1,17 +1,17 @@
 using Crossdyne.Toolkit.Primitives;
 using Crossdyne.Toolkit.Results;
 using Glyph.Assets.Application.Interfaces;
-using Glyph.Assets.Application.Interfaces.Clients;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Domain.Models;
 using MediatR;
+using Shared.Contracts.FileService.Interfaces;
 
 namespace Glyph.Assets.Application.Features.Assets.Commands.DeleteGlobal
 {
     public sealed class DeleteGlobalAssetCommandHandler(
         IAssetRepository repository,
         IUnitOfWork unitOfWork,
-        IFileStorageClient fileStorage) : IRequestHandler<DeleteGlobalAssetCommand, Result>
+        IFileServiceClient fileStorage) : IRequestHandler<DeleteGlobalAssetCommand, Result>
     {
         public async Task<Result> Handle(DeleteGlobalAssetCommand request, CancellationToken cancellationToken)
         {            

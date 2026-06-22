@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { firstValueFrom, Observable } from "rxjs";
-import { AssetResponse } from "../../../core/contracts/responses/asset.response";
 import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
+import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +26,7 @@ export class AssetApiPersonalService {
         return await firstValueFrom(this.http.post<string>(`${this.pathUrl}`, formData));
     }
 
-    getAllAssets(): Observable<AssetResponse[]> {
-        return this.http.get<AssetResponse[]>(`${this.pathUrl}`);
+    getAllAssets(): Observable<AssetUrlResponse[]> {
+        return this.http.get<AssetUrlResponse[]>(`${this.pathUrl}/urls`);
     }
 }

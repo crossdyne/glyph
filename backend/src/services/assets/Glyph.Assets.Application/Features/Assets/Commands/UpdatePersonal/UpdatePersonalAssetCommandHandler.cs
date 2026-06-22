@@ -1,12 +1,12 @@
 using Crossdyne.Toolkit.Primitives;
 using Crossdyne.Toolkit.Results;
 using Glyph.Assets.Application.Interfaces;
-using Glyph.Assets.Application.Interfaces.Clients;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Application.Interfaces.Services;
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Assets;
 using MediatR;
+using Shared.Contracts.FileService.Interfaces;
 
 namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
 {
@@ -14,7 +14,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
         IAssetRepository repository,
         IUnitOfWork unitOfWork,
         IFileMetadataDetector detector,
-        IFileStorageClient storageClient) : IRequestHandler<UpdatePersonalAssetCommand, Result>
+        IFileServiceClient storageClient) : IRequestHandler<UpdatePersonalAssetCommand, Result>
     {
         public async Task<Result> Handle(UpdatePersonalAssetCommand request, CancellationToken cancellationToken)
         {
@@ -46,7 +46,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
                 if (request.FileContent.CanSeek)
                     request.FileContent.Position = 0;
 
-                var uploadResult = await storageClient.Upload(s3Key, mimeType, request.FileContent);
+                var uploadResult = await storageClient.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
                 if (uploadResult.IsFailure)
                     return uploadResult;  

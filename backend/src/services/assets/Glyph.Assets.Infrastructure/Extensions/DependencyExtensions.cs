@@ -1,7 +1,6 @@
+using FileService.Client.Extensions;
 using Glyph.Assets.Application.Interfaces;
-using Glyph.Assets.Application.Interfaces.Clients;
 using Glyph.Assets.Application.Interfaces.Repositories;
-using Glyph.Assets.Infrastructure.Clients;
 using Glyph.Assets.Infrastructure.Persistence;
 using Glyph.Assets.Infrastructure.Persistence.Contexts;
 using Glyph.Assets.Infrastructure.Persistence.Repositories;
@@ -22,8 +21,7 @@ namespace Glyph.Assets.Infrastructure.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
 
-            var fileServiceUrl = configuration["HttpClients:FileService"];
-            services.AddHttpClient<IFileStorageClient, FileStorageClient>(http => http.BaseAddress = new Uri(fileServiceUrl!));
+            services.AddFileServiceClients(configuration);
 
             return services;
         }

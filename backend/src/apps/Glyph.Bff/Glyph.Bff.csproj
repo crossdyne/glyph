@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\clients\FileService.Client\FileService.Client.csproj" />
     <ProjectReference Include="..\..\shared\core\Shared.Kernel\Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\shared\infrastructure\Shared.Http\Shared.Http.csproj" />
     <ProjectReference Include="..\..\shared\infrastructure\Shared.Redis\Shared.Redis.csproj" />

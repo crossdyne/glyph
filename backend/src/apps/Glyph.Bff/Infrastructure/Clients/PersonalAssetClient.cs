@@ -36,15 +36,20 @@ namespace Glyph.Bff.Infrastructure.Clients
 
             var response = await _http.PostAsync(_endpoint, content);
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-
             if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine($"[BFF] Ошибка {response.StatusCode}: {responseBody}");
-                return Result<string>.Failure(new Error(ErrorCode.Server, $"HTTP {(int)response.StatusCode}: {responseBody}"));
-            }
+                return Result<string>.Failure(new Error(ErrorCode.Server, $"HTTP {(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}"));
 
             return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<Result<List<AssetMetadataResponse>>> GetFilesMetadata()
+        {
+            var response = await _http.GetAsync($"{_endpoint}/metadata/many");
+
+            if (!response.IsSuccessStatusCode)
+                return Result<List<AssetMetadataResponse>>.Failure(new Error(ErrorCode.Server, $"HTTP {(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}"));
+
+            return Result<List<AssetMetadataResponse>>.Success(await response.Content.ReadFromJsonAsync<List<AssetMetadataResponse>>(_jsonSerializerOptions));
         }
     }
 }

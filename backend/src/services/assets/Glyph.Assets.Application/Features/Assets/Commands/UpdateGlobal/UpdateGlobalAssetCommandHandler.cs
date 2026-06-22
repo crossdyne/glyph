@@ -1,12 +1,12 @@
 using Crossdyne.Toolkit.Primitives;
 using Crossdyne.Toolkit.Results;
 using Glyph.Assets.Application.Interfaces;
-using Glyph.Assets.Application.Interfaces.Clients;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Application.Interfaces.Services;
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Assets;
 using MediatR;
+using Shared.Contracts.FileService.Interfaces;
 
 namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
 {
@@ -14,7 +14,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
         IAssetRepository repository, 
         IUnitOfWork unitOfWork, 
         IFileMetadataDetector detector, 
-        IFileStorageClient storageClient) : IRequestHandler<UpdateGlobalAssetCommand, Result>
+        IFileServiceClient storageClient) : IRequestHandler<UpdateGlobalAssetCommand, Result>
     {
         public async Task<Result> Handle(UpdateGlobalAssetCommand request, CancellationToken cancellationToken)
         {
@@ -52,7 +52,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
 
                 await storageClient.Delete(storageBucket, storageFolderPath, storageKey);
 
-                var uploadResult = await storageClient.Upload(s3Key, mimeType, request.FileContent);
+                var uploadResult = await storageClient.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
                 if (uploadResult.IsFailure)
                     return uploadResult;  

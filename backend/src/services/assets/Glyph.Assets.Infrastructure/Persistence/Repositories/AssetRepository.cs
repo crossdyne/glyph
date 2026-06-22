@@ -30,5 +30,12 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
 
             return await query.Select(x => new AssetResponse(x.Id.ToString(), x.S3Key.FileName, x.S3Key.Value)).ToListAsync();
         }
+
+        public async Task<List<AssetMetadataResponse>> GetMetadata(Guid userId)
+            => await _entity
+                .AsNoTracking()
+                    .Where(x => x.UserId == userId).
+                        Select(x => new AssetMetadataResponse(x.Id.ToString(), new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath)))
+                            .ToListAsync();
     }
 }

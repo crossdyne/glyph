@@ -7,8 +7,7 @@ import { AssetApiPersonalService } from "../services/asset-api-personal.service"
 import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
 import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { FileUpload } from "../models/file-upload";
-import { AssetResponse } from "../../../core/contracts/responses/asset.response";
+import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
 
 @Component({
     selector: 'asset-page',
@@ -24,8 +23,16 @@ export class AssetsPage {
     selectedSvgCode = signal<string | null>(null);
     uploadError = signal<string | null>(null);
     saving = signal(false);
-    assets = signal<AssetResponse[]>([]);
+    assets = signal<AssetUrlResponse[]>([]);
+    
     // readonly assets = toSignal(this.http.getAllAssets(), { initialValue: [] });
+
+    constructor(){
+        this.http.getAllAssets().subscribe({
+            next: assets => this.assets.set(assets),
+            error: error => console.error(error)
+        });
+    }
 
     onFileSelected(files: File[]) {
         const file = files[0];

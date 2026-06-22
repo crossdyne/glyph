@@ -1,13 +1,13 @@
 using Crossdyne.Toolkit.Results;
 using Glyph.Assets.Application.Errors;
 using Glyph.Assets.Application.Interfaces;
-using Glyph.Assets.Application.Interfaces.Clients;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Application.Interfaces.Services;
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Assets;
 using Glyph.Assets.Domain.ValueObjects.Categories;
 using MediatR;
+using Shared.Contracts.FileService.Interfaces;
 
 namespace Glyph.Assets.Application.Features.Assets.Commands.CreateGlobal
 {
@@ -16,7 +16,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreateGlobal
         ICategoryRepository categoryRepository,
         IUnitOfWork unitOfWork,
         IFileMetadataDetector metadataDetector,
-        IFileStorageClient fileStorage) : IRequestHandler<CreateGlobalAssetCommand, Result>
+        IFileServiceClient fileStorage) : IRequestHandler<CreateGlobalAssetCommand, Result>
     {
         public async Task<Result> Handle(CreateGlobalAssetCommand request, CancellationToken cancellationToken)
         {
@@ -43,7 +43,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreateGlobal
                 await assetRepository.AddAsync(asset, cancellationToken);
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var fileResult = await fileStorage.Upload(s3Key, mimeType, request.FileContent);
+                var fileResult = await fileStorage.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
                 if (fileResult.IsFailure)
                     return fileResult;

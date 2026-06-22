@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Requests;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.Json;
+using Glyph.Assets.Application.Features.Assets.Queries.GetMetadata;
 
 namespace Glyph.Assets.Api.Controllers
 {
@@ -100,7 +101,7 @@ namespace Glyph.Assets.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAllByFiler([FromQuery] Guid userId, [FromQuery] Guid projectId)
+        public async Task<IActionResult> GetAllByFiler([FromQuery] Guid projectId)
         {
             var extractResult = this.ExtractCredentials(User);
 
@@ -109,6 +110,21 @@ namespace Glyph.Assets.Api.Controllers
 
             var query = new GetAllAssetsByFilerQuery(extractResult.Value.UserId, projectId);
 
+            var result = await mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet("metadata/many")]
+        [Authorize]
+        public async Task<IActionResult> GetMetadata()
+        {
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var query = new GetAssetsMetadataQuery(extractResult.Value.UserId);
             var result = await mediator.Send(query);
 
             return Ok(result);
