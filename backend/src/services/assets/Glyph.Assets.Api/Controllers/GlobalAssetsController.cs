@@ -39,8 +39,8 @@ namespace Glyph.Assets.Api.Controllers
             return Created();
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> Update([FromForm] UpdateGlobalAssetRequest request, IFormFile file)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromForm] UpdateAssetRequest request, IFormFile file)
         {
             if (file is null || file.Length == 0)
                 return BadRequest("Файл не был передан.");
@@ -50,7 +50,7 @@ namespace Glyph.Assets.Api.Controllers
             var command = new UpdateGlobalAssetCommand(
                 fileStream, 
                 file.Length, 
-                request.FileName,
+                file.FileName,
                 request.AssetName,
                 Guid.Parse(request.AssetId));
 

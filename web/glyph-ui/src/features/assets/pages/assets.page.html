@@ -17,16 +17,18 @@
                 (uploadError)="onUploadError($event)">
             </file-uploader>
                 
-                @if (uploadError()) {
-                    <p class="error-message">{{ uploadError() }}</p>
-                }
+            @if (uploadError()) {
+                <p class="error-message">{{ uploadError() }}</p>
+            }
         </div>
 
         <div class="asset-form">
             <svg-form 
-                [externalSvgCode]="selectedSvgCode()"
+                [asset]="selectedAsset()"
+                [selectedFile]="selectedFile()"
                 (created)="onCreate($event)"
-                (updated)="onUpdate($event)">
+                (updated)="onUpdate($event)"
+                (cancelled)="onCancel()">
             </svg-form>
 
             @if (saving()) {
@@ -36,7 +38,10 @@
     </div>
 
     <div class="assets-list"> 
-        <asset-list [assets]="assets()"></asset-list>
+        <asset-list 
+            [assets]="assets()"
+            (assetSelected)="onAssetSelected($event)">
+        </asset-list>
     </div>
 
 </div>

@@ -33,8 +33,7 @@ namespace Glyph.Bff.Infrastructure.Clients
             if (file.CanSeek)
                 file.Position = 0;
 
-            var fileContent = new StreamContent(file);
-            content.Add(fileContent, "File", fileName);
+            content.Add(new StreamContent(file), "File", fileName);
 
             var response = await _http.PostAsync(_endpoint, content);
 
@@ -42,6 +41,31 @@ namespace Glyph.Bff.Infrastructure.Clients
                 return Result<string>.Failure(new Error(ErrorCode.Server, $"HTTP {(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}"));
 
             return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<Result> UpdateAsync(string assetId, string assetName, Stream file, string fileName)
+        {
+            using var content = new MultipartFormDataContent();
+
+            content.Add(new StringContent(assetId), "AssetId");
+            content.Add(new StringContent(assetName), "AssetName");
+
+            if (file.CanSeek)
+                file.Position = 0;
+
+            content.Add(new StreamContent(file), "File", fileName);
+
+            var response = await _http.PutAsync(_endpoint, content);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = $"HTTP {(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}";
+                Console.WriteLine(error);
+                return Result<string>.Failure(new Error(ErrorCode.Server, error));
+            }
+                
+
+            return Result.Success();
         }
 
         public async Task<Result<List<AssetMetadataResponse>>> GetFilesMetadata()

@@ -3,6 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { firstValueFrom, Observable } from "rxjs";
 import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
 import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
+import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +13,14 @@ export class AssetApiPersonalService {
 
     private readonly pathUrl: string = '/api/v1/personal/asset';
 
-    update(assetId: string, svgCode: string) {
-        throw new Error("Method not implemented.");
+    async update(data: UpdateAssetRequest): Promise<string> {
+        const formData = new FormData();
+
+        formData.append('AssetId', data.assetId);
+        formData.append('AssetName', data.assetName);
+        formData.append('File', data.file);
+
+        return await firstValueFrom(this.http.put<string>(`${this.pathUrl}`, formData));
     }
     
     async create(data: CreateAssetRequest): Promise<string> {

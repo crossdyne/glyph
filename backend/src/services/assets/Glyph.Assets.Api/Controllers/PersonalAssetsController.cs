@@ -52,9 +52,9 @@ namespace Glyph.Assets.Api.Controllers
             return Created();
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update([FromForm] UpdatePersonalAssetRequest request, IFormFile file)
+        public async Task<IActionResult> Update([FromForm] UpdateAssetRequest request, IFormFile file)
         {
             var extractResult = this.ExtractCredentials(User);
 
@@ -69,7 +69,7 @@ namespace Glyph.Assets.Api.Controllers
             var command = new UpdatePersonalAssetCommand(
                 fileStream, 
                 file.Length, 
-                request.FileName, 
+                file.FileName, 
                 request.AssetName,
                 Guid.Parse(request.AssetId),
                 extractResult.Value.UserId);

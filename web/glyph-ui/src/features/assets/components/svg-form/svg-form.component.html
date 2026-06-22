@@ -2,8 +2,16 @@
     <h2>{{ asset() ? 'Редактирование' : 'Создание' }}</h2>
 
     <div class="svg-preview">
-        <img [src]="svgPreviewUrl" alt="SVG Preview" >
+        @if (previewUrl()) {
+            <img [src]="previewUrl()!" alt="SVG Preview">
+        } @else {
+            <p>Выберите SVG файл</p>
+        }
     </div>
+
+    @if (uploadError()) {
+        <p class="error-message">{{ uploadError() }}</p>
+    }
 
     <div class="svg-name-container">
         <label>Название</label>
@@ -11,9 +19,7 @@
     </div>
 
     <div class="form-actions">
-        <button 
-            type="submit"
-            [disabled]="form.invalid">
+        <button type="submit" [disabled]="form.invalid || !selectedFile()">
             <span class="text">{{ asset() ? 'Обновить' : 'Создать' }}</span>
         </button>
         <button type="button" (click)="onCancel()">

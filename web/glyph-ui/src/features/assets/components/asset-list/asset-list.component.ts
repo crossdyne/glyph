@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { AssetUrlResponse } from "../../../../core/contracts/responses/asset-urls.response";
 
 @Component({
@@ -9,4 +9,5 @@ import { AssetUrlResponse } from "../../../../core/contracts/responses/asset-url
 })
 export class AssetListComponent {
     assets = input<AssetUrlResponse[]>([]);
+    assetSelected = output<AssetUrlResponse>();
 }
