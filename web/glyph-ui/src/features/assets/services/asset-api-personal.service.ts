@@ -34,6 +34,10 @@ export class AssetApiPersonalService {
         return await firstValueFrom(this.http.post<string>(`${this.pathUrl}`, formData));
     }
 
+    delete(id: string): Observable<void> {
+        return this.http.delete<void>(`${this.pathUrl}/${id}`);
+    }
+
     getAllAssets(): Observable<AssetUrlResponse[]> {
         return this.http.get<AssetUrlResponse[]>(`${this.pathUrl}/urls`);
     }

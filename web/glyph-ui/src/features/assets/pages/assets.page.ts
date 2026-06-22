@@ -89,6 +89,19 @@ export class AssetsPage {
         }
     }
 
+    async onDelete(id: string) {
+        this.http.delete(id).subscribe({
+            next: () =>{
+                this.assets.update(assets => assets.filter(a => a.assetId !== id));
+
+                if (this.selectedAsset()?.assetId === id){
+                    this.selectedAsset.set(null);
+                }
+            },
+            error: error => console.error('Ошибка удаления ассета', error)
+        })
+    }
+
     onAssetSelected(asset: AssetUrlResponse) {
         this.selectedAsset.set(asset);
         this.selectedFile.set(null);

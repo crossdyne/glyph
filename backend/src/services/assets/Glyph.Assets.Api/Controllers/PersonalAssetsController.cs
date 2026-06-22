@@ -82,16 +82,16 @@ namespace Glyph.Assets.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{assetId:guid}")]
         [Authorize]
-        public async Task<IActionResult> Delete([FromBody] DeletePersonalAssetRequest request)
+        public async Task<IActionResult> Delete([FromRoute] Guid assetId)
         {
             var extractResult = this.ExtractCredentials(User);
 
             if (extractResult.IsFailure)
                 return extractResult.Value.Result;
 
-            var command = new DeletePersonalAssetCommand(extractResult.Value.UserId, Guid.Parse(request.AssetId));
+            var command = new DeletePersonalAssetCommand(extractResult.Value.UserId, assetId);
 
             var result = await mediator.Send(command);
 

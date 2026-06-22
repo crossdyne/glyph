@@ -40,7 +40,8 @@
     <div class="assets-list"> 
         <asset-list 
             [assets]="assets()"
-            (assetSelected)="onAssetSelected($event)">
+            (assetSelected)="onAssetSelected($event)"
+            (delete)="onDelete($event)">
         </asset-list>
     </div>
 
