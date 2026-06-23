@@ -53,7 +53,8 @@ export class CategoriesPage implements OnInit{
             next: (newId) => {
                 const newCat: CategoryResponse = {
                     categoryId: newId,
-                    name: request.name
+                    name: request.name,
+                    isPublic: false
                 }
 
                 const update = [newCat, ...this.categories()];
@@ -68,7 +69,8 @@ export class CategoriesPage implements OnInit{
             next: () => {
                 const updateCat: CategoryResponse = {
                     categoryId: this.selectedCategory()?.categoryId!,
-                    name: request.name
+                    name: request.name,
+                    isPublic: false
                 }
                 
                 const update = this.categories().map(c => c.categoryId === this.selectedCategory()?.categoryId!? updateCat : c);

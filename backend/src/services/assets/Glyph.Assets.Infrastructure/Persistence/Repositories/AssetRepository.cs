@@ -28,7 +28,7 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
             if (userId.HasValue)
                 query = query.Where(a => a.UserId == userId);
 
-            return await query.Select(x => new AssetResponse(x.Id.ToString(), x.S3Key.FileName, x.S3Key.Value)).ToListAsync();
+            return await query.Select(x => new AssetResponse(x.Id.ToString(), x.S3Key.FileName, x.S3Key.Value, x.UserId == null)).ToListAsync();
         }
 
         public async Task<List<AssetMetadataResponse>> GetMetadata(Guid userId)
@@ -41,7 +41,8 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
                                 x.AssetName, 
                                 new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath), 
                                 x.CategoryId.ToString(),
-                                x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList()))
+                                x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList(),
+                                x.UserId == null))
                                     .ToListAsync();
     }
 }
