@@ -3,4 +3,5 @@ export interface UpdateAssetRequest {
     assetName: string;
     file: File;
     projectIds: string[];
+    categoryId: string;
 }

@@ -8,6 +8,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
         long SizeBytes,
         string FileName,
         string AssetName,
+        string CategoryId,
         Guid AssetId,
         Guid UserId) : IRequest<Result>;
 }

@@ -9,5 +9,6 @@ namespace Glyph.Bff.Interfaces.Clients
         IDeleteHttp<string>, 
         IGetAllHttp<CategoryResponse>
     {
+        Task<List<CategoryResponse>> GetAllPersonalAndGlobal();
     }
 }

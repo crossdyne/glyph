@@ -8,6 +8,7 @@ import { CreateAssetRequest } from "../../../core/contracts/requests/create-asse
 import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
 import { ProjectResponse } from "../../../core/contracts/responses/project.response";
+import { CategoryResponse } from "../../../core/contracts/responses/category.response";
 
 @Component({
     selector: 'asset-page',
@@ -21,6 +22,7 @@ export class AssetsPage {
 
     assets = signal<AssetUrlResponse[]>([]);
     projects = signal<ProjectResponse[]>([]);
+    categories = signal<CategoryResponse[]>([]);
 
     selectedFile = signal<File | null>(null);
     uploadError = signal<string | null>(null);
@@ -28,6 +30,7 @@ export class AssetsPage {
     selectedAsset = signal<AssetUrlResponse | null>(null);
     
     constructor() {
+        this.loadCategories();
         this.loadProjects();
         this.loadAssets();
     }
@@ -56,6 +59,17 @@ export class AssetsPage {
             },
             error: error => console.error(error) 
         })
+    }
+
+    loadCategories() {
+        this.http.getCategories().subscribe({
+            next: categories => {
+                this.categories.set(categories)
+                 const logData = categories.map(p => ({ id: p.categoryId, name: p.name}));
+                console.table(logData);
+            },
+            error: error => console.error(error)
+        });
     }
 
     onFileSelected(files: File[]) {

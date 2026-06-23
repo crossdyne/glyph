@@ -3,7 +3,7 @@
 
 .svg-form {
     display: grid;
-    grid-template-rows: auto 200px 50px 50px 1fr;
+    grid-template-rows: auto 200px 50px 50px 50px 1fr;
     height: 100%;
     gap: 16px;
     padding: 16px;
@@ -56,14 +56,17 @@ h2 {
     grid-row: 3;   
 }
 
-.project-selector-container {
+.category-selector-container {
     grid-row: 4; 
 }
 
+.project-selector-container {
+    grid-row: 5; 
+}
+
 .form-actions {
-    grid-row: 5;
+    grid-row: 6;
     display: flex;
-    margin-top: 20px;
     gap: 12px;
     align-items: flex-start;
     justify-content: center;

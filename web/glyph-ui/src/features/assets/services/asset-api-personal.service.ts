@@ -5,6 +5,7 @@ import { CreateAssetRequest } from "../../../core/contracts/requests/create-asse
 import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
 import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 import { ProjectResponse } from "../../../core/contracts/responses/project.response";
+import { CategoryResponse } from "../../../core/contracts/responses/category.response";
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,7 @@ export class AssetApiPersonalService {
         formData.append('AssetId', data.assetId);
         formData.append('AssetName', data.assetName);
         formData.append('File', data.file);
+        formData.append('CategoryId', data.categoryId);
 
         return await firstValueFrom(this.http.put<string>(`${this.pathUrl}`, formData));
     }
@@ -45,5 +47,9 @@ export class AssetApiPersonalService {
 
     getProjects(): Observable<ProjectResponse[]> {
         return this.http.get<ProjectResponse[]>('/api/v1/project')
+    }
+
+    getCategories(): Observable<CategoryResponse[]> {
+        return this.http.get<CategoryResponse[]>('/api/v1/personal/category/all')
     }
 }

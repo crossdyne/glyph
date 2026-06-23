@@ -5,6 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { Combobox } from "../../../../shared/ui/combobox/combobox";
 import { ProjectResponse } from "../../../../core/contracts/responses/project.response";
 import { CreateAssetRequest } from "../../../../core/contracts/requests/create-asset.request";
+import { CategoryResponse } from "../../../../core/contracts/responses/category.response";
 
 @Component({
     selector: 'svg-form',
@@ -17,7 +18,8 @@ export class SvgFormComponent {
   
   asset = input<AssetUrlResponse | null>(null);
   selectedFile = input<File | null>(null);
-  projects = input<ProjectResponse[]>([]); 
+  projects = input<ProjectResponse[]>([]);
+  categories = input<CategoryResponse[]>([]); 
 
   created = output<CreateAssetRequest>(); 
   updated = output<UpdateAssetRequest>(); 
@@ -29,7 +31,8 @@ export class SvgFormComponent {
 
   form: FormGroup = new FormGroup({
       assetName: new FormControl('', Validators.required),
-      selectedProject: new FormControl<ProjectResponse | null>(null, Validators.required)
+      selectedProject: new FormControl<ProjectResponse | null>(null, Validators.required),
+      selectedCategory: new FormControl<CategoryResponse | null>(null, Validators.required),
   });
 
   constructor() {
@@ -37,6 +40,7 @@ export class SvgFormComponent {
         const assetData = this.asset();
         const file = this.selectedFile();
         const projectsData = this.projects();
+        const categoriesData = this.categories();
 
         if (!assetData && !file) {
           this.previewUrl.set(null);
@@ -51,6 +55,7 @@ export class SvgFormComponent {
           this.previewUrl.set(assetData.url);
 
           let projectToSelect: ProjectResponse | null = null;
+          let categoryToSelect: CategoryResponse | null = null;
 
           if (projectsData.length > 0 && assetData.projectIds?.length > 0) {
             const targetId = String(assetData.projectIds[0]).trim().toLowerCase();
@@ -62,9 +67,19 @@ export class SvgFormComponent {
                return isMatch;
             }) || null;
 
+          if (categoriesData.length > 0 && assetData.categoryId) {
+            const targetCategoryId = String(assetData.categoryId).trim().toLowerCase();
+
+            categoryToSelect = categoriesData.find(c => {
+               const categoryId = String(c.categoryId).trim().toLowerCase();
+               return categoryId === targetCategoryId;
+            }) || null;
+          }
+
           this.form.patchValue({
             assetName: assetData.assetName,
-            selectedProject: projectToSelect
+            selectedProject: projectToSelect,
+            selectedCategory: categoryToSelect
           }, { emitEvent: false });
         }
       }
@@ -76,6 +91,7 @@ export class SvgFormComponent {
 
     const assetName = this.form.get('assetName')?.value as string;
     const selectedProject = this.form.get('selectedProject')?.value as ProjectResponse;
+    const selectedCategory = this.form.get('selectedCategory')?.value as CategoryResponse;
     const file = this.selectedFile();
     const existing = this.asset();
 
@@ -89,13 +105,14 @@ export class SvgFormComponent {
         assetId: existing.assetId,
         assetName,
         file,
-        projectIds: [selectedProject.id]
+        projectIds: [selectedProject.id],
+        categoryId: selectedCategory.categoryId
       });
     } else {
       this.created.emit({
         assetName,
         file,
-        categoryId: 'e0a825c8-0541-4db6-a837-7dc6a0b9597b',
+        categoryId: selectedCategory.categoryId,
         projectIdsJson: [selectedProject.id]
       });
     }
@@ -104,7 +121,8 @@ export class SvgFormComponent {
   onCancel() {
     this.form.reset({
       assetName: '',
-      selectedProject: null
+      selectedProject: null,
+      selectedCategory: null
     });
     this.cancelled.emit();
   }

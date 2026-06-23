@@ -3,4 +3,5 @@ export interface AssetUrlResponse {
     assetName: string;
     url: string;
     projectIds: string[];
+    categoryId: string;
 }

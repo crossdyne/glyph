@@ -36,7 +36,12 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
                 .AsNoTracking()
                     .Include(x => x.AssetProjects)
                         .Where(x => x.UserId == userId)
-                            .Select(x => new AssetMetadataResponse(x.Id.ToString(), x.AssetName, new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath), x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList()))
-                                .ToListAsync();
+                            .Select(x => new AssetMetadataResponse(
+                                x.Id.ToString(), 
+                                x.AssetName, 
+                                new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath), 
+                                x.CategoryId.ToString(),
+                                x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList()))
+                                    .ToListAsync();
     }
 }

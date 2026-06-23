@@ -71,6 +71,7 @@ namespace Glyph.Assets.Api.Controllers
                 file.Length, 
                 file.FileName, 
                 request.AssetName,
+                request.CategoryId,
                 Guid.Parse(request.AssetId),
                 extractResult.Value.UserId);
 

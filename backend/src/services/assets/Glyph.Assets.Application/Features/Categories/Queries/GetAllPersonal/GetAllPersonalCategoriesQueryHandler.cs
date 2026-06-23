@@ -3,7 +3,7 @@ using Glyph.Assets.Application.Interfaces.Repositories;
 using MediatR;
 using Shared.Contracts.Responses;
 
-namespace Glyph.Assets.Application.Features.Categories.Queries.GetAll
+namespace Glyph.Assets.Application.Features.Categories.Queries.GetAllPersonal
 {
     public sealed class GetAllPersonalCategoriesQueryHandler(ICategoryRepository repository) : IRequestHandler<GetAllPersonalCategoriesQuery, Result<List<CategoryResponse>>>
     {

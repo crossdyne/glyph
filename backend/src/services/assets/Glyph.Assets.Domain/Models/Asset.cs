@@ -79,5 +79,10 @@ namespace Glyph.Assets.Domain.Models
             AssetType = assetType;
             SizeBytes = sizeBytes;
         }
+
+        public void AttachCategory(CategoryId categoryId)
+        {
+            CategoryId = categoryId;
+        }
     }
 }

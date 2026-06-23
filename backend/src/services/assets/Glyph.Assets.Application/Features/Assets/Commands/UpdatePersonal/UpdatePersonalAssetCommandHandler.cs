@@ -5,6 +5,7 @@ using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Application.Interfaces.Services;
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Assets;
+using Glyph.Assets.Domain.ValueObjects.Categories;
 using MediatR;
 using Shared.Contracts.FileService.Interfaces;
 
@@ -38,6 +39,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
                 var detected = await detector.DetectAsync(request.FileContent, request.FileName, cancellationToken);
                 
                 var assetName = AssetName.Create(request.AssetName);
+                var categoryId = CategoryId.From(Guid.Parse(request.CategoryId));
                 var s3Key = S3Key.Create(storageAsset.S3Key.Bucket, [.. storageAsset.S3Key.Folders], request.FileName);
                 var format = Format.FromName(detected.FormatName);
                 var mimeType = MimeType.FromFormat(format); 
@@ -53,6 +55,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
                     return uploadResult;  
 
                 storageAsset.UpdateContent(assetName, s3Key, format, mimeType, assetType, sizeBytes);
+                storageAsset.AttachCategory(categoryId);
 
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 

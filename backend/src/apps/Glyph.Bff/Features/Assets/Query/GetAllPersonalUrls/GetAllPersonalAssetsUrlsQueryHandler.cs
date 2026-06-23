@@ -45,7 +45,7 @@ namespace Glyph.Bff.Features.Assets.Query.GetAllPersonalUrls
                 if (s3Key == null)
                     continue;
 
-                response.Add(new AssetUrlResponse(s3Key.AssetId, s3Key.AssetName, url.Url, s3Key.ProjectIds));
+                response.Add(new AssetUrlResponse(s3Key.AssetId, s3Key.AssetName, url.Url, s3Key.CategoryId, s3Key.ProjectIds));
             }
 
             return Result<List<AssetUrlResponse>>.Success(response);

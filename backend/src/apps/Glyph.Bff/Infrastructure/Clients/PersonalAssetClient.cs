@@ -43,12 +43,13 @@ namespace Glyph.Bff.Infrastructure.Clients
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<Result> UpdateAsync(string assetId, string assetName, Stream file, string fileName)
+        public async Task<Result> UpdateAsync(string assetId, string assetName, Stream file, string fileName, string categoryId)
         {
             using var content = new MultipartFormDataContent();
 
             content.Add(new StringContent(assetId), "AssetId");
             content.Add(new StringContent(assetName), "AssetName");
+            content.Add(new StringContent(categoryId), "CategoryId");
 
             if (file.CanSeek)
                 file.Position = 0;
