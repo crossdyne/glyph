@@ -25,6 +25,12 @@
         Допустимый формат: {{ accept() }}
       </p>
     }
+    
+    @if (fileName()) {
+      <p class="hint">
+        Файл: <span class="file-name">{{ fileName() }}</span> 
+      </p>
+    }
   </div>
   
   <input 

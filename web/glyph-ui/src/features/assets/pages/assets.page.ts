@@ -39,11 +39,6 @@ export class AssetsPage {
         this.http.getAllAssets().subscribe({
             next: assets => {
                 this.assets.set(assets)
-            //     const tableData = assets.map(asset => ({
-            //     name: asset.assetName,
-            //     projectIds: asset.projectIds.join(', ')
-            // }));
-            // console.table(tableData);
             },
             error: error => console.error(error)
         });
@@ -53,9 +48,6 @@ export class AssetsPage {
         this.http.getProjects().subscribe({
             next: projects => {
                 this.projects.set(projects)
-
-                // const logData = projects.map(p => ({ id: p.id, name: p.name}));
-                // console.table(logData);
             },
             error: error => console.error(error) 
         })
@@ -65,24 +57,15 @@ export class AssetsPage {
         this.http.getCategories().subscribe({
             next: categories => {
                 this.categories.set(categories)
-                 const logData = categories.map(p => ({ id: p.categoryId, name: p.name}));
+                const logData = categories.map(p => ({ id: p.categoryId, name: p.name}));
                 console.table(logData);
             },
             error: error => console.error(error)
         });
     }
 
-    onFileSelected(files: File[]) {
-        const file = files[0];
-        if (!file) return;
-
-        if (!file.name.toLowerCase().endsWith('.svg') && file.type !== 'image/svg+xml') {
-            this.uploadError.set('Можно загружать только SVG файлы');
-            return;
-        }
-
-        this.uploadError.set(null);
-        this.selectedFile.set(file);
+    onUploadError(error: string) {
+        this.uploadError.set(error);
     }
 
     async onCreate(request: CreateAssetRequest) {
@@ -121,10 +104,10 @@ export class AssetsPage {
 
     async onDelete(id: string) {
         this.http.delete(id).subscribe({
-            next: () =>{
+            next: () => {
                 this.assets.update(assets => assets.filter(a => a.assetId !== id));
 
-                if (this.selectedAsset()?.assetId === id){
+                if (this.selectedAsset()?.assetId === id) {
                     this.selectedAsset.set(null);
                 }
             },
@@ -145,9 +128,5 @@ export class AssetsPage {
         this.selectedAsset.set(null);
         this.selectedFile.set(null);
         this.uploadError.set(null);
-    }
-
-    onUploadError(error: string) {
-        this.uploadError.set(error);
     }
 }

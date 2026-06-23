@@ -13,7 +13,7 @@
             <file-uploader 
                 accept=".svg,image/svg+xml" 
                 [multiple]="false"
-                (filesSelected)="onFileSelected($event)"
+                [(selectedFile)]="selectedFile"
                 (uploadError)="onUploadError($event)">
             </file-uploader>
                 
