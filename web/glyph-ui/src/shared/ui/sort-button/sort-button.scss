@@ -1,0 +1,15 @@
+button {
+    border-color: rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #424242;
+        border-radius: 0.9em;
+    }
+
+svg {
+  margin: 4px;
+}

@@ -1,0 +1,9 @@
+<div class="assets-container">
+    @for (asset of assets(); track asset.assetId) {
+        <div class="svg-card-container" (click)="assetSelected.emit(asset)">
+            <delete-button (clicked)="onDelete(asset.assetId)">Удалить</delete-button>
+            <img [src]="asset.url" [alt]="asset.assetName">
+            <span class="name" [title]="asset.assetName">{{asset.assetName}}</span>
+        </div> 
+    }
+</div>

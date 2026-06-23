@@ -7,6 +7,8 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
         Stream FileContent,
         long SizeBytes,
         string FileName,
+        string AssetName,
+        string CategoryId,
         Guid AssetId,
         Guid UserId) : IRequest<Result>;
 }

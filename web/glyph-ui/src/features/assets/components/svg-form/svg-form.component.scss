@@ -1,0 +1,73 @@
+@use '../../../../variables' as *;
+@use '../../../../styles/buttons';
+
+.svg-form {
+    display: grid;
+    grid-template-rows: auto 200px 50px 50px 50px 1fr;
+    height: 100%;
+    gap: 16px;
+    padding: 16px;
+    
+        label{
+            font-weight: 500;
+            font-size: 20px;
+            color: $color-text-primary;
+            align-self: center;
+        }
+
+        input{
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            
+            &:focus{
+                outline: none;
+                border-color: #4a90e2;
+            }
+    }
+}
+
+h2 {
+    grid-row: 1;
+    margin: 0;
+}
+
+.svg-preview {
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #50070700;
+    border: 1px solid #333030;
+    border-radius: 4px;
+    overflow: hidden;
+    
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        background-color: rgba(128, 128, 128, 0);
+    }
+}
+
+.svg-name-container {
+    grid-row: 3;   
+}
+
+.category-selector-container {
+    grid-row: 4; 
+}
+
+.project-selector-container {
+    grid-row: 5; 
+}
+
+.form-actions {
+    grid-row: 6;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: center;
+}

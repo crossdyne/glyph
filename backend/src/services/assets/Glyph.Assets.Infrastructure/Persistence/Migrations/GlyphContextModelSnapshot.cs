@@ -28,6 +28,11 @@ namespace Glyph.Assets.Infrastructure.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("AssetName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("asset_name");
+
                     b.Property<int>("AssetType")
                         .HasColumnType("integer")
                         .HasColumnName("asset_type");

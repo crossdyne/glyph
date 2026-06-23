@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\clients\FileService.Client\FileService.Client.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Application\Glyph.Assets.Application.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Domain\Glyph.Assets.Domain.csproj" />
   </ItemGroup>

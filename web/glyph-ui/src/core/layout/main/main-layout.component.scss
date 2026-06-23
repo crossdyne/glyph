@@ -18,7 +18,8 @@
      position: fixed;
      top: 0; left: 0; right: 0;
      z-index: 1000;
-     background: rgba(10, 10, 15, 0.8);
+    //  background: rgb(10, 10, 15);
+     background: #000000;
      backdrop-filter: blur(20px);
      -webkit-backdrop-filter: blur(20px);
      border-bottom: 1px solid $border;
@@ -45,7 +46,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: $bg-card;
+    background: #090930;
     border: 1px solid $border;
     border-radius: 10px;
     font-size: 0.9rem;

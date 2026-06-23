@@ -1,12 +1,13 @@
 using Glyph.Assets.Application.Features.Categories.Commands.CreatePersonal;
 using Glyph.Assets.Application.Features.Categories.Commands.DeletePersonal;
 using Glyph.Assets.Application.Features.Categories.Commands.UpdatePersonal;
-using Glyph.Assets.Application.Features.Categories.Queries.GetAll;
 using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Requests;
 using Microsoft.AspNetCore.Authorization;
+using Glyph.Assets.Application.Features.Categories.Queries.GetAllPersonal;
+using Glyph.Assets.Application.Features.Categories.Queries.GetAllPersonalAndGlobal;
 
 namespace Glyph.Assets.Api.Controllers
 {
@@ -84,6 +85,20 @@ namespace Glyph.Assets.Api.Controllers
                 return this.MapActionResult(result.Errors);
 
             return Ok(result.Value);
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllPersonalAndGlobal()
+        {
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var query = new GetAllPersonalAndGlobalCategoriesQuery(extractResult.Value.UserId);
+            var result = await mediator.Send(query);
+
+            return Ok(result);
         }
     }
 }

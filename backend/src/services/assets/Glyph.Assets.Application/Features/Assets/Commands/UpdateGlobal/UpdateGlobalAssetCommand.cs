@@ -7,5 +7,6 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
         Stream FileContent,
         long SizeBytes,
         string FileName,
+        string AssetName,
         Guid AssetId) : IRequest<Result>;
 }

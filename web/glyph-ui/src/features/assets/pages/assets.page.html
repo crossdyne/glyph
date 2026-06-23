@@ -1,0 +1,50 @@
+<div class="assets-page-container">
+    
+    <div class="nav-bar-assets">
+        <div class="inner-nav-bar-assets">
+            <sort-button></sort-button>
+            <sort-button></sort-button>
+            <sort-button></sort-button>
+        </div>
+    </div>
+
+    <div class="asset-container">
+        <div class="file-upload">
+            <file-uploader 
+                accept=".svg,image/svg+xml" 
+                [multiple]="false"
+                (filesSelected)="onFileSelected($event)"
+                (uploadError)="onUploadError($event)">
+            </file-uploader>
+                
+            @if (uploadError()) {
+                <p class="error-message">{{ uploadError() }}</p>
+            }
+        </div>
+
+        <div class="asset-form">
+            <svg-form 
+                [asset]="selectedAsset()"
+                [selectedFile]="selectedFile()"
+                [projects]="projects()"
+                [categories]="categories()"
+                (created)="onCreate($event)"
+                (updated)="onUpdate($event)"
+                (cancelled)="onCancel()">
+            </svg-form>
+
+            @if (saving()) {
+                <p>Сохранение...</p>
+            }
+        </div>
+    </div>
+
+    <div class="assets-list"> 
+        <asset-list 
+            [assets]="assets()"
+            (assetSelected)="onAssetSelected($event)"
+            (delete)="onDelete($event)">
+        </asset-list>
+    </div>
+
+</div>

@@ -6,6 +6,9 @@ using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Requests;
+using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
+using Glyph.Assets.Application.Features.Assets.Queries.GetMetadata;
 
 namespace Glyph.Assets.Api.Controllers
 {
@@ -14,13 +17,19 @@ namespace Glyph.Assets.Api.Controllers
     public sealed class PersonalAssetsController(IMediator mediator) : Controller
     {
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreatePersonalAssetRequest request, IFormFile file)
+        [Authorize]
+        public async Task<IActionResult> Create([FromForm] CreateAssetRequest request, [FromForm] IFormFile file)
         {
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
             if (file is null || file.Length == 0)
                 return BadRequest("Файл не был передан.");
 
-            var folders = System.Text.Json.JsonSerializer.Deserialize<List<string>>(request.FoldersJson) ?? new();
-            var projectIds = System.Text.Json.JsonSerializer.Deserialize<List<string>>(request.ProjectIdsJson) ?? new();
+            var folders = JsonSerializer.Deserialize<List<string>>(request.FoldersJson) ?? [];
+            var projectIds = JsonSerializer.Deserialize<List<string>>(request.ProjectIdsJson) ?? [];
 
             await using var fileStream = file.OpenReadStream();
             
@@ -32,7 +41,8 @@ namespace Glyph.Assets.Api.Controllers
                 request.FileName,
                 Guid.Parse(request.CategoryId),
                 projectIds,
-                Guid.Parse(request.UserId)); 
+                request.AssetName,
+                extractResult.Value.UserId); 
 
             var result = await mediator.Send(command);
 
@@ -42,9 +52,15 @@ namespace Glyph.Assets.Api.Controllers
             return Created();
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> Update([FromForm] UpdatePersonalAssetRequest request, IFormFile file)
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> Update([FromForm] UpdateAssetRequest request, IFormFile file)
         {
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
             if (file is null || file.Length == 0)
                 return BadRequest("Файл не был передан.");
 
@@ -53,9 +69,11 @@ namespace Glyph.Assets.Api.Controllers
             var command = new UpdatePersonalAssetCommand(
                 fileStream, 
                 file.Length, 
-                request.FileName, 
-                Guid.Parse(request.AssetId), 
-                Guid.Parse(request.UserId));
+                file.FileName, 
+                request.AssetName,
+                request.CategoryId,
+                Guid.Parse(request.AssetId),
+                extractResult.Value.UserId);
 
             var result = await mediator.Send(command);
 
@@ -65,10 +83,16 @@ namespace Glyph.Assets.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeletePersonalAssetRequest request)
+        [HttpDelete("{assetId:guid}")]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] Guid assetId)
         {
-            var command = new DeletePersonalAssetCommand(Guid.Parse(request.UserId), Guid.Parse(request.AssetId));
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var command = new DeletePersonalAssetCommand(extractResult.Value.UserId, assetId);
 
             var result = await mediator.Send(command);
 
@@ -79,10 +103,31 @@ namespace Glyph.Assets.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllByFiler([FromQuery] Guid userId, [FromQuery] Guid projectId)
+        [Authorize]
+        public async Task<IActionResult> GetAllByFiler([FromQuery] Guid projectId)
         {
-            var query = new GetAllAssetsByFilerQuery(userId, projectId);
+            var extractResult = this.ExtractCredentials(User);
 
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var query = new GetAllAssetsByFilerQuery(extractResult.Value.UserId, projectId);
+
+            var result = await mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet("metadata/many")]
+        [Authorize]
+        public async Task<IActionResult> GetMetadata()
+        {
+            var extractResult = this.ExtractCredentials(User);
+
+            if (extractResult.IsFailure)
+                return extractResult.Value.Result;
+
+            var query = new GetAssetsMetadataQuery(extractResult.Value.UserId);
             var result = await mediator.Send(query);
 
             return Ok(result);

@@ -1,12 +1,12 @@
 using Crossdyne.Toolkit.Primitives;
 using Crossdyne.Toolkit.Results;
 using Glyph.Assets.Application.Interfaces;
-using Glyph.Assets.Application.Interfaces.Clients;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Application.Interfaces.Services;
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Assets;
 using MediatR;
+using Shared.Contracts.FileService.Interfaces;
 
 namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
 {
@@ -14,7 +14,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
         IAssetRepository repository, 
         IUnitOfWork unitOfWork, 
         IFileMetadataDetector detector, 
-        IFileStorageClient storageClient) : IRequestHandler<UpdateGlobalAssetCommand, Result>
+        IFileServiceClient storageClient) : IRequestHandler<UpdateGlobalAssetCommand, Result>
     {
         public async Task<Result> Handle(UpdateGlobalAssetCommand request, CancellationToken cancellationToken)
         {
@@ -37,6 +37,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
 
                 var detected = await detector.DetectAsync(request.FileContent, request.FileName, cancellationToken);
                 
+                var assetName = AssetName.Create(request.AssetName);
                 var s3Key = S3Key.Create(storageAsset.S3Key.Bucket, [.. storageAsset.S3Key.Folders], request.FileName);
                 var format = Format.FromName(detected.FormatName);
                 var mimeType = MimeType.FromFormat(format); 
@@ -46,13 +47,13 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal
                 if (request.FileContent.CanSeek)
                     request.FileContent.Position = 0;
 
-                storageAsset.UpdateContent(s3Key, format, mimeType, assetType, sizeBytes);
+                storageAsset.UpdateContent(assetName, s3Key, format, mimeType, assetType, sizeBytes);
 
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 
                 await storageClient.Delete(storageBucket, storageFolderPath, storageKey);
 
-                var uploadResult = await storageClient.Upload(s3Key, mimeType, request.FileContent);
+                var uploadResult = await storageClient.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
                 if (uploadResult.IsFailure)
                     return uploadResult;  

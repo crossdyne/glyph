@@ -9,6 +9,9 @@
   <Folder Name="/src/bff/">
     <Project Path="src/apps/Glyph.Bff/Glyph.Bff.csproj" />
   </Folder>
+  <Folder Name="/src/clients/">
+    <Project Path="src/clients/FileService.Client/FileService.Client.csproj" />
+  </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/shared/contracts/Shared.Contracts/Shared.Contracts.csproj" />
   </Folder>

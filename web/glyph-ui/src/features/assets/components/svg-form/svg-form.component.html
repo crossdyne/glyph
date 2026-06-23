@@ -1,0 +1,49 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="svg-form">
+    <h2>{{ asset() ? 'Редактирование' : 'Создание' }}</h2>
+
+    <div class="svg-preview">
+        @if (previewUrl()) {
+            <img [src]="previewUrl()!" alt="SVG Preview">
+        } @else {
+            <p>Выберите SVG файл</p>
+        }
+    </div>
+
+    @if (uploadError()) {
+        <p class="error-message">{{ uploadError() }}</p>
+    }
+
+    <div class="svg-name-container">
+        <!-- <label>Название</label> -->
+        <input formControlName="assetName" placeholder="Введите имя ассета">
+    </div>
+
+    <div class="category-selector-container">
+        <!-- <label>Проект</label> -->
+        <combobox 
+            [items]="categories()"
+            displayKey="name"
+            placeholder="Выберите категорию..."
+            formControlName="selectedCategory">
+        </combobox>
+    </div>
+
+    <div class="project-selector-container">
+        <!-- <label>Проект</label> -->
+        <combobox 
+            [items]="projects()"
+            displayKey="name"
+            placeholder="Выберите проект..."
+            formControlName="selectedProject">
+        </combobox>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" [disabled]="form.invalid || !selectedFile()">
+            <span class="text">{{ asset() ? 'Обновить' : 'Создать' }}</span>
+        </button>
+        <button type="button" (click)="onCancel()">
+            <span class="text">Отмена</span>
+        </button>
+    </div>
+</form>
