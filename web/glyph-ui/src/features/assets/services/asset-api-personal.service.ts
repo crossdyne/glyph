@@ -4,6 +4,7 @@ import { firstValueFrom, Observable } from "rxjs";
 import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
 import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
 import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
+import { ProjectResponse } from "../../../core/contracts/responses/project.response";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,7 @@ export class AssetApiPersonalService {
         const formData = new FormData();
 
         formData.append('CategoryId', data.categoryId);
-        formData.append('ProjectIdsJson', data.projectIdsJson);
+        formData.append('ProjectIdsJson', JSON.stringify(data.projectIdsJson));
         formData.append('AssetName', data.assetName);
         formData.append('File', data.file);
 
@@ -40,5 +41,9 @@ export class AssetApiPersonalService {
 
     getAllAssets(): Observable<AssetUrlResponse[]> {
         return this.http.get<AssetUrlResponse[]>(`${this.pathUrl}/urls`);
+    }
+
+    getProjects(): Observable<ProjectResponse[]> {
+        return this.http.get<ProjectResponse[]>('/api/v1/project')
     }
 }

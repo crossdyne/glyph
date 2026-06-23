@@ -7,6 +7,7 @@ import { AssetApiPersonalService } from "../services/asset-api-personal.service"
 import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
 import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
+import { ProjectResponse } from "../../../core/contracts/responses/project.response";
 
 @Component({
     selector: 'asset-page',
@@ -18,21 +19,43 @@ import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.r
 export class AssetsPage {
     private http = inject(AssetApiPersonalService);
 
+    assets = signal<AssetUrlResponse[]>([]);
+    projects = signal<ProjectResponse[]>([]);
+
     selectedFile = signal<File | null>(null);
     uploadError = signal<string | null>(null);
     saving = signal(false);
-    assets = signal<AssetUrlResponse[]>([]);
     selectedAsset = signal<AssetUrlResponse | null>(null);
     
     constructor() {
+        this.loadProjects();
         this.loadAssets();
     }
 
     loadAssets() {
         this.http.getAllAssets().subscribe({
-            next: assets => this.assets.set(assets),
+            next: assets => {
+                this.assets.set(assets)
+            //     const tableData = assets.map(asset => ({
+            //     name: asset.assetName,
+            //     projectIds: asset.projectIds.join(', ')
+            // }));
+            // console.table(tableData);
+            },
             error: error => console.error(error)
         });
+    }
+
+    loadProjects() {
+        this.http.getProjects().subscribe({
+            next: projects => {
+                this.projects.set(projects)
+
+                // const logData = projects.map(p => ({ id: p.id, name: p.name}));
+                // console.table(logData);
+            },
+            error: error => console.error(error) 
+        })
     }
 
     onFileSelected(files: File[]) {
@@ -48,7 +71,7 @@ export class AssetsPage {
         this.selectedFile.set(file);
     }
 
-    async onCreate(assetName: string) {
+    async onCreate(request: CreateAssetRequest) {
         const file = this.selectedFile();
         if (!file) {
             this.uploadError.set('Файл не был выбран');
@@ -57,13 +80,6 @@ export class AssetsPage {
 
         this.saving.set(true);
         try {
-            const request: CreateAssetRequest = {
-                file,
-                categoryId: 'e0a825c8-0541-4db6-a837-7dc6a0b9597b',
-                projectIdsJson: JSON.stringify(['74668ee9-4908-463e-82cd-4cdd92e33870']), 
-                assetName
-            };
-
             await this.http.create(request);
             this.resetForm();
             this.loadAssets();

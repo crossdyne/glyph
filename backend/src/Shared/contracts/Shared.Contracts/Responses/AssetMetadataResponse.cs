@@ -1,4 +1,4 @@
 namespace Shared.Contracts.Responses
 {
-    public sealed record AssetMetadataResponse(string AssetId, string AssetName, S3KeyResponse S3Key);
+    public sealed record AssetMetadataResponse(string AssetId, string AssetName, S3KeyResponse S3Key, List<string> ProjectIds);
 }

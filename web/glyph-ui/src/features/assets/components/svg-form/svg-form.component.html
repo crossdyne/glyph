@@ -18,6 +18,16 @@
         <input formControlName="assetName" placeholder="Введите имя файла">
     </div>
 
+    <div class="project-selector-container">
+        <label>Проект</label>
+        <combobox 
+            [items]="projects()"
+            displayKey="name"
+            placeholder="Выберите проект..."
+            formControlName="selectedProject">
+        </combobox>
+    </div>
+
     <div class="form-actions">
         <button type="submit" [disabled]="form.invalid || !selectedFile()">
             <span class="text">{{ asset() ? 'Обновить' : 'Создать' }}</span>

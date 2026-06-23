@@ -1,6 +1,6 @@
 export interface CreateAssetRequest {
     categoryId: string;
-    projectIdsJson: string; 
+    projectIdsJson: string[]; 
     file: File;
     assetName: string;
 }

@@ -26,6 +26,7 @@
             <svg-form 
                 [asset]="selectedAsset()"
                 [selectedFile]="selectedFile()"
+                [projects]="projects()"
                 (created)="onCreate($event)"
                 (updated)="onUpdate($event)"
                 (cancelled)="onCancel()">
