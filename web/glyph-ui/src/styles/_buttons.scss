@@ -15,6 +15,7 @@ button {
  overflow: hidden;
  background: #66ff66;
  color: ghostwhite;
+ transition: opacity 0.3s;
 }
 
 button span {
@@ -23,7 +24,7 @@ button span {
  transition: color 0.4s;
 }
 
-button:hover span {
+button:hover:not(:disabled) span {
  color: black;
 }
 
@@ -46,6 +47,22 @@ button::before {
  transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
 }
 
-button:hover::before {
+button:hover:not(:disabled)::before {
  transform: translate3d(100%, 0, 0);
+}
+
+button:disabled {
+ cursor: not-allowed;
+ background: #d1d5db;
+ opacity: 0.6;
+ pointer-events: none;
+}
+
+button:disabled span {
+ color: #6b7280;
+}
+
+button:disabled::before {
+ background: #9ca3af;
+ transform: skew(30deg);
 }
