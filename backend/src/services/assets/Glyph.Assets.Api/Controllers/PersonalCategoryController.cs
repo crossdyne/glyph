@@ -4,10 +4,10 @@ using Glyph.Assets.Application.Features.Categories.Commands.UpdatePersonal;
 using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Glyph.Assets.Application.Features.Categories.Queries.GetAllPersonal;
 using Glyph.Assets.Application.Features.Categories.Queries.GetAllPersonalAndGlobal;
+using Shared.Contracts.Assets.Requests;
 
 namespace Glyph.Assets.Api.Controllers
 {

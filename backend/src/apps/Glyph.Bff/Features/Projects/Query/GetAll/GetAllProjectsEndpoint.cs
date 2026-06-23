@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Bff.Features.Projects.Query.GetAll
 {

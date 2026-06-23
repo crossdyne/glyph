@@ -5,7 +5,7 @@ using Glyph.Assets.Application.Features.Categories.Queries.GetAllGlobal;
 using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Requests;
+using Shared.Contracts.Assets.Requests;
 
 namespace Glyph.Assets.Api.Controllers
 {    

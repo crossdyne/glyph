@@ -2,7 +2,7 @@ using Crossdyne.Toolkit.Results;
 using Glyph.Bff.Extensions;
 using Glyph.Bff.Interfaces.Clients;
 using MediatR;
-using Shared.Contracts.Requests;
+using Shared.Contracts.Assets.Requests;
 
 namespace Glyph.Bff.Features.Categories.Command.CreatePersonal
 {

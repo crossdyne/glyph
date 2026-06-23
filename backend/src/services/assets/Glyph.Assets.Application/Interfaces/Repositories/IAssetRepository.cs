@@ -1,6 +1,6 @@
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Projects;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Assets.Application.Interfaces.Repositories
 {

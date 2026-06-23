@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Requests;
+using Shared.Contracts.Assets.Requests;
 using Shared.Web.Extensions;
 
 namespace Glyph.Bff.Features.Categories.Command.CreatePersonal

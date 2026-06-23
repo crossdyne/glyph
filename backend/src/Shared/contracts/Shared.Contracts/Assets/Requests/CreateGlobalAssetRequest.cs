@@ -1,4 +1,4 @@
-namespace Shared.Contracts.Requests
+namespace Shared.Contracts.Assets.Requests
 {
     public sealed record CreateGlobalAssetRequest(
         string Bucket, 

@@ -1,7 +1,7 @@
 using Crossdyne.Toolkit.Results;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using MediatR;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Assets.Application.Features.Assets.Queries.GetMetadata
 {

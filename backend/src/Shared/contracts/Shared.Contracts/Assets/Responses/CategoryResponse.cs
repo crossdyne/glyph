@@ -1,4 +1,4 @@
-namespace Shared.Contracts.Responses
+namespace Shared.Contracts.Assets.Responses
 {
     public sealed record CategoryResponse(string CategoryId, string Name);
 }

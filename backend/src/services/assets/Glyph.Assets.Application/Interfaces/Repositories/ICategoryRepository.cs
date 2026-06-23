@@ -1,5 +1,5 @@
 using Glyph.Assets.Domain.Models;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Assets.Application.Interfaces.Repositories
 {

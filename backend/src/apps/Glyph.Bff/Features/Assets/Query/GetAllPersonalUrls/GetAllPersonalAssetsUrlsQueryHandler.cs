@@ -1,10 +1,10 @@
 using Crossdyne.Toolkit.Results;
 using Glyph.Bff.Interfaces.Clients;
 using MediatR;
+using Shared.Contracts.Assets.Responses;
 using Shared.Contracts.FileService.Interfaces;
 using Shared.Contracts.FileService.Requests;
 using Shared.Contracts.FileService.Responses;
-using Shared.Contracts.Responses;
 using Shared.Kernel.Errors;
 
 namespace Glyph.Bff.Features.Assets.Query.GetAllPersonalUrls

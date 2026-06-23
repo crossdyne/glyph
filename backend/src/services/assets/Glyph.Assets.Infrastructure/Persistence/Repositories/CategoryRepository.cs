@@ -2,7 +2,7 @@ using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Assets.Infrastructure.Persistence.Repositories
 {
