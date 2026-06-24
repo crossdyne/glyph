@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Glyph.Assets.Application.Features.Categories.Commands.CreateGlobal
 {
-    public sealed record CreateGlobalCategoryCommand(string Name) : IRequest<Result>, IHasCategoryName;
+    public sealed record CreateGlobalCategoryCommand(string Name) : IRequest<Result<string>>, IHasCategoryName;
 }

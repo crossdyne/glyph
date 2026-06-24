@@ -1,24 +1,24 @@
 import { Component, inject, signal } from "@angular/core";
-import { SortButton } from "../../../shared/ui/sort-button/sort-button";
-import { AssetListComponent } from "../components/asset-list/asset-list.component";
-import { SvgFormComponent } from "../components/svg-form/svg-form.component";
-import { FileUploaderComponent } from "../components/file-uploader/file-uploader.component";
-import { AssetApiPersonalService } from "../services/asset-api-personal.service";
-import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
-import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
-import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
-import { ProjectResponse } from "../../../core/contracts/responses/project.response";
-import { CategoryResponse } from "../../../core/contracts/responses/category.response";
+import { FileUploaderComponent } from "../../components/file-uploader/file-uploader.component";
+import { SortButton } from "../../../../shared/ui/sort-button/sort-button";
+import { SvgFormComponent } from "../../components/svg-form/svg-form.component";
+import { AssetListComponent } from "../../components/asset-list/asset-list.component";
+import { AssetUrlResponse } from "../../../../core/contracts/responses/asset-urls.response";
+import { GlobalAssetApiService } from "../../services/global-asset-api.service";
+import { ProjectResponse } from "../../../../core/contracts/responses/project.response";
+import { CategoryResponse } from "../../../../core/contracts/responses/category.response";
+import { CreateAssetRequest } from "../../../../core/contracts/requests/create-asset.request";
+import { UpdateAssetRequest } from "../../../../core/contracts/requests/update-asset.request";
 
 @Component({
-    selector: 'asset-page',
-    templateUrl: './assets.page.html',
-    styleUrls: ['./assets.page.scss'],
+    selector: 'global-assets-page',
+    templateUrl: './global-assets.page.html',
+    styleUrls: ['./global-assets.page.scss'],
     standalone: true,
-    imports: [SortButton, AssetListComponent, SvgFormComponent, FileUploaderComponent]
+    imports: [FileUploaderComponent, SortButton, SvgFormComponent, AssetListComponent]
 })
-export class AssetsPage {
-    private http = inject(AssetApiPersonalService);
+export class GlobalAssetsPage {
+     private http = inject(GlobalAssetApiService);
 
     assets = signal<AssetUrlResponse[]>([]);
     projects = signal<ProjectResponse[]>([]);
@@ -35,38 +35,16 @@ export class AssetsPage {
         this.loadAssets();
     }
 
-    loadAssets() {
-        this.http.getAllAssets().subscribe({
-            next: assets => {
-                this.assets.set(assets)
-            },
-            error: error => console.error(error)
-        });
-    }
-
-    loadProjects() {
-        this.http.getProjects().subscribe({
-            next: projects => {
-                this.projects.set(projects)
-            },
-            error: error => console.error(error) 
-        })
-    }
-
-    loadCategories() {
-        this.http.getCategories().subscribe({
-            next: categories => {
-                this.categories.set(categories)
-                const logData = categories.map(p => ({ id: p.categoryId, name: p.name}));
-                console.table(logData);
-            },
-            error: error => console.error(error)
-        });
-    }
-
     onUploadError(error: string) {
         this.uploadError.set(error);
     }
+    
+    onAssetSelected(asset: AssetUrlResponse) {
+        this.selectedAsset.set(asset);
+        this.selectedFile.set(null);
+    }
+
+    //#region CRUD - события
 
     async onCreate(request: CreateAssetRequest) {
         const file = this.selectedFile();
@@ -115,10 +93,37 @@ export class AssetsPage {
         })
     }
 
-    onAssetSelected(asset: AssetUrlResponse) {
-        this.selectedAsset.set(asset);
-        this.selectedFile.set(null);
+    //#endregion
+
+    //#region Получение данных
+
+    loadAssets() {
+        this.http.getAllAssets().subscribe({
+            next: assets => this.assets.set(assets),
+            error: error => console.error(error)
+        });
     }
+
+    loadProjects() {
+        this.http.getProjects().subscribe({
+            next: projects => this.projects.set(projects),
+            error: error => console.error(error) 
+        })
+    }
+
+    loadCategories() {
+        this.http.getCategories().subscribe({
+            next: categories => this.categories.set(categories),
+            error: error => console.error(error)
+        });
+
+        // const logData = categories.map(p => ({ id: p.categoryId, name: p.name}));
+        // console.table(logData);
+    }
+
+    //#endregion
+
+    //#region События очистки, отмены
 
     onCancel() {
         this.resetForm();
@@ -129,4 +134,6 @@ export class AssetsPage {
         this.selectedFile.set(null);
         this.uploadError.set(null);
     }
+
+    //#endregion
 }

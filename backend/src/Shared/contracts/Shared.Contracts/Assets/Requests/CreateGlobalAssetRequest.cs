@@ -4,6 +4,7 @@ namespace Shared.Contracts.Assets.Requests
         string Bucket, 
         string FoldersJson, 
         string FileName,
-        string AssetName,
-        string CategoryId);
+        string CategoryId,
+        string ProjectIdsJson,
+        string AssetName);
 }

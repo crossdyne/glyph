@@ -2,16 +2,16 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { CreateCategoryRequest } from "../../../core/contracts/requests/create-category.request";
 import { Observable } from "rxjs";
-import { CategoryResponse } from "../../../core/contracts/responses/category.response";
 import { UpdateCategoryRequest } from "../../../core/contracts/requests/update-category.request";
+import { CategoryResponse } from "../../../core/contracts/responses/category.response";
 
 @Injectable({
     providedIn: 'root'
 })
-export class CategoriesUserApiService{
+export class GlobalCategoriesApiService {
     private http = inject(HttpClient);
 
-    private readonly pathUrl: string = '/api/v1/personal/category';
+    private readonly pathUrl: string = '/api/v1/global/category';
 
     create(data: CreateCategoryRequest): Observable<string> {
         return this.http.post<string>(`${this.pathUrl}`, data);

@@ -11,7 +11,7 @@ namespace Glyph.Bff.Features.Assets.Command.CreatePersonal
         public async Task<Result<string>> Handle(CreatePersonalAssetCommand request, CancellationToken cancellationToken)
             => await client.Create(
                 FileStorageConstants.Bucket, 
-                FileStorageConstants.PersonalFolders, 
+                FileStorageConstants.PersonalAssetsSvgFolders, 
                 request.FileName, 
                 request.CategoryId, 
                 request.ProjectIdsJson, 

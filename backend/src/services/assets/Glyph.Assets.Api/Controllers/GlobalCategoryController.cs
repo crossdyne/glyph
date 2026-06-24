@@ -6,11 +6,14 @@ using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Assets.Requests;
+using Microsoft.AspNetCore.Authorization;
+using Glyph.Assets.Api.Constants;
 
 namespace Glyph.Assets.Api.Controllers
 {    
     [ApiController]
     [Route("api/v1/global/category")]
+    [Authorize(PolicyConstants.AdminOnly)]
     public sealed class GlobalCategoryController(IMediator mediator) : Controller
     {
         [HttpPost]
@@ -22,7 +25,7 @@ namespace Glyph.Assets.Api.Controllers
             if (result.IsFailure)
                 return this.MapActionResult(result.Errors);
 
-            return Ok();
+            return Ok(result.Value);
         }
 
         [HttpPatch("{categoryId:guid}")]

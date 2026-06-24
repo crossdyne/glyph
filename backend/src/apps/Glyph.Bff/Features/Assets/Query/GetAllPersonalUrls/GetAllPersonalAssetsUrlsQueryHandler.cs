@@ -22,17 +22,13 @@ namespace Glyph.Bff.Features.Assets.Query.GetAllPersonalUrls
 
             List<AssetMetadataResponse> s3KeysResponse = assetsMetadataResponse.Value;
 
+            if (s3KeysResponse == null || s3KeysResponse.Count == 0)
+                return Result<List<AssetUrlResponse>>.Success([]);
+
             Result<BatchUrlResponse> urlsResponseResult = await fileServiceClient.GetUrls(new BatchUrlRequest([.. s3KeysResponse.Select(x => new FileRequest(x.S3Key.Bucket, x.S3Key.FolderPath, x.S3Key.Name))], null));
 
             if (urlsResponseResult.IsFailure)
-            {
-                List<Error> urlsCreateErrors = [];
-
-                foreach (var error in urlsResponseResult.Value.Errors)
-                    urlsCreateErrors.Add(new Error(AppErrors.Api, $"{error.Key} : {error.Reason}"));
-
-                return Result<List<AssetUrlResponse>>.Failure(urlsCreateErrors);
-            }
+                return Result<List<AssetUrlResponse>>.Failure(urlsResponseResult.Errors);
                 
             BatchUrlResponse urlResponse = urlsResponseResult.Value;
 

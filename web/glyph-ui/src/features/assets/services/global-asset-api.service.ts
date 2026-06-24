@@ -1,19 +1,19 @@
-import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
+import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 import { firstValueFrom, Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
 import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
-import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 import { ProjectResponse } from "../../../core/contracts/responses/project.response";
 import { CategoryResponse } from "../../../core/contracts/responses/category.response";
 
 @Injectable({
     providedIn: 'root'
 })
-export class AssetApiPersonalService {
+export class GlobalAssetApiService {
     private http = inject(HttpClient);
 
-    private readonly pathUrl: string = '/api/v1/personal/asset';
+    private readonly pathUrl: string = '/api/v1/global/asset';
 
     async update(data: UpdateAssetRequest): Promise<string> {
         const formData = new FormData();
@@ -50,6 +50,6 @@ export class AssetApiPersonalService {
     }
 
     getCategories(): Observable<CategoryResponse[]> {
-        return this.http.get<CategoryResponse[]>('/api/v1/personal/category/all')
+        return this.http.get<CategoryResponse[]>('/api/v1/global/category')
     }
 }

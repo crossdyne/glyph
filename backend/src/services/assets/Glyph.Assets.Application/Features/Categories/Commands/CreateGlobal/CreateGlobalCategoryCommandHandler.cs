@@ -9,9 +9,9 @@ namespace Glyph.Assets.Application.Features.Categories.Commands.CreateGlobal
 {
     public sealed class CreateGlobalCategoryCommandHandler(
         ICategoryRepository repository,
-        IUnitOfWork unitOfWork) : IRequestHandler<CreateGlobalCategoryCommand, Result>
+        IUnitOfWork unitOfWork) : IRequestHandler<CreateGlobalCategoryCommand, Result<string>>
     {
-        public async Task<Result> Handle(CreateGlobalCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(CreateGlobalCategoryCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -20,11 +20,11 @@ namespace Glyph.Assets.Application.Features.Categories.Commands.CreateGlobal
                 await repository.AddAsync(category, cancellationToken);
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                return Result.Success();
+                return Result<string>.Success(category.Id.ToString());
             }
             catch (Exception ex)
             {
-                return Result.Failure(new Error(ErrorCode.Save, $"Произошла ошибка сохранения: {ex}"));
+                return Result<string>.Failure(new Error(ErrorCode.Save, $"Произошла ошибка сохранения: {ex}"));
             }
         }
     }

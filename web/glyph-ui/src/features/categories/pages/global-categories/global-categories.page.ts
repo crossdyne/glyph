@@ -1,21 +1,21 @@
-import { APP_ID, Component, inject, OnInit, signal } from "@angular/core";
-import { CategoryListComponent } from "../components/category-list/category-list.component";
-import { CategoryFormComponent } from "../components/category-form/category-form.component";
-import { CategoryResponse } from "../../../core/contracts/responses/category.response";
-import { CategoriesUserApiService } from "../services/category-api-user.service";
-import { CreateCategoryRequest } from "../../../core/contracts/requests/create-category.request";
-import { UpdateCategoryRequest } from "../../../core/contracts/requests/update-category.request";
+import { Component, inject, signal } from "@angular/core";
+import { CategoryResponse } from "../../../../core/contracts/responses/category.response";
+import { GlobalCategoriesApiService } from "../../services/global-category-api.service";
+import { CreateCategoryRequest } from "../../../../core/contracts/requests/create-category.request";
+import { UpdateCategoryRequest } from "../../../../core/contracts/requests/update-category.request";
 import { from } from "linq-to-typescript";
+import { CategoryFormComponent } from "../../components/category-form/category-form.component";
+import { CategoryListComponent } from "../../components/category-list/category-list.component";
 
 @Component({
-    selector: 'categories-page',
-    templateUrl: './categories.page.html',
-    styleUrls: ['./categories.page.scss'],
+    selector: 'global-categories-page',
+    templateUrl: './global-categories.page.html',
+    styleUrls: ['./global-categories.page.scss'],
     standalone: true,
-    imports: [CategoryListComponent, CategoryFormComponent]
+    imports: [CategoryFormComponent, CategoryListComponent]
 })
-export class CategoriesPage implements OnInit{
-    private categoryService = inject(CategoriesUserApiService)
+export class GlobalCategoriesPage {
+    private categoryService = inject(GlobalCategoriesApiService)
 
     categories = signal<CategoryResponse[]>([]);
 

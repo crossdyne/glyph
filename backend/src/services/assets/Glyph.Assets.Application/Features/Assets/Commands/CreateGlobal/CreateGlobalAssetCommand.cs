@@ -7,6 +7,7 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreateGlobal
         Stream FileContent,
         long SizeBytes,
         string Bucket, List<string> Folders, string FileName,
-        string AssetName,
-        Guid CategoryId) : IRequest<Result>;
+        Guid CategoryId,
+        IReadOnlyCollection<string> ProjectIds,
+        string AssetName) : IRequest<Result<string>>;
 }
