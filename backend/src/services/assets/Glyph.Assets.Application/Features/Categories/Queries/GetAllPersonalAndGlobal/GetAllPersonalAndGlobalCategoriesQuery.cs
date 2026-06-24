@@ -1,5 +1,5 @@
 using MediatR;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Assets.Application.Features.Categories.Queries.GetAllPersonalAndGlobal
 {

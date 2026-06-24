@@ -3,7 +3,7 @@ using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Projects;
 using Glyph.Assets.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Assets.Infrastructure.Persistence.Repositories
 {
@@ -28,20 +28,27 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
             if (userId.HasValue)
                 query = query.Where(a => a.UserId == userId);
 
-            return await query.Select(x => new AssetResponse(x.Id.ToString(), x.S3Key.FileName, x.S3Key.Value)).ToListAsync();
+            return await query.Select(x => new AssetResponse(x.Id.ToString(), x.S3Key.FileName, x.S3Key.Value, x.UserId == null)).ToListAsync();
         }
 
-        public async Task<List<AssetMetadataResponse>> GetMetadata(Guid userId)
-            => await _entity
-                .AsNoTracking()
-                    .Include(x => x.AssetProjects)
-                        .Where(x => x.UserId == userId)
-                            .Select(x => new AssetMetadataResponse(
-                                x.Id.ToString(), 
-                                x.AssetName, 
-                                new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath), 
-                                x.CategoryId.ToString(),
-                                x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList()))
-                                    .ToListAsync();
+        public async Task<List<AssetMetadataResponse>> GetMetadata(Guid? userId)
+        {
+            IQueryable<Asset> query = _entity.AsNoTracking().Include(a => a.AssetProjects);  
+
+            if (userId.HasValue)
+                query = query.Where(a => a.UserId == userId);
+            else
+                query = query.Where(a => a.UserId == null);
+
+            return await query.Select(x => 
+                new AssetMetadataResponse(
+                    x.Id.ToString(), 
+                    x.AssetName, 
+                    new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath), 
+                    x.CategoryId.ToString(),
+                    x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList(),
+                    x.UserId == null))
+                        .ToListAsync();
+        }
     }
 }

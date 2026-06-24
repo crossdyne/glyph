@@ -1,5 +1,6 @@
 using Crossdyne.Toolkit.Results;
 using Microsoft.AspNetCore.Http;
+using Shared.Kernel.Errors;
 
 namespace Shared.Web.Extensions
 {
@@ -23,7 +24,7 @@ namespace Shared.Web.Extensions
                 nameof(ErrorCode.Conflict) => Results.Conflict(errors),
                 
                 nameof(ErrorCode.Unauthorized) => Results.Json(errors, statusCode: StatusCodes.Status401Unauthorized),
-
+                nameof(AppErrors.Forbidden) => Results.Json(errors, statusCode: StatusCodes.Status403Forbidden),
                 _ => Results.BadRequest(errors)
             };
         }

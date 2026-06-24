@@ -4,4 +4,5 @@ export interface AssetResponse {
     type: string;
     key: string;
     svgCode: string;
+    isPublic: boolean;
 }

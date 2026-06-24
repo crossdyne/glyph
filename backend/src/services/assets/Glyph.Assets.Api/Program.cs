@@ -1,4 +1,5 @@
 using System.Text;
+using Glyph.Assets.Api.Constants;
 using Glyph.Assets.Application.Extensions;
 using Glyph.Assets.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,9 +8,10 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
 
 builder.Services
+    .AddOpenApi()
+    .AddAuthorization(options =>options.AddPolicy(PolicyConstants.AdminOnly, policy => policy.RequireRole("Admin", "SuperAdmin")))
     .AddInfrastructureServices(builder.Configuration)
     .AddApplicationService();
     

@@ -5,10 +5,10 @@ using Glyph.Assets.Application.Features.Assets.Queries.GetAllByFilter;
 using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Requests;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.Json;
 using Glyph.Assets.Application.Features.Assets.Queries.GetMetadata;
+using Shared.Contracts.Assets.Requests;
 
 namespace Glyph.Assets.Api.Controllers
 {

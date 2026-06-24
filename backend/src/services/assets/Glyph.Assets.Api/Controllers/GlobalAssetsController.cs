@@ -3,13 +3,18 @@ using Glyph.Assets.Application.Features.Assets.Commands.DeleteGlobal;
 using Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Requests;
 using Glyph.Assets.Api.Extensions;
+using Shared.Contracts.Assets.Requests;
+using Microsoft.AspNetCore.Authorization;
+using Glyph.Assets.Api.Constants;
+using Glyph.Assets.Application.Features.Assets.Queries.GetGlobalMetadata;
+using System.Text.Json;
 
 namespace Glyph.Assets.Api.Controllers
 {    
     [ApiController]
     [Route("api/v1/global/asset")]
+    [Authorize(PolicyConstants.AdminOnly)]
     public class GlobalAssetsController(IMediator mediator) : Controller
     {
         [HttpPost]
@@ -18,7 +23,8 @@ namespace Glyph.Assets.Api.Controllers
             if (file is null || file.Length == 0)
                 return BadRequest("Файл не был передан.");
 
-            var folders = System.Text.Json.JsonSerializer.Deserialize<List<string>>(request.FoldersJson) ?? new();
+            var folders = JsonSerializer.Deserialize<List<string>>(request.FoldersJson) ?? [];
+            var projectIds = JsonSerializer.Deserialize<List<string>>(request.ProjectIdsJson) ?? [];
 
             await using var fileStream = file.OpenReadStream();
             
@@ -28,8 +34,9 @@ namespace Glyph.Assets.Api.Controllers
                 request.Bucket, 
                 folders,
                 request.FileName,
-                request.AssetName,
-                Guid.Parse(request.CategoryId)); 
+                Guid.Parse(request.CategoryId),
+                projectIds,
+                request.AssetName); 
 
             var result = await mediator.Send(command);
 
@@ -50,8 +57,9 @@ namespace Glyph.Assets.Api.Controllers
             var command = new UpdateGlobalAssetCommand(
                 fileStream, 
                 file.Length, 
-                file.FileName,
+                file.FileName, 
                 request.AssetName,
+                request.CategoryId,
                 Guid.Parse(request.AssetId));
 
             var result = await mediator.Send(command);
@@ -62,10 +70,10 @@ namespace Glyph.Assets.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeleteGlobalAssetRequest request)
+        [HttpDelete("{assetId:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid assetId)
         {
-            var command = new DeleteGlobalAssetCommand(Guid.Parse(request.AssetId));
+            var command = new DeleteGlobalAssetCommand(assetId);
 
             var result = await mediator.Send(command);
 
@@ -73,6 +81,15 @@ namespace Glyph.Assets.Api.Controllers
                 return this.MapActionResult(result.Errors);
 
             return NoContent();
+        }
+        
+        [HttpGet("metadata/many")]
+        public async Task<IActionResult> GetMetadata()
+        {
+            var query = new GetGlobalMetadataQuery();
+            var result = await mediator.Send(query);
+
+            return Ok(result);
         }
     }
 }

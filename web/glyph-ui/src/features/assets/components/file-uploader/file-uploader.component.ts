@@ -1,4 +1,4 @@
-import { Component, ElementRef, input, output, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, computed, input, model, output, signal, ViewChild } from "@angular/core";
 
 @Component({
     selector: 'file-uploader',
@@ -10,9 +10,11 @@ export class FileUploaderComponent {
   accept = input('');
   multiple = input(false);
   maxSizeMB = input(10);
+  
+  selectedFile = model<File | null>(null);
 
-  filesSelected = output<File[]>();
   uploadError = output<string>();
+  fileName = computed(() => this.selectedFile()?.name ?? '');
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -54,8 +56,8 @@ export class FileUploaderComponent {
   private handleFiles(fileList: FileList) {
     const filesArray = Array.from(fileList);
     const maxBytes = this.maxSizeMB() * 1024 * 1024;
-
     const file = filesArray[0];
+    
     if (!file) return;
 
     if (file.size > maxBytes) {
@@ -63,7 +65,7 @@ export class FileUploaderComponent {
       return;
     }
 
-    this.filesSelected.emit([file]);
+    this.selectedFile.set(file);
     this.fileInput.nativeElement.value = '';
   }
 }

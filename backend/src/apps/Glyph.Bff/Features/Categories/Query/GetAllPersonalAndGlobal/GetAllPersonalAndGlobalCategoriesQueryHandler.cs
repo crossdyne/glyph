@@ -1,6 +1,6 @@
 using Glyph.Bff.Interfaces.Clients;
 using MediatR;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Bff.Features.Categories.Query.GetAllPersonalAndGlobal
 {

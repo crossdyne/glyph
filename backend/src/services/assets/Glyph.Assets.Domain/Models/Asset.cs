@@ -55,7 +55,7 @@ namespace Glyph.Assets.Domain.Models
             IsPublic = UserId == null;
         }
 
-        public static Asset Create(AssetName assetName, S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds = null, UserId? userId = null)
+        public static Asset Create(AssetName assetName, S3Key s3Key, AssetType assetType, Format format, MimeType mimeType, SizeBytes sizeBytes, CategoryId categoryId, List<ProjectId>? projectIds, UserId? userId)
         {
             return new(assetName, s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
         }

@@ -2,7 +2,7 @@ using System.Text.Json;
 using Crossdyne.Toolkit.Results;
 using Glyph.Bff.Interfaces.Clients;
 using Microsoft.Extensions.Options;
-using Shared.Contracts.Responses;
+using Shared.Contracts.Assets.Responses;
 using Shared.Http;
 
 namespace Glyph.Bff.Infrastructure.Clients

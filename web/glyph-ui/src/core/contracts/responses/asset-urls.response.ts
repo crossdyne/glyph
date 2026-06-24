@@ -4,4 +4,5 @@ export interface AssetUrlResponse {
     url: string;
     projectIds: string[];
     categoryId: string;
+    isPublic: boolean;
 }

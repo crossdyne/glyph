@@ -16,9 +16,15 @@ namespace Glyph.Bff.Extensions
             var assetsBaseUrl = configuration["HttpClients:AssetsServicesBase"];
             string assetsServices = "AssetsServices";
             services.AddHttpClient(assetsServices, client => client.BaseAddress = new Uri(assetsBaseUrl!)).AddHttpMessageHandler<AccessTokenHandler>();
+            services.AddHttpClient<IGlobalCategoriesClient, GlobalCategoriesClient>(assetsServices);
             services.AddHttpClient<IPersonalCategoriesClient, PersonalCategoriesClient>(assetsServices);
+            services.AddHttpClient<IGlobalAssetClient, GlobalAssetClient>(assetsServices);
             services.AddHttpClient<IPersonalAssetClient, PersonalAssetClient>(assetsServices);
             services.AddHttpClient<IProjectClient, ProjectClient>(assetsServices);
+
+            var userManagementBaseUrl = configuration["HttpClients:UserManagementServicesBase"];
+            string usermanagementServices = "UserManagementServices";
+            services.AddHttpClient<IUserManagementClient, UserManagementClient>(usermanagementServices, client => client.BaseAddress = new Uri(userManagementBaseUrl!)).AddHttpMessageHandler<AccessTokenHandler>();
 
             services.AddFileServiceReadOnlyClients(configuration, config => config.AddHttpMessageHandler<AccessTokenHandler>());
 
