@@ -21,6 +21,11 @@ namespace Glyph.Assets.Infrastructure.Persistence.Configurations
                 .HasColumnName("name")
                 .HasConversion(name => name.Value, db => ProjectName.Create(db))
                 .IsRequired();
+
+            builder.Property(p => p.Code)
+                .HasColumnName("code")
+                .HasConversion(code => code.Value, db => ProjectCode.Create(db))
+                .IsRequired();
         }
     }
 }

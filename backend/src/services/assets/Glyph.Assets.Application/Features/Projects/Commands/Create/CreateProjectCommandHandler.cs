@@ -15,7 +15,7 @@ namespace Glyph.Assets.Application.Features.Projects.Commands.Create
         {
             try
             {
-                Project project = Project.Create(ProjectName.Create(request.Name));
+                Project project = Project.Create(ProjectName.Create(request.Name), ProjectCode.Create(request.Code));
 
                 await repository.AddAsync(project, cancellationToken);
                 await unitOfWork.SaveChangesAsync(cancellationToken);
