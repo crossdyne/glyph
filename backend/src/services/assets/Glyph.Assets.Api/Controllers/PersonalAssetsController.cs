@@ -1,7 +1,6 @@
 using Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal;
 using Glyph.Assets.Application.Features.Assets.Commands.DeletePersonal;
 using Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal;
-using Glyph.Assets.Application.Features.Assets.Queries.GetAllByFilter;
 using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -100,22 +99,6 @@ namespace Glyph.Assets.Api.Controllers
                 return this.MapActionResult(result.Errors);
 
             return NoContent();
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> GetAllByFiler([FromQuery] Guid projectId)
-        {
-            var extractResult = this.ExtractCredentials(User);
-
-            if (extractResult.IsFailure)
-                return extractResult.Value.Result;
-
-            var query = new GetAllAssetsByFilerQuery(extractResult.Value.UserId, projectId);
-
-            var result = await mediator.Send(query);
-
-            return Ok(result);
         }
 
         [HttpGet("metadata/many")]

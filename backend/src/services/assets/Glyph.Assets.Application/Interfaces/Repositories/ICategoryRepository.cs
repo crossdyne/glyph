@@ -8,6 +8,6 @@ namespace Glyph.Assets.Application.Interfaces.Repositories
         Task<bool> IsGlobal(Guid id);
         Task<List<CategoryResponse>> GetAllPersonalAsync(Guid userId);
         Task<List<CategoryResponse>> GetAllGlobalAsync();
-        Task<List<CategoryResponse>> GetPersonalAndGlobal(Guid userId);
+        Task<List<CategoryResponse>> GetAggregated(Guid userId);
     }
 }

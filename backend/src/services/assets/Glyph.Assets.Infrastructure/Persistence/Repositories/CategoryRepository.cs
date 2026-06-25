@@ -16,7 +16,7 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
         public async Task<List<CategoryResponse>> GetAllGlobalAsync()
             => await _entity.AsNoTracking().Where(x => x.UserId == null).Select(x => new CategoryResponse(x.Id.ToString(), x.Name, IsPublic: true)).ToListAsync();
 
-        public async Task<List<CategoryResponse>> GetPersonalAndGlobal(Guid userId) 
+        public async Task<List<CategoryResponse>> GetAggregated(Guid userId) 
             => await _entity.AsNoTracking().Where(x => x.UserId == userId || x.UserId == null).Select(x => new CategoryResponse(x.Id.ToString(), x.Name, IsPublic: x.UserId == null)).ToListAsync();
     }
 }

@@ -21,15 +21,19 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
         public async Task<bool> HasProjectsLinksAsync(ProjectId projectId, CancellationToken cl)
             => await _context.Set<AssetProjects>().AnyAsync(ap => ap.ProjectId == projectId, cl);
 
-        public async Task<List<AssetResponse>> GetAllByFiler(Guid projectId, Guid? userId)
-        {
-            IQueryable<Asset> query = _entity.AsNoTracking().Where(a => a.AssetProjects.Any(ap => ap.ProjectId == projectId));
-
-            if (userId.HasValue)
-                query = query.Where(a => a.UserId == userId);
-
-            return await query.Select(x => new AssetResponse(x.Id.ToString(), x.S3Key.FileName, x.S3Key.Value, x.UserId == null)).ToListAsync();
-        }
+        public async Task<List<AssetMetadataResponse>> GetAggregated(Guid projectId, Guid userId)
+            => await _entity
+                .AsNoTracking()
+                    .Include(a => a.AssetProjects)
+                        .Where(a => a.AssetProjects.Any(ap => ap.ProjectId == projectId) || a.UserId == userId)
+                            .Select(x => new AssetMetadataResponse(
+                                    x.Id.ToString(), 
+                                    x.AssetName, 
+                                    new S3KeyResponse(x.S3Key.Value, x.S3Key.Bucket, x.S3Key.FileName, x.S3Key.FolderPath), 
+                                    x.CategoryId.ToString(),
+                                    x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList(),
+                                    x.UserId == null))
+                                        .ToListAsync();
 
         public async Task<List<AssetMetadataResponse>> GetMetadata(Guid? userId)
         {
