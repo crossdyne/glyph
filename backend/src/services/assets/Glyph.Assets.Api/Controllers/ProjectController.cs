@@ -16,7 +16,7 @@ namespace Glyph.Assets.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProjectRequest request)
         {
-            var command = new CreateProjectCommand(request.Name);
+            var command = new CreateProjectCommand(request.Name, request.Code);
             var result = await mediator.Send(command);
 
             if (result.IsFailure)
