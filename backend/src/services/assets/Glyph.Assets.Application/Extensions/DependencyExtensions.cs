@@ -5,6 +5,7 @@ using Glyph.Assets.Application.Interfaces.Services;
 using Glyph.Assets.Application.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Application.Behaviors;
 
 namespace Glyph.Assets.Application.Extensions
 {
@@ -14,6 +15,7 @@ namespace Glyph.Assets.Application.Extensions
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionBehavior<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddSingleton<IFileMetadataDetector, FileMetadataDetector>();

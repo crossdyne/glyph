@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Assets.Responses;
+using Shared.Web.Extensions;
 
 namespace Glyph.Assets.Api.Controllers
 {

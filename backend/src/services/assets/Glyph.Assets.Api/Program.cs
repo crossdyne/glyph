@@ -4,11 +4,14 @@ using Glyph.Assets.Application.Extensions;
 using Glyph.Assets.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Shared.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Host.AddSerilogLogger();
 builder.Services
     .AddOpenApi()
     .AddAuthorization(options =>options.AddPolicy(PolicyConstants.AdminOnly, policy => policy.RequireRole("Admin", "SuperAdmin")))
@@ -42,6 +45,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseSerilogRequestLogging();
 app.MapControllers();
 
 app.UseHttpsRedirection();

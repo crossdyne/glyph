@@ -14,19 +14,12 @@ namespace Glyph.Assets.Application.Features.Categories.Commands.CreatePersonal
     {
         public async Task<Result<string>> Handle(CreatePersonalCategoryCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                Category category = Category.Create(CategoryName.Create(request.Name), UserId.From(request.UserId));
+            Category category = Category.Create(CategoryName.Create(request.Name), UserId.From(request.UserId));
 
-                await repository.AddAsync(category, cancellationToken);
-                await unitOfWork.SaveChangesAsync(cancellationToken);
+            await repository.AddAsync(category, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                return Result<string>.Success(category.Id.ToString());
-            }
-            catch (Exception ex)
-            {
-                return Result<string>.Failure(new Error(ErrorCode.Save, $"Произошла ошибка сохранения: {ex}"));
-            }
+            return category.Id.ToString();
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Text.Json;
 using Glyph.Assets.Application.Features.Assets.Queries.GetMetadata;
 using Shared.Contracts.Assets.Requests;
+using Shared.Web.Extensions;
 
 namespace Glyph.Assets.Api.Controllers
 {

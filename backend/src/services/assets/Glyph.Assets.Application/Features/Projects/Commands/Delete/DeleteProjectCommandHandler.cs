@@ -14,29 +14,22 @@ namespace Glyph.Assets.Application.Features.Projects.Commands.Delete
     {
         public async Task<Result> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                Maybe<Project> maybe = await projectRepository.GetByAsync(x => x.Id == request.ProjectId, cancellationToken);
+            Maybe<Project> maybe = await projectRepository.GetByAsync(x => x.Id == request.ProjectId, cancellationToken);
 
-                if (maybe.IsNone)
-                    return Result.Failure(new Error(ErrorCode.NotFound, "Данного проекта не существует."));
+            if (maybe.IsNone)
+                return Result.Failure(new Error(ErrorCode.NotFound, "Данного проекта не существует."));
 
-                Project project = maybe.Value;
+            Project project = maybe.Value;
 
-                bool hasLinks = await assetRepository.HasProjectsLinksAsync(project.Id, cancellationToken);
+            bool hasLinks = await assetRepository.HasProjectsLinksAsync(project.Id, cancellationToken);
 
-                if (hasLinks)
-                    return Result.Failure(new Error(ErrorCode.Delete, "Нельзя удалить данный проект, т.к он привязан к другим асетам"));
+            if (hasLinks)
+                return Result.Failure(new Error(ErrorCode.Delete, "Нельзя удалить данный проект, т.к он привязан к другим асетам"));
 
-                await unitOfWork.SaveChangesAsync(cancellationToken);
-                projectRepository.Remove(project);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            projectRepository.Remove(project);
 
-                return Result.Success();
-            }
-            catch (Exception ex)
-            {
-                return Result.Failure(new Error(ErrorCode.Delete, $"Произошла критическая ошибка при удаление проекта: {ex}"));
-            }
+            return Result.Success();
         }
     }
 }
