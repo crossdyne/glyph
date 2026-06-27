@@ -1,5 +1,6 @@
 using System.Text;
 using Glyph.Assets.Api.Constants;
+using Glyph.Assets.Api.Extensions;
 using Glyph.Assets.Application.Extensions;
 using Glyph.Assets.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +15,7 @@ builder.Services.AddControllers();
 builder.Host.AddSerilogLogger();
 builder.Services
     .AddOpenApi()
+    .ConfigureCustomOptions()
     .AddAuthorization(options =>options.AddPolicy(PolicyConstants.AdminOnly, policy => policy.RequireRole("Admin", "SuperAdmin")))
     .AddInfrastructureServices(builder.Configuration)
     .AddApplicationService();

@@ -1,21 +1,22 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { firstValueFrom, Observable } from "rxjs";
+import {  Injectable } from "@angular/core";
 import { CreateAssetRequest } from "../../../core/contracts/requests/create-asset.request";
 import { AssetUrlResponse } from "../../../core/contracts/responses/asset-urls.response";
 import { UpdateAssetRequest } from "../../../core/contracts/requests/update-asset.request";
 import { ProjectResponse } from "../../../core/contracts/responses/project.response";
 import { CategoryResponse } from "../../../core/contracts/responses/category.response";
+import { Result } from "@crossdyne/toolkit";
+import { HttpService } from "../../../core/http/http.service";
 
 @Injectable({
     providedIn: 'root'
 })
-export class PersonalAssetApiService {
-    private http = inject(HttpClient);
+export class PersonalAssetApiService extends HttpService{
 
-    private readonly pathUrl: string = '/api/v1/personal/asset';
+    constructor(){
+        super('api/v1');
+    }
 
-    async update(data: UpdateAssetRequest): Promise<string> {
+    async updateAsync(data: UpdateAssetRequest): Promise<Result<string>> {
         const formData = new FormData();
 
         formData.append('AssetId', data.assetId);
@@ -23,10 +24,10 @@ export class PersonalAssetApiService {
         formData.append('File', data.file);
         formData.append('CategoryId', data.categoryId);
 
-        return await firstValueFrom(this.http.put<string>(`${this.pathUrl}`, formData));
+        return await this.putAsync<string>('/personal/asset', formData);
     }
     
-    async create(data: CreateAssetRequest): Promise<string> {
+    async createAsync(data: CreateAssetRequest): Promise<Result<string>> {
         const formData = new FormData();
 
         formData.append('CategoryId', data.categoryId);
@@ -34,22 +35,22 @@ export class PersonalAssetApiService {
         formData.append('AssetName', data.assetName);
         formData.append('File', data.file);
 
-        return await firstValueFrom(this.http.post<string>(`${this.pathUrl}`, formData));
+        return await this.postAsync<string>('/personal/asset', formData);
     }
 
-    delete(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.pathUrl}/${id}`);
+    async removeAsync(id: string): Promise<Result<void>> {
+        return await this.deleteAsync<void>(`/personal/asset/${id}`)
     }
 
-    getAllAssets(): Observable<AssetUrlResponse[]> {
-        return this.http.get<AssetUrlResponse[]>(`${this.pathUrl}/urls`);
+    async getAllAssetsAsync(): Promise<Result<AssetUrlResponse[]>> {
+        return await this.getAsync<AssetUrlResponse[]>('/personal/asset/urls');
     }
 
-    getProjects(): Observable<ProjectResponse[]> {
-        return this.http.get<ProjectResponse[]>('/api/v1/project')
+    async getProjectsAsync(): Promise<Result<ProjectResponse[]>> {
+        return await this.getAsync<ProjectResponse[]>('/project');
     }
 
-    getCategories(): Observable<CategoryResponse[]> {
-        return this.http.get<CategoryResponse[]>('/api/v1/personal/category/all')
+    async getCategoriesAsync(): Promise<Result<CategoryResponse[]>> {
+        return await this.getAsync<CategoryResponse[]>('/personal/category')
     }
 }
