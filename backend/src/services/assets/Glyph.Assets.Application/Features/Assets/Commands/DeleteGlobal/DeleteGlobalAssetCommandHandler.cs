@@ -15,30 +15,23 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.DeleteGlobal
     {
         public async Task<Result> Handle(DeleteGlobalAssetCommand request, CancellationToken cancellationToken)
         {            
-            try
-            {
-                Maybe<Asset> maybe = await repository.GetByAsync(x => x.Id == request.AssetId);
+            Maybe<Asset> maybe = await repository.GetByAsync(x => x.Id == request.AssetId);
 
-                if (maybe.IsNone)
-                    return Result.Failure(new Error(ErrorCode.Delete, "Ассет не найден"));
+            if (maybe.IsNone)
+                return Result.Failure(new Error(ErrorCode.Delete, "Ассет не найден"));
 
-                Asset asset = maybe.Value;
+            Asset asset = maybe.Value;
 
-                repository.Remove(asset);
-                
-                await unitOfWork.SaveChangesAsync(cancellationToken);
+            repository.Remove(asset);
+            
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var fileResult = await fileStorage.Delete(asset.S3Key.Bucket, asset.S3Key.FolderPath, asset.S3Key.FileName);
+            var fileResult = await fileStorage.Delete(asset.S3Key.Bucket, asset.S3Key.FolderPath, asset.S3Key.FileName);
 
-                if (fileResult.IsFailure)
-                    return fileResult;
+            if (fileResult.IsFailure)
+                return fileResult;
 
-                return Result.Success();
-            }
-            catch (Exception ex)
-            {
-                return Result.Failure(new Error(ErrorCode.Delete, $"Произошла критическая ошибка при удаление: {ex}"));
-            }
+            return Result.Success();
         }
     }
 }

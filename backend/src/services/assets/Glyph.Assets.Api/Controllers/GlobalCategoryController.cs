@@ -2,7 +2,7 @@ using Glyph.Assets.Application.Features.Categories.Commands.CreateGlobal;
 using Glyph.Assets.Application.Features.Categories.Commands.DeleteGlobal;
 using Glyph.Assets.Application.Features.Categories.Commands.UpdateGlobal;
 using Glyph.Assets.Application.Features.Categories.Queries.GetAllGlobal;
-using Glyph.Assets.Api.Extensions;
+using Shared.Web.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Assets.Requests;

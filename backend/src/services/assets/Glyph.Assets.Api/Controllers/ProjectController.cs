@@ -2,10 +2,10 @@ using Glyph.Assets.Application.Features.Projects.Commands.Create;
 using Glyph.Assets.Application.Features.Projects.Commands.Delete;
 using Glyph.Assets.Application.Features.Projects.Commands.Update;
 using Glyph.Assets.Application.Features.Projects.Queries.GetAll;
-using Glyph.Assets.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Assets.Requests;
+using Shared.Web.Extensions;
 
 namespace Glyph.Assets.Api.Controllers
 {

@@ -13,19 +13,12 @@ namespace Glyph.Assets.Application.Features.Projects.Commands.Create
     {
         public async Task<Result> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                Project project = Project.Create(ProjectName.Create(request.Name), ProjectCode.Create(request.Code));
+            Project project = Project.Create(ProjectName.Create(request.Name), ProjectCode.Create(request.Code));
 
-                await repository.AddAsync(project, cancellationToken);
-                await unitOfWork.SaveChangesAsync(cancellationToken);
+            await repository.AddAsync(project, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                return Result.Success();
-            }
-            catch (Exception ex)
-            {
-                return Result.Failure(new Error(ErrorCode.Create, $"Произошла критическая ошибка при создание проекта: {ex}"));
-            }
+            return Result.Success();
         }
     }
 }

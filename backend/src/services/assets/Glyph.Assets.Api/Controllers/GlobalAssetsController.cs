@@ -3,7 +3,7 @@ using Glyph.Assets.Application.Features.Assets.Commands.DeleteGlobal;
 using Glyph.Assets.Application.Features.Assets.Commands.UpdateGlobal;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Glyph.Assets.Api.Extensions;
+using Shared.Web.Extensions;
 using Shared.Contracts.Assets.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Glyph.Assets.Api.Constants;

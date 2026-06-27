@@ -9,6 +9,7 @@ import { AssetUrlResponse } from "../../../../core/contracts/responses/asset-url
 import { ProjectResponse } from "../../../../core/contracts/responses/project.response";
 import { CategoryResponse } from "../../../../core/contracts/responses/category.response";
 import { PersonalAssetApiService } from "../../services/personal-asset-api.service";
+import { ErrorList, Result } from "@crossdyne/toolkit";
 
 @Component({
     selector: 'personal-assets-page',
@@ -54,71 +55,86 @@ export class PersonalAssetsPage {
         }
 
         this.saving.set(true);
-        try {
-            await this.http.create(request);
-            this.resetForm();
-            this.loadAssets();
-        } catch (error) {
-            console.error('Ошибка при создании:', error);
-            this.uploadError.set('Ошибка при сохранении на сервере');
-        } finally {
-            this.saving.set(false);
-        }
+
+        const result: Result<string> = await this.http.createAsync(request);
+
+        result.match(
+            id => {
+                this.resetForm();
+                this.loadAssets();
+            },
+            errors => {
+                console.error('Ошибка создания ассета:', this.mapErrors(errors));
+                this.uploadError.set('Ошибка при сохранении на сервере');
+            }
+        );
+
+       this.saving.set(false);
     }
 
     async onUpdate(request: UpdateAssetRequest) {
         this.saving.set(true);
-        try {
-            await this.http.update(request);
-            this.resetForm();
-            this.loadAssets();
-        } catch (error) {
-            console.error('Ошибка при обновлении:', error);
-            this.uploadError.set('Ошибка при обновлении на сервере');
-        } finally {
-            this.saving.set(false);
-        }
+
+        const result: Result<string> = await this.http.updateAsync(request); 
+
+        result.match(
+            id => {
+                this.resetForm();
+                this.loadAssets();
+            },
+            errors =>{
+                console.error('Ошибка обновления ассета:', this.mapErrors(errors));
+                this.uploadError.set('Ошибка при сохранении на сервере');
+            } 
+        );
+            
+        this.saving.set(false);
     }
 
     async onDelete(id: string) {
-        this.http.delete(id).subscribe({
-            next: () => {
+        const result: Result<void> = await this.http.removeAsync(id);
+        
+        result.match(
+            () => {
                 this.assets.update(assets => assets.filter(a => a.assetId !== id));
 
                 if (this.selectedAsset()?.assetId === id) {
                     this.selectedAsset.set(null);
                 }
             },
-            error: error => console.error('Ошибка удаления ассета', error)
-        })
+            errors => console.error('Ошибка удаления ассета:', this.mapErrors(errors))
+        );
     }
 
     //#endregion
 
     //#region Получение данных
 
-    loadAssets() {
-        this.http.getAllAssets().subscribe({
-            next: assets => this.assets.set(assets),
-            error: error => console.error(error)
-        });
+    async loadAssets() {
+        const result: Result<AssetUrlResponse[]> = await this.http.getAllAssetsAsync();
+
+        result.match(
+            assets => this.assets.set(assets),
+            errors => console.error('Ошибка загрузки ассетов:', this.mapErrors(errors))
+        );
     }
 
-    loadProjects() {
-        this.http.getProjects().subscribe({
-            next: projects => this.projects.set(projects),
-            error: error => console.error(error) 
-        })
+    async loadProjects() {
+        const result: Result<ProjectResponse[]> = await this.http.getProjectsAsync();
+
+        result.match(
+            projects => this.projects.set(projects),
+            errors => console.error('Ошибка загрузки проектов:', this.mapErrors(errors))
+        );
     }
 
-    loadCategories() {
-        this.http.getCategories().subscribe({
-            next: categories => this.categories.set(categories),
-            error: error => console.error(error)
-        });
+    async loadCategories() {
+        const result: Result<CategoryResponse[]> = await this.http.getCategoriesAsync();
 
-        // const logData = categories.map(p => ({ id: p.categoryId, name: p.name}));
-        // console.table(logData);
+        result.match(
+            categories => this.categories.set(categories),
+            errors => console.error('Ошибка загрузки категорий:', this.mapErrors(errors))
+        );
     }
 
     //#endregion
@@ -136,4 +152,13 @@ export class PersonalAssetsPage {
     }
 
     //#endregion
+
+    //#region Хелперы
+
+    private mapErrors(errors: ErrorList): string{
+        return errors.map(e => e.message).join(', ')
+    }
+
+    //#endregion
+
 }

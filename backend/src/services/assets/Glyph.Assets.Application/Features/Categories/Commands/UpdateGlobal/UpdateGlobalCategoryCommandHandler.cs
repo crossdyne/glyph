@@ -14,24 +14,17 @@ namespace Glyph.Assets.Application.Features.Categories.Commands.UpdateGlobal
     {
         public async Task<Result> Handle(UpdateGlobalCategoryCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                Maybe<Category> maybe = await repository.GetByAsync(x => x.Id == request.CategoryId, cancellationToken);
+            Maybe<Category> maybe = await repository.GetByAsync(x => x.Id == request.CategoryId, cancellationToken);
 
-                if (maybe.IsNone)
-                    return Result.Failure(new Error(ErrorCode.NotFound, "Данной категории не существует."));
+            if (maybe.IsNone)
+                return Result.Failure(new Error(ErrorCode.NotFound, "Данной категории не существует."));
 
-                Category category = maybe.Value;
-                category.UpdateName(CategoryName.Create(request.Name));
+            Category category = maybe.Value;
+            category.UpdateName(CategoryName.Create(request.Name));
 
-                await unitOfWork.SaveChangesAsync(cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                return Result.Success();
-            }
-            catch (Exception ex)
-            {
-                return Result.Failure(new Error(ErrorCode.Update, $"Произошел непредвиденный сбой при обновление: {ex}"));
-            }
+            return Result.Success();
         }
     }
 }

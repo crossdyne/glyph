@@ -47,7 +47,7 @@ namespace Glyph.Bff.Extensions
             {
                 options.AddPolicy("AllowLocalFrontend", policy =>
                 {
-                    policy.WithOrigins("http://127.0.0.1:4201", "https://glyph.crossdyne.com")
+                    policy.WithOrigins("http://127.0.0.1:4201", "https://assets.crossdyne.com")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

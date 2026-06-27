@@ -1,11 +1,15 @@
 using System.Reflection;
 using Glyph.Bff.Extensions;
+using Shared.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var executingAssembly = Assembly.GetExecutingAssembly(); 
 var configuration = builder.Configuration;
 var environment = builder.Environment; 
+
+builder.Logging.ClearProviders();
+builder.Host.AddSerilogLogger(); 
 
 builder.Services
     // Default
