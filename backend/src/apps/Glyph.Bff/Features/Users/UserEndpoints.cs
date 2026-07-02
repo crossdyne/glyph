@@ -1,19 +1,18 @@
-using MediatR;
+using Glyph.Bff.Interfaces.Clients;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Web.Extensions;
 
-namespace Glyph.Bff.Features.Users.Query
+namespace Glyph.Bff.Features.Users
 {
-    public static class GetUserProfileEndpoint 
+    public static class UserEndpoints
     {
-        public static void MapGetUserProfile(this IEndpointRouteBuilder app)
+        public static void MapUserEndpoints(this IEndpointRouteBuilder app)
         {
             app.MapGet("api/v1/me", async (
                 HttpContext context, 
-                [FromServices] IMediator mediator) =>
+                [FromServices] IUserManagementClient client) =>
             {
-                var query = new GetUserProfileQuery();
-                var result = await mediator.Send(query);
+                var result = await client.Me();
 
                 if (result.IsFailure)
                     return result.Errors.MapToMinimalApiResult();
