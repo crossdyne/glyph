@@ -17,3 +17,18 @@ COPY ["backend/src/shared/core/Shared.Logging/Shared.Logging.csproj", "backend/s
 COPY ["backend/src/shared/infrastructure/Shared.Http/Shared.Http.csproj", "backend/src/shared/infrastructure/Shared.Http/"]
 COPY ["backend/src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj", "backend/src/shared/infrastructure/Shared.Redis/"]
 COPY ["backend/src/shared/web/Shared.Web/Shared.Web.csproj", "backend/src/shared/web/Shared.Web/"]
+
+RUN dotnet restore "backend/src/services/assets/Glyph.Assets.Api.Api/Glyph.Assets.Api.Api.csproj"
+
+COPY . .
+
+WORKDIR "/src/backend/src/services/assets/Glyph.Assets.Api.Api"
+RUN dotnet publish -c Release -o /app/publish --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+EXPOSE 80
+
+COPY --from=build /app/publish .
+
+ENTRYPOINT ["dotnet", "Glyph.Assets.Api.Api.dll"]
