@@ -14,6 +14,8 @@ services:
     restart: unless-stopped
     depends_on:
       - glyph-assets-api
+    volumes:
+      - ./logs/bff:/logs
     networks:
       - glyph-network
 
@@ -30,6 +32,8 @@ services:
       - JwtSettings__Issuer=
       - JwtSettings__Audience=
     restart: unless-stopped
+    volumes:
+      - ./logs/assets:/logs
     networks:
       - glyph-network
 
