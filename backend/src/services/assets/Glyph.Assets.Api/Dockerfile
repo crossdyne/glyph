@@ -8,7 +8,7 @@ COPY ["backend/src/services/assets/Glyph.Assets.Application/Glyph.Assets.Applica
 COPY ["backend/src/services/assets/Glyph.Assets.Infrastructure/Glyph.Assets.Infrastructure.csproj", "backend/src/services/assets/Glyph.Assets.Infrastructure/"]
 COPY ["backend/src/services/assets/Glyph.Assets.Domain/Glyph.Assets.Domain.csproj", "backend/src/services/assets/Glyph.Assets.Domain/"]
 
-COPY ["backend/src/shared/clients/FileService.Client/FileService.Client.csproj", "backend/src/shared/clients/FileService.Client/"]
+COPY ["backend/src/clients/FileService.Client/FileService.Client.csproj", "backend/src/shared/clients/FileService.Client/"]
 
 COPY ["backend/src/shared/application/Shared.Application/Shared.Application.csproj", "backend/src/shared/application/Shared.Application/"]
 COPY ["backend/src/shared/contracts/Shared.Contracts/Shared.Contracts.csproj", "backend/src/shared/contracts/Shared.Contracts/"]
