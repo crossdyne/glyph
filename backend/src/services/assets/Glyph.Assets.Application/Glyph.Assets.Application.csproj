@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\application\Shared.Application\Shared.Application.csproj" />
-    <ProjectReference Include="..\..\..\common\contracts\Shared.Contracts\Shared.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\shared\application\Shared.Application\Shared.Application.csproj" />
+    <ProjectReference Include="..\..\..\shared\contracts\Shared.Contracts\Shared.Contracts.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Domain\Glyph.Assets.Domain.csproj" />
   </ItemGroup>
 

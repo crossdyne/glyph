@@ -12,22 +12,22 @@
   <Folder Name="/src/clients/">
     <Project Path="src/clients/FileService.Client/FileService.Client.csproj" />
   </Folder>
-  <Folder Name="/src/common/">
-    <Project Path="src/common/contracts/Shared.Contracts/Shared.Contracts.csproj" />
+  <Folder Name="/src/shared/">
+    <Project Path="src/shared/contracts/Shared.Contracts/Shared.Contracts.csproj" />
   </Folder>
-  <Folder Name="/src/common/application/">
-    <Project Path="src/common/application/Shared.Application/Shared.Application.csproj" />
+  <Folder Name="/src/shared/application/">
+    <Project Path="src/shared/application/Shared.Application/Shared.Application.csproj" />
   </Folder>
-  <Folder Name="/src/common/contracts/" />
-  <Folder Name="/src/common/core/">
-    <Project Path="src/common/core/Shared.Kernel/Shared.Kernel.csproj" />
-    <Project Path="src/common/core/Shared.Logging/Shared.Logging.csproj" />
+  <Folder Name="/src/shared/contracts/" />
+  <Folder Name="/src/shared/core/">
+    <Project Path="src/shared/core/Shared.Kernel/Shared.Kernel.csproj" />
+    <Project Path="src/shared/core/Shared.Logging/Shared.Logging.csproj" />
   </Folder>
-  <Folder Name="/src/common/infrastructure/">
-    <Project Path="src/common/infrastructure/Shared.Http/Shared.Http.csproj" />
-    <Project Path="src/common/infrastructure/Shared.Redis/Shared.Redis.csproj" />
+  <Folder Name="/src/shared/infrastructure/">
+    <Project Path="src/shared/infrastructure/Shared.Http/Shared.Http.csproj" />
+    <Project Path="src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj" />
   </Folder>
-  <Folder Name="/src/common/web/">
-    <Project Path="src/common/web/Shared.Web/Shared.Web.csproj" />
+  <Folder Name="/src/shared/web/">
+    <Project Path="src/shared/web/Shared.Web/Shared.Web.csproj" />
   </Folder>
 </Solution>

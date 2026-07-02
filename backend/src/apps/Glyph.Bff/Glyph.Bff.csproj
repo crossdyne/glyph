@@ -19,11 +19,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\clients\FileService.Client\FileService.Client.csproj" />
     <ProjectReference Include="..\..\services\assets\Glyph.Assets.Application\Glyph.Assets.Application.csproj" />
-    <ProjectReference Include="..\..\common\core\Shared.Kernel\Shared.Kernel.csproj" />
-    <ProjectReference Include="..\..\common\core\Shared.Logging\Shared.Logging.csproj" />
-    <ProjectReference Include="..\..\common\infrastructure\Shared.Http\Shared.Http.csproj" />
-    <ProjectReference Include="..\..\common\infrastructure\Shared.Redis\Shared.Redis.csproj" />
-    <ProjectReference Include="..\..\common\web\Shared.Web\Shared.Web.csproj" />
+    <ProjectReference Include="..\..\shared\core\Shared.Kernel\Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\shared\core\Shared.Logging\Shared.Logging.csproj" />
+    <ProjectReference Include="..\..\shared\infrastructure\Shared.Http\Shared.Http.csproj" />
+    <ProjectReference Include="..\..\shared\infrastructure\Shared.Redis\Shared.Redis.csproj" />
+    <ProjectReference Include="..\..\shared\web\Shared.Web\Shared.Web.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

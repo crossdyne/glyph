@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\contracts\Shared.Contracts\Shared.Contracts.csproj" />
-    <ProjectReference Include="..\..\..\common\core\Shared.Logging\Shared.Logging.csproj" />
-    <ProjectReference Include="..\..\..\common\web\Shared.Web\Shared.Web.csproj" />
+    <ProjectReference Include="..\..\..\shared\contracts\Shared.Contracts\Shared.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\shared\core\Shared.Logging\Shared.Logging.csproj" />
+    <ProjectReference Include="..\..\..\shared\web\Shared.Web\Shared.Web.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Application\Glyph.Assets.Application.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Infrastructure\Glyph.Assets.Infrastructure.csproj" />
   </ItemGroup>
