@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { RouterOutlet, RouterLinkWithHref, RouterLinkActive } from "@angular/router";
+import { environment } from "../../../environments/environment";
 
 @Component({
     selector: 'app-main-layout',
@@ -7,8 +8,11 @@ import { RouterOutlet } from "@angular/router";
     styleUrl: './main-layout.component.scss',
     standalone: true,
     encapsulation: ViewEncapsulation.None,
-    imports: [RouterOutlet]
+    imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive]
 })
 export class MainLayoutComponent{
-    
+    async logout() {
+        const currentUrl = encodeURIComponent(window.location.href);
+        window.location.href = `${environment.returnAuthUrlBase}?logout=true&returnUrl=${currentUrl}`;
+    } 
 }
