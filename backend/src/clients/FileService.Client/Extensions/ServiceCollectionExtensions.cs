@@ -29,7 +29,7 @@ namespace FileService.Client.Extensions
 
         private static void AddFileServiceHttpClient(this IServiceCollection services, IConfiguration configuration, Action<IHttpClientBuilder>? configure)
         {
-            var fileServiceUrl = configuration["HttpClients:FileService"]!;
+            var fileServiceUrl = configuration["Urls:FileService"]!;
 
             var builder = services.AddHttpClient(FileServiceClientName, client =>
             {

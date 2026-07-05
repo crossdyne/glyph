@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\clients\FileService.Client\FileService.Client.csproj" />
     <ProjectReference Include="..\..\services\assets\Glyph.Assets.Application\Glyph.Assets.Application.csproj" />
+    <ProjectReference Include="..\..\shared\contracts\Shared.Contracts\Shared.Contracts.csproj" />
     <ProjectReference Include="..\..\shared\core\Shared.Kernel\Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\shared\core\Shared.Logging\Shared.Logging.csproj" />
     <ProjectReference Include="..\..\shared\infrastructure\Shared.Http\Shared.Http.csproj" />

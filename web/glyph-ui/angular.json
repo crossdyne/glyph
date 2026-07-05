@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "ui": {
+    "glyph-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {

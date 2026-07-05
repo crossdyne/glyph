@@ -9,11 +9,11 @@ namespace Glyph.Bff.Extensions
     {
         public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
         {
-            var authBaseUrl = configuration["HttpClients:AuthServicesBase"];
+            var authBaseUrl = configuration["Urls:AuthServices"];
             string authenticationServices = "AuthenticationServices";
             services.AddHttpClient<IAuthClient, AuthClient>(authenticationServices, client => client.BaseAddress = new Uri(authBaseUrl!));
 
-            var assetsBaseUrl = configuration["HttpClients:AssetsServicesBase"];
+            var assetsBaseUrl = configuration["Urls:AssetsServices"];
             string assetsServices = "AssetsServices";
             services.AddHttpClient(assetsServices, client => client.BaseAddress = new Uri(assetsBaseUrl!)).AddHttpMessageHandler<AccessTokenHandler>();
             services.AddHttpClient<IGlobalCategoriesClient, GlobalCategoriesClient>(assetsServices);
@@ -22,7 +22,7 @@ namespace Glyph.Bff.Extensions
             services.AddHttpClient<IPersonalAssetClient, PersonalAssetClient>(assetsServices);
             services.AddHttpClient<IProjectClient, ProjectClient>(assetsServices);
 
-            var userManagementBaseUrl = configuration["HttpClients:UserManagementServicesBase"];
+            var userManagementBaseUrl = configuration["Urls:UserManagementServices"];
             string usermanagementServices = "UserManagementServices";
             services.AddHttpClient<IUserManagementClient, UserManagementClient>(usermanagementServices, client => client.BaseAddress = new Uri(userManagementBaseUrl!)).AddHttpMessageHandler<AccessTokenHandler>();
 
