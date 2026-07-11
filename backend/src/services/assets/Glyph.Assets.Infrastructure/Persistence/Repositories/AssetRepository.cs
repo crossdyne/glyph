@@ -25,7 +25,7 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
             => await _entity
                 .AsNoTracking()
                     .Include(a => a.AssetProjects)
-                        .Where(a => a.AssetProjects.Any(ap => ap.ProjectId == projectId) || a.UserId == userId)
+                        .Where(a => a.AssetProjects.Any(ap => ap.ProjectId == projectId) && (a.UserId == userId || a.UserId == null))
                             .Select(x => new AssetMetadataResponse(
                                     x.Id.ToString(), 
                                     x.AssetName, 
