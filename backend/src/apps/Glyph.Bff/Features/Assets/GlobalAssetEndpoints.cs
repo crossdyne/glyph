@@ -1,5 +1,4 @@
 using Glyph.Bff.Constants;
-using Glyph.Bff.Contracts.Requests;
 using Glyph.Bff.Extensions;
 using Glyph.Bff.Interfaces.Clients;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +11,22 @@ namespace Glyph.Bff.Features.Assets
         public static void MapPersonalAssetEndpoints(this IEndpointRouteBuilder app)
         {
             app.MapPost("api/v1/global/asset", async (
-                [FromForm] CreateAssetBffRequest request, 
+                [FromForm] string categoryId,
+                [FromForm] string projectIdsJson,
+                [FromForm] IFormFile file,
+                [FromForm] string assetName,
                 [FromServices] IGlobalAssetClient client) =>
             {
-                await using var fileStream = request.File.OpenReadStream();
+                await using var fileStream = file.OpenReadStream();
 
                 var result = await client.Create(
                     FileStorageConstants.Bucket, 
                     FileStorageConstants.GlobalAssetsSvgFolders, 
-                    request.File.FileName, 
-                    request.CategoryId, 
-                    request.ProjectIdsJson, 
+                    file.FileName, 
+                    categoryId, 
+                    projectIdsJson, 
                     fileStream,
-                    request.AssetName).CatchAsync();
+                    assetName).CatchAsync();
 
                 if (result.IsFailure)
                     return result.Errors.MapToMinimalApiResult();
@@ -45,12 +47,15 @@ namespace Glyph.Bff.Features.Assets
             }).RequireAuthorization();
 
             app.MapPut("api/v1/global/asset", async (
-                [FromForm] UpdateAssetBffRequest request, 
+                [FromForm] string assetId,
+                [FromForm] string assetName,
+                [FromForm] string categoryId,
+                [FromForm] IFormFile? file, 
                 [FromServices] IGlobalAssetClient client) =>
             {
-                await using var fileStream = request.File.OpenReadStream();
+                await using var fileStream = file?.OpenReadStream();
 
-                var result = await client.UpdateAsync(request.AssetId, request.AssetName, fileStream, request.File.FileName, request.CategoryId).ToResult();
+                var result = await client.UpdateAsync(assetId, assetName, fileStream, file?.FileName, categoryId).ToResult();
 
                 if (result.IsFailure)
                     return result.Errors.MapToMinimalApiResult();

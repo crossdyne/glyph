@@ -1,5 +1,4 @@
 import { Component, inject, signal } from "@angular/core";
-import { SortButton } from "../../../../shared/ui/sort-button/sort-button";
 import { AssetListComponent } from "../../components/asset-list/asset-list.component";
 import { SvgFormComponent } from "../../components/svg-form/svg-form.component";
 import { FileUploaderComponent } from "../../components/file-uploader/file-uploader.component";
@@ -16,7 +15,7 @@ import { ErrorList, Result } from "@crossdyne/toolkit";
     templateUrl: './personal-assets.page.html',
     styleUrls: ['./personal-assets.page.scss'],
     standalone: true,
-    imports: [SortButton, AssetListComponent, SvgFormComponent, FileUploaderComponent]
+    imports: [AssetListComponent, SvgFormComponent, FileUploaderComponent]
 })
 export class PersonalAssetsPage {
     private http = inject(PersonalAssetApiService);

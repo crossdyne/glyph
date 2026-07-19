@@ -1,7 +1,7 @@
 export interface UpdateAssetRequest {
     assetId: string;
     assetName: string;
-    file: File;
+    file: File | null;
     projectIds: string[];
     categoryId: string;
 }

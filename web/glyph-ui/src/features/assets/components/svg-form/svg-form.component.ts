@@ -95,7 +95,7 @@ export class SvgFormComponent {
     const file = this.selectedFile();
     const existing = this.asset();
 
-    if (!file) {
+    if (!existing && !file) {
       this.uploadError.set('Файл не был выбран');
       return;
     }
@@ -111,7 +111,7 @@ export class SvgFormComponent {
     } else {
       this.created.emit({
         assetName,
-        file,
+        file: file!,
         categoryId: selectedCategory.categoryId,
         projectIdsJson: [selectedProject.id]
       });

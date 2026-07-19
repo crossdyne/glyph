@@ -47,17 +47,14 @@ namespace Glyph.Assets.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] UpdateAssetRequest request, IFormFile file)
+        public async Task<IActionResult> Update([FromForm] UpdateAssetRequest request, IFormFile? file = null)
         {
-            if (file is null || file.Length == 0)
-                return BadRequest("Файл не был передан.");
-
-            await using var fileStream = file.OpenReadStream();
+            await using var fileStream = file?.OpenReadStream();
 
             var command = new UpdateGlobalAssetCommand(
                 fileStream, 
-                file.Length, 
-                file.FileName, 
+                file?.Length, 
+                file?.FileName, 
                 request.AssetName,
                 request.CategoryId,
                 Guid.Parse(request.AssetId));

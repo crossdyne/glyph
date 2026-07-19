@@ -19,10 +19,6 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
     {
         public async Task<Result> Handle(UpdatePersonalAssetCommand request, CancellationToken cancellationToken)
         {
-            string storageBucket = null!;
-            string storageFolderPath = null!;
-            string storageKey = null!;
-
             Maybe<Asset> maybe = await repository.GetByAsync(x => x.Id == request.AssetId && x.UserId == request.UserId, cancellationToken);
 
             if (maybe.IsNone)
@@ -30,34 +26,55 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.UpdatePersonal
 
             Asset storageAsset = maybe.Value;
 
-            storageBucket = storageAsset.S3Key.Bucket;
-            storageFolderPath = storageAsset.S3Key.FolderPath;
-            storageKey = storageAsset.S3Key.FileName;
+            string oldBucket = storageAsset.S3Key.Bucket;
+            string oldFolderPath = storageAsset.S3Key.FolderPath;
+            string oldFileName = storageAsset.S3Key.FileName;
 
-            var detected = await detector.DetectAsync(request.FileContent, request.FileName, cancellationToken);
-            
-            var assetName = AssetName.Create(request.AssetName);
             var categoryId = CategoryId.From(Guid.Parse(request.CategoryId));
-            var s3Key = S3Key.Create(storageAsset.S3Key.Bucket, [.. storageAsset.S3Key.Folders], request.FileName);
-            var format = Format.FromName(detected.FormatName);
-            var mimeType = MimeType.FromFormat(format); 
-            var assetType= AssetType.FromName(detected.AssetTypeName);
-            var sizeBytes = SizeBytes.Create(request.SizeBytes);
+            var assetName = AssetName.Create(request.AssetName);
+   
+            var fileCondition = request.FileContent != null 
+                             && request.FileContent.Length > 0 
+                             && !string.IsNullOrWhiteSpace(request.FileName) 
+                             && request.SizeBytes != null;
 
-            if (request.FileContent.CanSeek)
-                request.FileContent.Position = 0;
+            if (fileCondition)
+            {
+                var detected = await detector.DetectAsync(request.FileContent!, request.FileName!, cancellationToken);
+                
+                var s3Key = S3Key.Create(storageAsset.S3Key.Bucket, [.. storageAsset.S3Key.Folders], request.FileName!);
+                var format = Format.FromName(detected.FormatName);
+                var mimeType = MimeType.FromFormat(format); 
+                var assetType= AssetType.FromName(detected.AssetTypeName);
+                var sizeBytes = SizeBytes.Create(request.SizeBytes!.Value);
 
-            var uploadResult = await storageClient.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
+                if (request.FileContent!.CanSeek)
+                    request.FileContent.Position = 0;
 
-            if (uploadResult.IsFailure)
-                return uploadResult;  
+                var uploadResult = await storageClient.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
-            storageAsset.UpdateContent(assetName, s3Key, format, mimeType, assetType, sizeBytes);
+                if (uploadResult.IsFailure)
+                    return uploadResult;  
+
+                storageAsset.UpdateContent(s3Key, format, mimeType, assetType, sizeBytes);
+            }
+
+            storageAsset.UpdateName(assetName);
             storageAsset.AttachCategory(categoryId);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await storageClient.Delete(storageBucket, storageFolderPath, storageKey);
+            if (fileCondition)
+            {
+                try
+                {
+                    await storageClient.Delete(oldBucket, oldFolderPath, oldFileName);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Не удалось удалить старый файл {oldFileName} из S3: {ex.Message}");
+                }
+            }
 
             return Result.Success();
         }
