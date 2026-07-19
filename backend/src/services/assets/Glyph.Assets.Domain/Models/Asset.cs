@@ -70,14 +70,18 @@ namespace Glyph.Assets.Domain.Models
             UpdateAt = DateTime.UtcNow;
         }
 
-        public void UpdateContent(AssetName assetName, S3Key s3Key, Format format, MimeType mimeType, AssetType assetType, SizeBytes sizeBytes)
+        public void UpdateContent(S3Key s3Key, Format format, MimeType mimeType, AssetType assetType, SizeBytes sizeBytes)
         {
-            AssetName = assetName;
             S3Key = s3Key;
             Format = format;
             MimeType = mimeType;
             AssetType = assetType;
             SizeBytes = sizeBytes;
+        }
+
+        public void UpdateName(AssetName assetName)
+        {
+            AssetName = assetName;
         }
 
         public void AttachCategory(CategoryId categoryId)

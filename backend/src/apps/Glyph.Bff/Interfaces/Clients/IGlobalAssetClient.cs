@@ -14,7 +14,7 @@ namespace Glyph.Bff.Interfaces.Clients
             string projectIdsJson,
             Stream file,
             string Name);
-        Task<Result> UpdateAsync(string assetId, string assetName, Stream file, string fileName, string categoryId);
+        Task<Result> UpdateAsync(string assetId, string assetName, Stream? file, string? fileName, string categoryId);
 
         Task<Result<List<AssetMetadataResponse>>> GetFilesMetadata();
     }

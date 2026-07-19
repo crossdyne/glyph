@@ -39,7 +39,7 @@
     </div>
 
     <div class="form-actions">
-        <button type="submit" [disabled]="form.invalid || !selectedFile()">
+        <button type="submit" [disabled]="form.invalid || (!asset() && !selectedFile())">
             <span class="text">{{ asset() ? 'Обновить' : 'Создать' }}</span>
         </button>
         <button type="button" (click)="onCancel()">

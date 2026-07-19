@@ -21,8 +21,10 @@ export class GlobalAssetApiService extends HttpService {
 
         formData.append('AssetId', data.assetId);
         formData.append('AssetName', data.assetName);
-        formData.append('File', data.file);
         formData.append('CategoryId', data.categoryId);
+
+        if (data.file)
+            formData.append('File', data.file);
 
         return await this.putAsync<string>('/global/asset', formData);
     }

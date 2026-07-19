@@ -1,6 +1,5 @@
 import { Component, inject, signal } from "@angular/core";
 import { FileUploaderComponent } from "../../components/file-uploader/file-uploader.component";
-import { SortButton } from "../../../../shared/ui/sort-button/sort-button";
 import { SvgFormComponent } from "../../components/svg-form/svg-form.component";
 import { AssetListComponent } from "../../components/asset-list/asset-list.component";
 import { AssetUrlResponse } from "../../../../core/contracts/responses/asset-urls.response";
@@ -16,7 +15,7 @@ import { ErrorList, Result } from "@crossdyne/toolkit";
     templateUrl: './global-assets.page.html',
     styleUrls: ['./global-assets.page.scss'],
     standalone: true,
-    imports: [FileUploaderComponent, SortButton, SvgFormComponent, AssetListComponent]
+    imports: [FileUploaderComponent, SvgFormComponent, AssetListComponent]
 })
 export class GlobalAssetsPage {
      private http = inject(GlobalAssetApiService);

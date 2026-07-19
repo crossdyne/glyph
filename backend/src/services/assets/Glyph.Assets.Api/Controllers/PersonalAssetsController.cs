@@ -54,22 +54,19 @@ namespace Glyph.Assets.Api.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update([FromForm] UpdateAssetRequest request, IFormFile file)
+        public async Task<IActionResult> Update([FromForm] UpdateAssetRequest request, IFormFile? file = null)
         {
             var extractResult = this.ExtractCredentials(User);
 
             if (extractResult.IsFailure)
                 return extractResult.Value.Result;
 
-            if (file is null || file.Length == 0)
-                return BadRequest("Файл не был передан.");
-
-            await using var fileStream = file.OpenReadStream();
+            await using var fileStream = file?.OpenReadStream();
 
             var command = new UpdatePersonalAssetCommand(
                 fileStream, 
-                file.Length, 
-                file.FileName, 
+                file?.Length, 
+                file?.FileName, 
                 request.AssetName,
                 request.CategoryId,
                 Guid.Parse(request.AssetId),
