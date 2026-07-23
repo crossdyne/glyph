@@ -25,6 +25,7 @@
   </Folder>
   <Folder Name="/src/shared/infrastructure/">
     <Project Path="src/shared/infrastructure/Shared.Http/Shared.Http.csproj" />
+    <Project Path="src/shared/infrastructure/Shared.Messaging/Shared.Messaging.csproj" />
     <Project Path="src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj" />
   </Folder>
   <Folder Name="/src/shared/web/">

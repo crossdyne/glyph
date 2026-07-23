@@ -1,4 +1,5 @@
 using Glyph.Assets.Domain.Models;
+using Glyph.Assets.Domain.ValueObjects.Shared;
 using Shared.Contracts.Assets.Responses;
 
 namespace Glyph.Assets.Application.Interfaces.Repositories
@@ -9,5 +10,6 @@ namespace Glyph.Assets.Application.Interfaces.Repositories
         Task<List<CategoryResponse>> GetAllPersonalAsync(Guid userId);
         Task<List<CategoryResponse>> GetAllGlobalAsync();
         Task<List<CategoryResponse>> GetAggregated(Guid userId);
+        Task<int> RemoveAllAsync(UserId userId);
     }
 }

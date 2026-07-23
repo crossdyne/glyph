@@ -1,4 +1,6 @@
+using Confluent.Kafka;
 using FileService.Client.Extensions;
+using Glyph.Assets.Application.Features.Account.EventHandlers;
 using Glyph.Assets.Application.Interfaces;
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Infrastructure.Persistence;
@@ -7,6 +9,8 @@ using Glyph.Assets.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Contracts.Messaging.Events;
+using Shared.Contracts.Messaging.Interfaces;
 
 namespace Glyph.Assets.Infrastructure.Extensions
 {
@@ -20,6 +24,10 @@ namespace Glyph.Assets.Infrastructure.Extensions
             services.AddScoped<IAssetRepository, AssetRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+
+            services.Configure<ConsumerConfig>(configuration.GetSection("Kafka:Consumer"));
+            services.AddScoped<IIntegrationEventHandler<UserAccountDeletedIntegrationEvent>, UserAccountDeletedIntegrationEventHandler>();
+            services.AddKafkaConsumer<UserAccountDeletedIntegrationEvent>("user-management.user.account-delete");
 
             services.AddFileServiceClients(configuration);
 

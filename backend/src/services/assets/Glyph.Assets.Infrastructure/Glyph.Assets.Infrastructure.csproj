@@ -10,11 +10,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Crossdyne.Toolkit" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\clients\FileService.Client\FileService.Client.csproj" />
+    <ProjectReference Include="..\..\..\shared\infrastructure\Shared.Messaging\Shared.Messaging.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Application\Glyph.Assets.Application.csproj" />
     <ProjectReference Include="..\Glyph.Assets.Domain\Glyph.Assets.Domain.csproj" />
   </ItemGroup>
