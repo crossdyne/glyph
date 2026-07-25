@@ -1,6 +1,7 @@
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Domain.Models;
 using Glyph.Assets.Domain.ValueObjects.Projects;
+using Glyph.Assets.Domain.ValueObjects.Shared;
 using Glyph.Assets.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Shared.Contracts.Assets.Responses;
@@ -53,6 +54,23 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
                     x.AssetProjects.Select(ap => ap.ProjectId.ToString()).ToList(),
                     x.UserId == null))
                         .ToListAsync();
+        }
+
+        public async Task<int> RemoveAllAsync(UserId userId)
+        {
+            List<AssetProjects> links = [];
+            var assetProjects = _context.Set<AssetProjects>();
+            var assets = await _entity.Where(a => a.UserId == userId).ToListAsync();
+
+            foreach (var asset in assets)
+            {
+                links.AddRange(assetProjects.Where(ap => ap.AssetId == asset.Id).ToList());
+            }
+            
+            assetProjects.RemoveRange(links);
+            _entity.RemoveRange(assets);
+
+            return assets.Count;
         }
     }
 }

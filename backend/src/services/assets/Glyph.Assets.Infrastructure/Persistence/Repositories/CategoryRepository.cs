@@ -1,5 +1,6 @@
 using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Domain.Models;
+using Glyph.Assets.Domain.ValueObjects.Shared;
 using Glyph.Assets.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Shared.Contracts.Assets.Responses;
@@ -18,5 +19,13 @@ namespace Glyph.Assets.Infrastructure.Persistence.Repositories
 
         public async Task<List<CategoryResponse>> GetAggregated(Guid userId) 
             => await _entity.AsNoTracking().Where(x => x.UserId == userId || x.UserId == null).Select(x => new CategoryResponse(x.Id.ToString(), x.Name, IsPublic: x.UserId == null)).ToListAsync();
+
+        public async Task<int> RemoveAllAsync(UserId userId)
+        {
+            var categories = await _entity.Where(c => c.UserId == userId).ToListAsync();
+            _entity.RemoveRange(categories);
+
+            return categories.Count;
+        }
     }
 }
