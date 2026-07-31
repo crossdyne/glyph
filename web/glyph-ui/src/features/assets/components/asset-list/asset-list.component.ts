@@ -1,7 +1,7 @@
 import { Component, computed, input, output } from "@angular/core";
 import { AssetUrlResponse } from "../../../../core/contracts/responses/asset-urls.response";
 import { DeleteButton } from "../../../../shared/ui/delete-button/delete-button";
-import { Sorting } from "../../helpers/sorting.helper";
+import { Sorting } from "../../utils/sorting.utils";
 
 @Component({
     selector: 'asset-list',

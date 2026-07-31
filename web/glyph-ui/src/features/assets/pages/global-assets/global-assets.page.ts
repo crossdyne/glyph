@@ -9,8 +9,8 @@ import { CategoryResponse } from "../../../../core/contracts/responses/category.
 import { CreateAssetRequest } from "../../../../core/contracts/requests/create-asset.request";
 import { UpdateAssetRequest } from "../../../../core/contracts/requests/update-asset.request";
 import { ErrorList, Result } from "@crossdyne/toolkit";
-import { Sorting } from "../../helpers/sorting.helper";
-import { Grouping } from "../../helpers/grouping.helper";
+import { Sorting } from "../../utils/sorting.utils";
+import { Grouping } from "../../utils/grouping.utils";
 
 @Component({
     selector: 'global-assets-page',
