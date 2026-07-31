@@ -41,7 +41,7 @@
 
     <div class="assets-list"> 
         <asset-list 
-            [assets]="assets()"
+            [assets]="groupedAssets()"
             (assetSelected)="onAssetSelected($event)"
             (delete)="onDelete($event)">
         </asset-list>
