@@ -9,8 +9,8 @@ import { ProjectResponse } from "../../../../core/contracts/responses/project.re
 import { CategoryResponse } from "../../../../core/contracts/responses/category.response";
 import { PersonalAssetApiService } from "../../services/personal-asset-api.service";
 import { ErrorList, Result } from "@crossdyne/toolkit";
-import { Grouping } from "../../helpers/grouping.helper";
-import { Sorting } from "../../helpers/sorting.helper";
+import { Grouping } from "../../utils/grouping.utils";
+import { Sorting } from "../../utils/sorting.utils";
 
 @Component({
     selector: 'personal-assets-page',
