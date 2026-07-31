@@ -6,12 +6,14 @@
     height: 100%;
     gap: 16px;
     padding: 20px;
+    overflow-y: auto;
 
     h2 {
         font-size: 18px;
         font-weight: 600;
         color: #c9d1d9;
         margin: 0;
+        flex-shrink: 0;
     }
 
     .svg-preview {
@@ -23,6 +25,7 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        flex-shrink: 0;
 
         img {
             max-width: 90%;
@@ -31,7 +34,7 @@
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
         }
 
-        .placeholder {
+        p {
             color: #8b949e;
             font-size: 14px;
         }
@@ -46,6 +49,7 @@
         color: #c9d1d9;
         font-size: 14px;
         transition: all 0.2s;
+        box-sizing: border-box;
 
         &::placeholder {
             color: #8b949e;
@@ -71,6 +75,7 @@
         display: flex;
         gap: 12px;
         margin-top: auto;
+        flex-shrink: 0;
 
         button {
             flex: 1;
@@ -120,5 +125,62 @@
     @keyframes pulse {
         0%, 100% { opacity: 0.6; }
         50% { opacity: 1; }
+    }
+}
+
+@media (max-width: 768px) {
+    .svg-form {
+        padding: 16px;
+        gap: 14px;
+
+        h2 {
+            font-size: 16px;
+        }
+
+        .svg-preview {
+            height: 150px;
+            border-radius: 10px;
+        }
+
+        input {
+            padding: 10px 12px;
+            font-size: 16px;
+        }
+
+        .form-actions {
+            gap: 10px;
+
+            button {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .svg-form {
+        padding: 12px;
+        gap: 12px;
+
+        .svg-preview {
+            height: 120px;
+            border-radius: 8px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+            gap: 8px;
+
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+
+        .error-message {
+            font-size: 12px;
+            padding: 6px 10px;
+        }
     }
 }

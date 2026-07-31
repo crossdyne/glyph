@@ -76,3 +76,56 @@
         display: none;
     }
 }
+
+@media (max-width: 768px) {
+    .drop-zone {
+        padding: 24px 16px;
+
+        .drop-zone-content {
+            .icon {
+                width: 36px;
+                height: 36px;
+                margin-bottom: 10px;
+            }
+
+            .title {
+                font-size: 14px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+            }
+
+            .hint {
+                font-size: 11px;
+                margin-top: 8px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .drop-zone {
+        padding: 20px 12px;
+        border-radius: 10px;
+
+        .drop-zone-content {
+            .icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .title {
+                font-size: 13px;
+            }
+
+            .subtitle {
+                font-size: 11px;
+            }
+
+            .hint {
+                font-size: 10px;
+            }
+        }
+    }
+}

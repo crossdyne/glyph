@@ -20,7 +20,7 @@
 .app-content {
     position: relative;
     z-index: 1;
-    padding-top: 136px; // 100px navbar + 16px отступ сверху + 20px воздуха
+    padding-top: 136px;
     height: 100vh;
 }
 
@@ -48,9 +48,16 @@
         .nav-left {
             display: flex;
             align-items: center;
+            min-width: 0;
+            flex: 1;
+            overflow: hidden;
 
             .navigation {
                 margin-left: 50px;
+                display: flex;
+                align-items: center;
+                flex-wrap: nowrap;
+                gap: 4px;
 
                 a {
                     font-size: 20px;
@@ -59,6 +66,7 @@
                     color: #8b949e;
                     position: relative;
                     transition: color 0.2s ease;
+                    white-space: nowrap;
 
                     &:hover {
                         color: #c9d1d9;
@@ -83,6 +91,7 @@
 
             .logo {
                 font-size: 30px;
+                flex-shrink: 0;
             }
         }
 
@@ -91,6 +100,7 @@
             align-items: center;
             gap: 0.75rem;
             margin-left: 1rem;
+            flex-shrink: 0;
 
             .btn-account {
                 display: inline-flex;
@@ -104,6 +114,7 @@
                 font-weight: 500;
                 color: #8b949e;
                 transition: all 0.3s ease;
+                white-space: nowrap;
 
                 &:hover {
                     border-color: #58a6ff;
@@ -147,53 +158,121 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .app-content {
+        padding-top: 128px;
+    }
+
+    .navbar {
+        height: 90px;
+        padding: 0 1.5rem;
+
+        .navbar-inner {
+            .nav-left {
+                .navigation {
+                    margin-left: 30px;
+
+                    a {
+                        font-size: 17px;
+                        margin-right: 16px;
+
+                        &.active::after {
+                            bottom: -6px;
+                        }
+                    }
+                }
+
+                .logo {
+                    font-size: 26px;
+                }
+            }
+        }
+    }
+}
+
 @media (max-width: 768px) {
     .navbar {
         left: 12px;
         right: 12px;
         top: 12px;
-        padding: 0 1.5rem;
-    }
-
-    .app-content {
-        padding-top: 124px;
-    }
-
-    .nav-actions {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .btn-account-text {
-        display: none;
-    }
-
-    .btn-account {
-        padding: 0.5rem;
-        border-radius: 50%;
-        justify-content: center;
-    }
-
-    .navbar {
-        height: 80px;
+        height: 76px;
         padding: 0 1rem;
+
+        .navbar-inner {
+            .nav-left {
+                .navigation {
+                    margin-left: 16px;
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                    -webkit-overflow-scrolling: touch;
+                    mask-image: linear-gradient(to right, black 92%, transparent 100%);
+                    -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+
+                    a {
+                        font-size: 14px;
+                        margin-right: 12px;
+                        flex-shrink: 0;
+
+                        &.active::after {
+                            bottom: -5px;
+                            height: 2px;
+                        }
+                    }
+                }
+
+                .logo {
+                    font-size: 22px;
+                }
+            }
+
+            .nav-actions {
+                display: none;
+            }
+        }
     }
 
     .app-content {
         padding-top: 104px;
+        height: auto;
+        min-height: 100vh;
     }
+}
 
-    .navbar-inner .nav-left .navigation {
-        margin-left: 20px;
+@media (max-width: 480px) {
+    .navbar {
+        height: 68px;
+        border-radius: 12px;
+        padding: 0 0.75rem;
 
-        a {
-            font-size: 16px;
-            margin-right: 12px;
+        .navbar-inner {
+            .nav-left {
+                .navigation {
+                    margin-left: 10px;
+
+                    a {
+                        font-size: 12px;
+                        margin-right: 10px;
+
+                        &.active::after {
+                            bottom: -4px;
+                        }
+                    }
+                }
+
+                .logo {
+                    font-size: 20px;
+                }
+            }
         }
     }
 
-    .navbar-inner .nav-left .logo {
-        font-size: 24px;
+    .app-content {
+        padding-top: 92px;
     }
 }
