@@ -1,45 +1,105 @@
 @use '../../../../variables' as *;
-@use '../../../../styles/buttons';
 
-.category-form{
+.category-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
 
-.form-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-}
-
-.form-field{
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-    label{
-        font-weight: 500;
-        font-size: 20px;
-        color: $color-text-primary;
-        align-self: center;
+    h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #c9d1d9;
+        margin: 0;
     }
 
-    input{
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 14px;
+    .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
 
-        &:focus{
-            outline: none;
-            border-color: #4a90e2;
+        label {
+            font-weight: 500;
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 14px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #c9d1d9;
+            transition: all 0.2s;
+            box-sizing: border-box;
+
+            &::placeholder {
+                color: #8b949e;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: #58a6ff;
+                box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+            }
+        }
+
+        .error-message {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: #f85149;
+            font-size: 12px;
+            padding: 8px 12px;
+            background: rgba(248, 81, 73, 0.08);
+            border: 1px solid rgba(248, 81, 73, 0.2);
+            border-radius: 6px;
         }
     }
 
-h2{
-    font-weight: 500;
-    color: $color-text-primary;
-    align-self: center;
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 8px;
+
+        button {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+
+            &[type="submit"] {
+                background: #58a6ff;
+                color: #0d1117;
+
+                &:hover:not(:disabled) {
+                    background: #79c0ff;
+                    box-shadow: 0 0 16px rgba(88, 166, 255, 0.3);
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+
+            &[type="button"] {
+                background: #21262d;
+                color: #c9d1d9;
+                border: 1px solid #30363d;
+
+                &:hover {
+                    background: #1c2128;
+                    border-color: #8b949e;
+                }
+            }
+        }
+    }
 }
