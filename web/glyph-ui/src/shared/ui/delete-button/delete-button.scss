@@ -1,30 +1,62 @@
 .delete-btn {
-  width: 30px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  border: none;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.164);
-  cursor: pointer;
-}
-
-.svgIcon {
-  width: 100%;
-  height: 100%;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  background-color: rgb(133, 18, 10);
-}
+  border: 1px solid #30363d;
+  border-radius: 50%;
+  background: rgba(48, 54, 61, 0.8);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  padding: 0;
+  outline: none;
 
-.delete-btn:hover .text {
-  background-color: rgb(247, 54, 54);
-}
+  .svgIcon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b949e;
+    background: transparent;
+    transition: color 0.2s ease;
 
-.delete-btn:hover .svgIcon {
-  background-color: rgb(247, 54, 54);
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &:hover {
+    background: #f85149;
+    border-color: #f85149;
+    transform: scale(1.15);
+    box-shadow: 0 0 16px rgba(248, 81, 73, 0.4);
+
+    .svgIcon {
+      color: #ffffff;
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(248, 81, 73, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+
+    .svgIcon {
+      color: #484f58;
+    }
+  }
 }

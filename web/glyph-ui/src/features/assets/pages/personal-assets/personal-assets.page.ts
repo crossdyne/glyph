@@ -1,4 +1,4 @@
-import { Component, inject, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { AssetListComponent } from "../../components/asset-list/asset-list.component";
 import { SvgFormComponent } from "../../components/svg-form/svg-form.component";
 import { FileUploaderComponent } from "../../components/file-uploader/file-uploader.component";
@@ -9,6 +9,8 @@ import { ProjectResponse } from "../../../../core/contracts/responses/project.re
 import { CategoryResponse } from "../../../../core/contracts/responses/category.response";
 import { PersonalAssetApiService } from "../../services/personal-asset-api.service";
 import { ErrorList, Result } from "@crossdyne/toolkit";
+import { Grouping } from "../../helpers/grouping.helper";
+import { Sorting } from "../../helpers/sorting.helper";
 
 @Component({
     selector: 'personal-assets-page',
@@ -21,6 +23,7 @@ export class PersonalAssetsPage {
     private http = inject(PersonalAssetApiService);
 
     assets = signal<AssetUrlResponse[]>([]);
+    groupedAssets = computed(() => Grouping.groupedAssets(this.categories(), this.assets()));
     projects = signal<ProjectResponse[]>([]);
     categories = signal<CategoryResponse[]>([]);
 
@@ -131,7 +134,7 @@ export class PersonalAssetsPage {
         const result: Result<CategoryResponse[]> = await this.http.getCategoriesAsync();
 
         result.match(
-            categories => this.categories.set(categories),
+            categories => this.categories.set(Sorting.sortCategoriesAlphabet(categories)),
             errors => console.error('Ошибка загрузки категорий:', this.mapErrors(errors))
         );
     }

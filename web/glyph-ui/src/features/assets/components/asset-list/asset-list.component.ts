@@ -1,6 +1,7 @@
-import { Component, input, output } from "@angular/core";
+import { Component, computed, input, output } from "@angular/core";
 import { AssetUrlResponse } from "../../../../core/contracts/responses/asset-urls.response";
 import { DeleteButton } from "../../../../shared/ui/delete-button/delete-button";
+import { Sorting } from "../../helpers/sorting.helper";
 
 @Component({
     selector: 'asset-list',
@@ -10,7 +11,8 @@ import { DeleteButton } from "../../../../shared/ui/delete-button/delete-button"
     imports: [DeleteButton]
 })
 export class AssetListComponent {
-    assets = input<AssetUrlResponse[]>([]);
+    assets = input<{ title: string, assets: AssetUrlResponse[] }[] | null>(null);
+    sortingAssets = computed(() => Sorting.sortGroupedAssetsAlphabet(this.assets()!));
     assetSelected = output<AssetUrlResponse>();
     delete = output<string>();
 
