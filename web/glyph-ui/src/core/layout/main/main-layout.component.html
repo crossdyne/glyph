@@ -11,6 +11,11 @@
             <div class="navigation">
                 <a routerLink="/assets" routerLinkActive="active">Ассеты</a>
                 <a routerLink="/categories" routerLinkActive="active">Категории</a>
+                
+                @if (isAdmin()) {
+                    <a routerLink="admin/assets" routerLinkActive="active">Глобальные ассеты</a>
+                    <a routerLink="admin/categories" routerLinkActive="active">Глобальные категории</a>
+                }
             </div>
         </div>
 
