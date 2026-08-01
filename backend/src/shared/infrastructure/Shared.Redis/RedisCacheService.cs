@@ -87,6 +87,17 @@ namespace Shared.Redis
             }, "RemoveAsync");
         }
 
+        public async Task<bool> SetRemoveAsync(string key, string value)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentException("Key cannot be null or empty", nameof(key));
+
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Value cannot be null or empty", nameof(value));
+
+            return await ExecuteWithRetryAsync(async () => await _database.SetRemoveAsync(key, value), "SetRemoveAsync");
+        }
+
         #endregion
 
         #region Вспомогательные методы

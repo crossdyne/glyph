@@ -1,4 +1,6 @@
 using System.Reflection;
+using Crossdyne.Security.Abstractions;
+using Crossdyne.Security.Cryptography;
 using Glyph.Bff.Services;
 using Shared.Redis;
 
@@ -11,7 +13,8 @@ namespace Glyph.Bff.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddSingleton<IJwtReadService, JwtReadService>();
             services.AddCashService(configuration);
-            
+            services.AddSingleton<ICryptoServices, CryptoService>();
+
             return services;
         }
     }

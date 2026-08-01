@@ -1,3 +1,5 @@
+using Crossdyne.Security.Abstractions;
+using Glyph.Bff.Constants;
 using Glyph.Bff.Extensions;
 using Glyph.Bff.Interfaces.Clients;
 using Glyph.Bff.Services;
@@ -104,11 +106,22 @@ namespace Glyph.Bff.Extensions
 
                     var cacheSessionKey = RedisKeyExtensions.SessionKey(sessionId!);
                     var cache = context.HttpContext.RequestServices.GetRequiredService<IRedisCacheService>();
-                    
+                    var cryptoService = context.HttpContext.RequestServices.GetRequiredService<ICryptoServices>();
+                    var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+                    var key = Convert.FromBase64String(configuration.GetValue<string>(ConfigurationConstants.RedisDataEncryptionKey) ?? throw new InvalidOperationException($"{ConfigurationConstants.RedisDataEncryptionKey} не настроен"));
+
                     var session = await cache.GetJsonAsync<UserSession>(cacheSessionKey);
 
                     if (session == null)
                     {
+                        context.RejectPrincipal();
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(session.EncryptedAccessToken) || string.IsNullOrWhiteSpace(session.EncryptedRefreshToken))
+                    {
+                        await cache.RemoveAsync(cacheSessionKey);
+                        await cache.SetRemoveAsync(RedisKeyExtensions.UserSessionsKey(session.UserId), sessionId);
                         context.RejectPrincipal();
                         return;
                     }
@@ -137,16 +150,16 @@ namespace Glyph.Bff.Extensions
                         if (session.AccessTokenExpiresAt <= DateTime.UtcNow.AddMinutes(1))
                         {
                             var authClient = context.HttpContext.RequestServices.GetRequiredService<IAuthClient>();
-                            var refreshResult = await authClient.RefreshTokens(new RefreshTokensRequest(session.RefreshToken, session.AccessToken));
 
+                            var refreshResult = await authClient.RefreshTokens(new RefreshTokensRequest(cryptoService.DecryptData<string>(session.EncryptedRefreshToken, key)!));
                             
                             if (refreshResult.IsSuccess)
                             {
                                 var jwtReader = context.HttpContext.RequestServices.GetRequiredService<IJwtReadService>();
                                 var jwtData = jwtReader.ExtractData(refreshResult.Value.AccessToken);
 
-                                session.AccessToken = refreshResult.Value.AccessToken;
-                                session.RefreshToken = refreshResult.Value.RefreshToken;
+                                session.EncryptedAccessToken = cryptoService.EncryptedData(refreshResult.Value.AccessToken, key, CryptoConstants.CryptoVersion);
+                                session.EncryptedRefreshToken = cryptoService.EncryptedData(refreshResult.Value.RefreshToken, key, CryptoConstants.CryptoVersion);
                                 session.AccessTokenExpiresAt = jwtData.ExpiredTime;
 
                                 await cache.SetJsonAsync(cacheSessionKey, session, TimeSpan.FromDays(30));
@@ -154,13 +167,14 @@ namespace Glyph.Bff.Extensions
                             else
                             {
                                 await cache.RemoveAsync(cacheSessionKey);
+                                await cache.SetRemoveAsync(RedisKeyExtensions.UserSessionsKey(session.UserId), sessionId);
                                 context.RejectPrincipal();
                                 return;
                             }
                         }
                     }
   
-                    context.HttpContext.Items["AccessToken"] = session.AccessToken;
+                    context.HttpContext.Items["AccessToken"] = cryptoService.DecryptData<string>(session.EncryptedAccessToken, key);
                 };
             });
 
