@@ -11,6 +11,7 @@ services:
       - Urls__AssetsServices=
       - Urls__FileService=
       - Redis__ConnectionString=
+      - Redis__DataEncryptionKey=Base64 32+ bit key, generate this command - openssl rand -base64 32
     restart: unless-stopped
     depends_on:
       - glyph-assets-api

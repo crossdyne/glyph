@@ -15,6 +15,7 @@
     <PackageReference Include="MediatR" />
     <PackageReference Include="DistributedLock.Redis" />
     <PackageReference Include="Crossdyne.Toolkit" />
+    <PackageReference Include="Crossdyne.Security.Cryptography" />
   </ItemGroup>
 
   <ItemGroup>

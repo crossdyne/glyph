@@ -9,8 +9,8 @@ using Glyph.Assets.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Contracts.Messaging.Abstractions;
 using Shared.Contracts.Messaging.Events;
-using Shared.Contracts.Messaging.Interfaces;
 
 namespace Glyph.Assets.Infrastructure.Extensions
 {

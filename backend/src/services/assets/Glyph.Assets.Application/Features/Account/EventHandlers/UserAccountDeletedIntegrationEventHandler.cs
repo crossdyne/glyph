@@ -3,8 +3,8 @@ using Glyph.Assets.Application.Interfaces.Repositories;
 using Glyph.Assets.Domain.ValueObjects.Shared;
 using Microsoft.Extensions.Logging;
 using Shared.Contracts.FileService.Interfaces;
+using Shared.Contracts.Messaging.Abstractions;
 using Shared.Contracts.Messaging.Events;
-using Shared.Contracts.Messaging.Interfaces;
 
 namespace Glyph.Assets.Application.Features.Account.EventHandlers
 {
