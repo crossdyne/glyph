@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.StackExchangeRedis;
 using Shared.Contracts.Authentication.Requests;
-using Shared.Redis;
+using Shared.Contracts.Cache.Abstractions;
 using Shared.Redis.Common;
 using StackExchange.Redis;
 
@@ -105,7 +105,7 @@ namespace Glyph.Bff.Extensions
                     }
 
                     var cacheSessionKey = RedisKeyExtensions.SessionKey(sessionId!);
-                    var cache = context.HttpContext.RequestServices.GetRequiredService<IRedisCacheService>();
+                    var cache = context.HttpContext.RequestServices.GetRequiredService<ICacheService>();
                     var cryptoService = context.HttpContext.RequestServices.GetRequiredService<ICryptoServices>();
                     var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
                     var key = Convert.FromBase64String(configuration.GetValue<string>(ConfigurationConstants.RedisDataEncryptionKey) ?? throw new InvalidOperationException($"{ConfigurationConstants.RedisDataEncryptionKey} не настроен"));
