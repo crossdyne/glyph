@@ -59,16 +59,13 @@
         &::-webkit-scrollbar {
             width: 8px;
         }
-
         &::-webkit-scrollbar-track {
             background: transparent;
         }
-
         &::-webkit-scrollbar-thumb {
             background: #30363d;
             border-radius: 4px;
         }
-        
         &::-webkit-scrollbar-thumb:hover {
             background: #8b949e;
         }
@@ -84,6 +81,11 @@
 }
 
 @media (max-width: 768px) {
+    :host {
+        height: auto;
+        overflow: visible;
+    }
+
     .assets-page-container {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
@@ -96,14 +98,27 @@
             height: auto;
             min-height: 400px;
             order: 1;
+            overflow: visible;
+
+            .asset-form {
+                height: auto;
+                overflow: visible;
+
+                > svg-form {
+                    flex: 0 0 auto;
+                    height: auto;
+                    overflow: visible;
+                }
+            }
         }
 
         .assets-list {
             height: auto;
             min-height: 300px;
-            max-height: 70vh;
             order: 2;
             padding: 16px;
+            overflow-y: visible;
+            max-height: none;
         }
     }
 }
@@ -125,7 +140,6 @@
         .assets-list {
             border-radius: 12px;
             padding: 12px;
-            max-height: none;
         }
     }
 }

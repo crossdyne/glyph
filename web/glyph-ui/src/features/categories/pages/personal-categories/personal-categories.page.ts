@@ -6,6 +6,10 @@ import { PersonalCategoriesApiService } from "../../services/personal-category-a
 import { CreateCategoryRequest } from "../../../../core/contracts/requests/create-category.request";
 import { UpdateCategoryRequest } from "../../../../core/contracts/requests/update-category.request";
 import { from } from "linq-to-typescript";
+import { Dialog } from "@angular/cdk/dialog";
+import { ConfirmFormResult } from "../../../../shared/ui/confirm-form/model/confirm-form.result";
+import { ConfirmFormData } from "../../../../shared/ui/confirm-form/model/confirm-form.data";
+import { ConfirmFormComponent } from "../../../../shared/ui/confirm-form/confirm-form";
 
 @Component({
     selector: 'personal-categories-page',
@@ -15,7 +19,8 @@ import { from } from "linq-to-typescript";
     imports: [CategoryListComponent, CategoryFormComponent]
 })
 export class CategoriesPage implements OnInit{
-    private categoryService = inject(PersonalCategoriesApiService)
+    private dialog = inject(Dialog);
+    private categoryService = inject(PersonalCategoriesApiService);
 
     categories = signal<CategoryResponse[]>([]);
 
@@ -82,16 +87,34 @@ export class CategoriesPage implements OnInit{
     }
 
     onDelete(id: string): void {
-        this.categoryService.delete(id).subscribe({
-            next: () => {
-                this.categories.update(cats => cats.filter(c => c.categoryId !== id));
-
-                if (this.selectedCategory()?.categoryId === id){
-                    this.selectedCategory.set(null);
+        const dialogRef = this.dialog.open<ConfirmFormResult, ConfirmFormData, ConfirmFormComponent>(
+            ConfirmFormComponent, {
+                disableClose: true,
+                hasBackdrop: true,
+                data: {
+                    title: `Вы точно хотите удалить категорию: "${this.categories().find(c => c.categoryId === id)?.name}"?`,
+                    body: 'После этого действия данная категория пропадет со всех доступных сайтов!'
                 }
-            },
-            error: (err) => {
-                console.error('Ошибка удаления категории', err);
+            }
+        );
+
+        dialogRef.closed.subscribe(async result => {
+            if (!result)
+                return;
+
+            if (result.status === 'ok'){
+                this.categoryService.delete(id).subscribe({
+                    next: () => {
+                        this.categories.update(cats => cats.filter(c => c.categoryId !== id));
+
+                        if (this.selectedCategory()?.categoryId === id){
+                            this.selectedCategory.set(null);
+                        }
+                    },
+                    error: (err) => {
+                        console.error('Ошибка удаления категории', err);
+                    }
+                });
             }
         });
     }

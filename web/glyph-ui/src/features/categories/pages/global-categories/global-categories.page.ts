@@ -6,6 +6,10 @@ import { UpdateCategoryRequest } from "../../../../core/contracts/requests/updat
 import { from } from "linq-to-typescript";
 import { CategoryFormComponent } from "../../components/category-form/category-form.component";
 import { CategoryListComponent } from "../../components/category-list/category-list.component";
+import { Dialog } from "@angular/cdk/dialog";
+import { ConfirmFormResult } from "../../../../shared/ui/confirm-form/model/confirm-form.result";
+import { ConfirmFormData } from "../../../../shared/ui/confirm-form/model/confirm-form.data";
+import { ConfirmFormComponent } from "../../../../shared/ui/confirm-form/confirm-form";
 
 @Component({
     selector: 'global-categories-page',
@@ -15,7 +19,8 @@ import { CategoryListComponent } from "../../components/category-list/category-l
     imports: [CategoryFormComponent, CategoryListComponent]
 })
 export class GlobalCategoriesPage {
-    private categoryService = inject(GlobalCategoriesApiService)
+    private dialog = inject(Dialog);
+    private categoryService = inject(GlobalCategoriesApiService);
 
     categories = signal<CategoryResponse[]>([]);
 
@@ -82,16 +87,34 @@ export class GlobalCategoriesPage {
     }
 
     onDelete(id: string): void {
-        this.categoryService.delete(id).subscribe({
-            next: () => {
-                this.categories.update(cats => cats.filter(c => c.categoryId !== id));
-
-                if (this.selectedCategory()?.categoryId === id){
-                    this.selectedCategory.set(null);
+        const dialogRef = this.dialog.open<ConfirmFormResult, ConfirmFormData, ConfirmFormComponent>(
+            ConfirmFormComponent, {
+                disableClose: true,
+                hasBackdrop: true,
+                data: {
+                    title: `Вы точно хотите удалить категорию: "${this.categories().find(c => c.categoryId === id)?.name}"?`,
+                    body: 'После этого действия данная категория пропадет со всех доступных сайтов!'
                 }
-            },
-            error: (err) => {
-                console.error('Ошибка удаления категории', err);
+            }
+        );
+
+        dialogRef.closed.subscribe(async result => {
+            if (!result)
+                return;
+
+            if (result.status === 'ok'){
+                this.categoryService.delete(id).subscribe({
+                    next: () => {
+                        this.categories.update(cats => cats.filter(c => c.categoryId !== id));
+
+                        if (this.selectedCategory()?.categoryId === id){
+                            this.selectedCategory.set(null);
+                        }
+                    },
+                    error: (err) => {
+                        console.error('Ошибка удаления категории', err);
+                    }
+                });
             }
         });
     }

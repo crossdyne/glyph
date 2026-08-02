@@ -1,3 +1,9 @@
+:host {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+}
+
 .category-page-container {
     display: grid;
     grid-template-columns: 320px 1fr;
@@ -24,7 +30,7 @@
         grid-column: 2;
         height: 100%;
         min-height: 0;
-        overflow: hidden; 
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         background: #161b22;
@@ -83,6 +89,11 @@
 }
 
 @media (max-width: 768px) {
+    :host {
+        height: auto;
+        overflow: visible;
+    }
+
     .category-page-container {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
@@ -94,7 +105,9 @@
         .category-form {
             grid-column: 1;
             order: 1;
+            height: auto;
             max-height: none;
+            overflow-y: visible;
             border-radius: 12px;
         }
 
@@ -103,7 +116,7 @@
             order: 2;
             height: auto;
             min-height: 300px;
-            max-height: 70vh;
+            overflow: visible;
             border-radius: 12px;
             padding: 16px;
         }
@@ -122,7 +135,6 @@
 
         .categories-list {
             padding: 12px;
-            max-height: none;
             border-radius: 10px;
         }
     }

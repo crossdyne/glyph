@@ -1,5 +1,11 @@
 @use '../../../../variables' as *;
 
+:host {
+    display: block;
+    height: 100%;
+    min-height: 0;
+}
+
 .svg-form {
     display: flex;
     flex-direction: column;
@@ -7,6 +13,24 @@
     gap: 16px;
     padding: 20px;
     overflow-y: auto;
+    
+    
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #8b949e;
+    }
 
     h2 {
         font-size: 18px;
@@ -129,7 +153,14 @@
 }
 
 @media (max-width: 768px) {
+    :host {
+        height: auto;
+        overflow: visible;
+    }
+
     .svg-form {
+        height: auto;
+        overflow-y: visible;
         padding: 16px;
         gap: 14px;
 

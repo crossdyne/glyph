@@ -101,6 +101,22 @@
 }
 
 @media (max-width: 768px) {
+    :host {
+        height: auto;
+        overflow: visible;
+    }
+
+    .categories-list-container {
+        height: auto;
+        min-height: 0;
+
+        ul {
+            flex: 0 0 auto;
+            min-height: 0;
+            overflow-y: visible;
+        }
+    }
+
     .categories-list-container {
         ul {
             li {
