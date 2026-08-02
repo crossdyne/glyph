@@ -44,3 +44,17 @@ app-root {
         background-clip: text;
     }
 }
+
+@media (max-width: 768px) {
+    html, body {
+        height: auto;
+        min-height: 100%;
+        overflow: visible;
+    }
+
+    app-root {
+        height: auto;
+        min-height: 100%;
+        overflow: visible;
+    }
+}
