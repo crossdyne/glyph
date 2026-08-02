@@ -1,0 +1,167 @@
+$bg-page: #0d1117;
+$bg-card: #161b22;
+$bg-card-hover: #1c2128;
+$border-color: #30363d;
+$border-color-hover: #8b949e;
+$accent: #6c63ff;
+$accent-light: #8b83ff;
+$accent-glow: rgba(108, 99, 255, 0.2);
+$text-primary: #f1f5f9;
+$text-secondary: #9999aa;
+$shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(13, 17, 23, 0.6);
+    backdrop-filter: blur(4px);
+    padding: 24px;
+}
+
+.modal-container {
+    background: $bg-card;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid $border-color;
+    box-shadow: $shadow-card;
+    overflow: hidden;
+    animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 20px 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $accent;
+    flex-shrink: 0;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-primary;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+}
+
+.modal-body {
+    padding: 12px 20px 20px 64px;
+    color: $text-secondary;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    padding: 16px 20px;
+    justify-content: flex-end;
+    border-top: 1px solid $border-color;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+    font-family: inherit;
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.btn-secondary {
+    background: transparent;
+    color: $text-secondary;
+    border: 1px solid $border-color;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: $border-color-hover;
+        color: $text-primary;
+    }
+}
+
+.btn-primary {
+    background: $accent;
+    color: #fff;
+
+    &:hover {
+        background: $accent-light;
+        box-shadow: 0 0 12px $accent-glow;
+    }
+}
+
+@media (max-width: 480px) {
+    :host {
+        padding: 16px;
+        align-items: flex-end;
+    }
+
+    .modal-container {
+        max-width: 100%;
+        border-radius: 16px;
+        animation: modalInMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalInMobile {
+        from {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .modal-body {
+        padding-left: 20px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+        gap: 8px;
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+}

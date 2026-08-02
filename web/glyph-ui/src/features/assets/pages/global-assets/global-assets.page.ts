@@ -11,6 +11,10 @@ import { UpdateAssetRequest } from "../../../../core/contracts/requests/update-a
 import { ErrorList, Result } from "@crossdyne/toolkit";
 import { Sorting } from "../../utils/sorting.utils";
 import { Grouping } from "../../utils/grouping.utils";
+import { ConfirmFormResult } from "../../../../shared/ui/confirm-form/model/confirm-form.result";
+import { ConfirmFormData } from "../../../../shared/ui/confirm-form/model/confirm-form.data";
+import { ConfirmFormComponent } from "../../../../shared/ui/confirm-form/confirm-form";
+import { Dialog } from "@angular/cdk/dialog";
 
 @Component({
     selector: 'global-assets-page',
@@ -20,7 +24,8 @@ import { Grouping } from "../../utils/grouping.utils";
     imports: [FileUploaderComponent, SvgFormComponent, AssetListComponent]
 })
 export class GlobalAssetsPage {
-     private http = inject(GlobalAssetApiService);
+    private dialog = inject(Dialog);
+    private http = inject(GlobalAssetApiService);
 
     assets = signal<AssetUrlResponse[]>([]);
     groupedAssets = computed(() => Grouping.groupedAssets(this.categories(), this.assets()));
@@ -95,21 +100,39 @@ export class GlobalAssetsPage {
     }
 
     async onDelete(id: string) {
-        const result: Result = await this.http.removeAsync(id);
-
-        result.match(
-            () => {
-                this.assets.update(assets => assets.filter(a => a.assetId !== id));
-
-                if (this.selectedAsset()?.assetId === id) {
-                    this.selectedAsset.set(null);
+        const dialogRef = this.dialog.open<ConfirmFormResult, ConfirmFormData, ConfirmFormComponent>(
+            ConfirmFormComponent, {
+                disableClose: true,
+                hasBackdrop: true,
+                data: {
+                    title: `Вы точно хотите удалить асет: "${this.assets().find(c => c.assetId === id)?.assetName}"?`,
+                    body: 'После этого действия данный асет пропадет со всех доступных сайтов!'
                 }
-            },            
-            errors => {
-                console.error('Ошибка при удаление ассета:', this.mapErrors(errors));
-                this.uploadError.set('Ошибка при удаление на сервере');
             }
         );
+
+        dialogRef.closed.subscribe(async result => {
+            if (!result)
+                return;
+
+            if (result.status === 'ok'){
+                const result: Result = await this.http.removeAsync(id);
+
+                result.match(
+                    () => {
+                        this.assets.update(assets => assets.filter(a => a.assetId !== id));
+
+                        if (this.selectedAsset()?.assetId === id) {
+                            this.selectedAsset.set(null);
+                        }
+                    },            
+                    errors => {
+                        console.error('Ошибка при удаление асета:', this.mapErrors(errors));
+                        this.uploadError.set('Ошибка при удаление на сервере');
+                    }
+                );
+            }
+        });
     }
 
     //#endregion

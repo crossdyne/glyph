@@ -11,6 +11,10 @@ import { PersonalAssetApiService } from "../../services/personal-asset-api.servi
 import { ErrorList, Result } from "@crossdyne/toolkit";
 import { Grouping } from "../../utils/grouping.utils";
 import { Sorting } from "../../utils/sorting.utils";
+import { Dialog } from "@angular/cdk/dialog";
+import { ConfirmFormResult } from "../../../../shared/ui/confirm-form/model/confirm-form.result";
+import { ConfirmFormData } from "../../../../shared/ui/confirm-form/model/confirm-form.data";
+import { ConfirmFormComponent } from "../../../../shared/ui/confirm-form/confirm-form";
 
 @Component({
     selector: 'personal-assets-page',
@@ -20,6 +24,7 @@ import { Sorting } from "../../utils/sorting.utils";
     imports: [AssetListComponent, SvgFormComponent, FileUploaderComponent]
 })
 export class PersonalAssetsPage {
+    private dialog = inject(Dialog);
     private http = inject(PersonalAssetApiService);
 
     assets = signal<AssetUrlResponse[]>([]);
@@ -94,18 +99,36 @@ export class PersonalAssetsPage {
     }
 
     async onDelete(id: string) {
-        const result: Result<void> = await this.http.removeAsync(id);
-        
-        result.match(
-            () => {
-                this.assets.update(assets => assets.filter(a => a.assetId !== id));
-
-                if (this.selectedAsset()?.assetId === id) {
-                    this.selectedAsset.set(null);
+        const dialogRef = this.dialog.open<ConfirmFormResult, ConfirmFormData, ConfirmFormComponent>(
+            ConfirmFormComponent, {
+                disableClose: true,
+                hasBackdrop: true,
+                data: {
+                    title: `Вы точно хотите удалить асет: "${this.assets().find(c => c.assetId === id)?.assetName}"?`,
+                    body: 'После этого действия данный асет пропадет со всех доступных сайтов!'
                 }
-            },
-            errors => console.error('Ошибка удаления ассета:', this.mapErrors(errors))
+            }
         );
+
+        dialogRef.closed.subscribe(async result => {
+            if (!result)
+                return;
+
+            if (result.status === 'ok'){
+                const result: Result<void> = await this.http.removeAsync(id);
+                
+                result.match(
+                    () => {
+                        this.assets.update(assets => assets.filter(a => a.assetId !== id));
+
+                        if (this.selectedAsset()?.assetId === id) {
+                            this.selectedAsset.set(null);
+                        }
+                    },
+                    errors => console.error('Ошибка удаления асета:', this.mapErrors(errors))
+                );
+            }
+        });
     }
 
     //#endregion
