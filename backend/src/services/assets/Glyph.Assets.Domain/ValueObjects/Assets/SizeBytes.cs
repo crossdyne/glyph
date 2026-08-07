@@ -38,7 +38,7 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
                 len /= 1024;
             }
 
-            return $"{len:0.##} {units[index]}";
+            return FormattableString.Invariant($"{len:0.##} {units[index]}");
         }
 
         public int CompareTo(SizeBytes other) => Value.CompareTo(other.Value);
