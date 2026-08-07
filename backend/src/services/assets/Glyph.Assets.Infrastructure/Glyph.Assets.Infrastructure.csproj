@@ -26,4 +26,8 @@
     <AssemblyName>Glyph.Assets.Infrastructure</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Glyph.Assets.Tests" />
+  </ItemGroup>
+
 </Project>
