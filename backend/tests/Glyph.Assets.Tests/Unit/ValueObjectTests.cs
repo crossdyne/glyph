@@ -666,9 +666,9 @@ namespace Glyph.Assets.Tests.Unit
         }
 
         [Fact]
-        public void UserId_New_ReturnsNonEmptyUserId()
+        public void UserId_From_ReturnsNonEmptyUserId()
         {
-            UserId categoryId = UserId.New();
+            UserId categoryId = UserId.From(Guid.NewGuid());
 
             Assert.NotEqual(Guid.Empty, categoryId.Value);
         }

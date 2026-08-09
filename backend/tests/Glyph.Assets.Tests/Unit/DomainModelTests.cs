@@ -95,7 +95,7 @@ namespace Glyph.Assets.Tests.Unit
         [Fact]
         public void Create_WithUserId_ShouldBePrivate()
         {
-            var userId = UserId.New();
+            var userId = UserId.From(Guid.NewGuid());
             var category = Category.Create(CategoryName.Create("Icons"), userId);
 
             Assert.False(category.IsPublic);
@@ -110,14 +110,14 @@ namespace Glyph.Assets.Tests.Unit
         {
             var category = Category.Create(CategoryName.Create("Fonts"), userId: null);
 
-            Assert.True(category.CanAccess(UserId.New()));
+            Assert.True(category.CanAccess(UserId.From(Guid.NewGuid())));
         }
 
         [Fact]
         public void CanAccess_WhenPrivateAndWrongUser_ReturnFalse()
         {
-            var owner = UserId.New();
-            var other = UserId.New();
+            var owner = UserId.From(Guid.NewGuid());
+            var other = UserId.From(Guid.NewGuid());
             var category = Category.Create(CategoryName.Create("Fonts"), owner);
             
             Assert.False(category.CanAccess(other));
