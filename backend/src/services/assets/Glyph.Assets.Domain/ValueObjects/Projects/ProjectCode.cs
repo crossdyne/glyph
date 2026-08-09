@@ -17,7 +17,7 @@ namespace Glyph.Assets.Domain.ValueObjects.Projects
             return new ProjectCode(value);
         }
 
-        public static implicit operator string(ProjectCode value) => value;
+        public static implicit operator string(ProjectCode value) => value.Value;
 
         public override string ToString() => Value.ToString();
     }
