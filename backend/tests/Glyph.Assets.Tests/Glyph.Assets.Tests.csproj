@@ -23,9 +23,15 @@
     <PackageReference Include="Testcontainers.PostgreSql" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
+    <PackageReference Include="WireMock.Net" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\clients\FileService.Client\FileService.Client.csproj" />
     <ProjectReference Include="..\..\src\services\assets\Glyph.Assets.Application\Glyph.Assets.Application.csproj" />
     <ProjectReference Include="..\..\src\services\assets\Glyph.Assets.Domain\Glyph.Assets.Domain.csproj" />
     <ProjectReference Include="..\..\src\services\assets\Glyph.Assets.Infrastructure\Glyph.Assets.Infrastructure.csproj" />

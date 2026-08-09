@@ -18,4 +18,8 @@
     <ProjectReference Include="..\..\shared\core\Shared.Kernel\Shared.Kernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Glyph.Assets.Tests" />
+  </ItemGroup>
+
 </Project>
