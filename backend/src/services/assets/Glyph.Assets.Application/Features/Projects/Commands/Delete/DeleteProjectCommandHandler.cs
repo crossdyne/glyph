@@ -26,8 +26,8 @@ namespace Glyph.Assets.Application.Features.Projects.Commands.Delete
             if (hasLinks)
                 return Result.Failure(new Error(ErrorCode.Delete, "Нельзя удалить данный проект, т.к он привязан к другим асетам"));
 
-            await unitOfWork.SaveChangesAsync(cancellationToken);
             projectRepository.Remove(project);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }
