@@ -48,7 +48,12 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreateGlobal
             var fileResult = await fileStorage.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
             if (fileResult.IsFailure)
+            {
+                assetRepository.Remove(asset);
+                await unitOfWork.SaveChangesAsync(cancellationToken);
+                
                 return Result<string>.Failure(fileResult.Errors);
+            }
 
             return Result<string>.Success(asset.Id.ToString());
         }

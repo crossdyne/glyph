@@ -39,13 +39,18 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.CreatePersonal
 
             Asset asset = Asset.Create(assetName, s3Key, assetType, format, mimeType, sizeBytes, categoryId, projectIds, userId);
 
+            await repository.AddAsync(asset, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
             var fileResult = await fileStorage.Upload(s3Key.Bucket, s3Key.FolderPath, s3Key.FileName, mimeType.Value, request.FileContent);
 
             if (fileResult.IsFailure)
-                return fileResult;
-
-            await repository.AddAsync(asset, cancellationToken);
-            await unitOfWork.SaveChangesAsync(cancellationToken);
+            {
+                repository.Remove(asset);
+                await unitOfWork.SaveChangesAsync(cancellationToken);
+                
+                return Result.Failure(fileResult.Errors);
+            }
 
             return Result.Success();
         }
