@@ -14,8 +14,6 @@ namespace Glyph.Assets.Domain.ValueObjects.Shared
             return new UserId(value);
         }
 
-        public static UserId New() => new(Guid.NewGuid());
-
         public static implicit operator Guid(UserId userId) => userId.Value;
 
         public override string ToString() => Value.ToString();

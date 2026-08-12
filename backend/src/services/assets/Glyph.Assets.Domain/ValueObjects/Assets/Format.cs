@@ -5,11 +5,9 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
         public int Value { get; }
         public string Name { get; } 
 
-        public static readonly Format Svg   = new(1, ".svg");
-
+        public static readonly Format Svg = new(1, ".svg");
 
         public static readonly IReadOnlyList<Format> All = [Svg];
-
 
         public static readonly HashSet<string> VectorFormats = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -20,6 +18,7 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
         {
             if (value <= 0) 
                 throw new ArgumentException("Значение Format должно быть положительным.", nameof(value));
+
             if (string.IsNullOrWhiteSpace(name)) 
                 throw new ArgumentException("Название Format не может быть пустым.", nameof(name));
 
@@ -29,6 +28,9 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
 
         public static Format FromName(string name)
         {
+            if (string.IsNullOrWhiteSpace(name)) 
+                throw new ArgumentException("Название Format не может быть пустым.", nameof(name));
+            
             var normalized = name.Trim().ToLowerInvariant();
             var format = All.FirstOrDefault(f => f.Name == normalized);
             
@@ -41,18 +43,23 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
         public static bool TryFromName(string name, out Format format)
         {
             format = default;
-            if (string.IsNullOrWhiteSpace(name)) return false;
+
+            if (string.IsNullOrWhiteSpace(name)) 
+                return false;
 
             var normalized = name.Trim().ToLowerInvariant();
             format = All.FirstOrDefault(f => f.Name == normalized);
+
             return format != default;
         }
 
         public static Format FromValue(int value)
         {
             var format = All.FirstOrDefault(f => f.Value == value);
+
             if (format == default)
                 throw new ArgumentException($"Значение {value} не соответствует ни одному разрешённому формату.", nameof(value));
+
             return format;
         }
 

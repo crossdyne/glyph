@@ -31,4 +31,7 @@
   <Folder Name="/src/shared/web/">
     <Project Path="src/shared/web/Shared.Web/Shared.Web.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Glyph.Assets.Tests/Glyph.Assets.Tests.csproj" />
+  </Folder>
 </Solution>

@@ -21,15 +21,13 @@ namespace Glyph.Assets.Application.Features.Assets.Commands.DeletePersonal
                 return Result.Failure(new Error(ErrorCode.Delete, "Ассет не найден"));
 
             Asset asset = maybe.Value;
+            repository.Remove(asset);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             var fileResult = await fileStorage.Delete(asset.S3Key.Bucket, asset.S3Key.FolderPath, asset.S3Key.FileName);
 
             if (fileResult.IsFailure)
                 return fileResult;
-
-            repository.Remove(asset);
-            
-            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

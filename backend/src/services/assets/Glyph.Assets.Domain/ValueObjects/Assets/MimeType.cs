@@ -10,7 +10,7 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
 
         private MimeType(string value)
         {
-            Value= value.ToLowerInvariant();
+            Value = value.ToLowerInvariant();
         }
 
         public static MimeType Create(string value)
@@ -20,9 +20,6 @@ namespace Glyph.Assets.Domain.ValueObjects.Assets
 
             if (!Regex.IsMatch(value, @"^[a-zA-Z0-9!#$&\-^_\.]+/[a-zA-Z0-9!#$&\-^_\.+]+$"))
                 throw new FormatException($"Invalid MIME type format: '{value}'");
-
-             if (!value.Contains('/') || value.IndexOf('/') != value.LastIndexOf('/'))
-                throw new FormatException($"Не валидный формат для MIME типа: '{value}'");
 
             return new(value);
         }
