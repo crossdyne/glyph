@@ -1,6 +1,6 @@
 services:
   glyph-bff:
-    image: glyph/bff:latest
+    image: glyph/bff:1.0.0
     container_name: glyph-bff
     ports:
       - "7004:80" 
@@ -21,7 +21,7 @@ services:
       - glyph-network
 
   glyph-assets-api:
-    image: glyph/assets-api:latest
+    image: glyph/assets-api:1.0.0
     container_name: glyph-assets-api
     ports:
       - "7005:80" 
@@ -44,7 +44,7 @@ services:
       - glyph-network
 
   glyph-ui:
-    image: glyph/ui:latest
+    image: glyph/ui:1.0.0
     container_name: glyph-ui
     ports:
       - "7006:80"
