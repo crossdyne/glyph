@@ -13,7 +13,7 @@ namespace Glyph.Bff.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddSingleton<IJwtReadService, JwtReadService>();
             services.AddCashService(configuration);
-            services.AddSingleton<ICryptoServices, CryptoService>();
+            services.AddSingleton<ICryptoService, CryptoService>();
 
             return services;
         }
