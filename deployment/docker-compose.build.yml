@@ -1,0 +1,18 @@
+services:
+  glyph-bff:
+    build:
+      context: ..
+      dockerfile: backend/src/apps/Glyph.Bff/Dockerfile
+    image: glyph/bff:1.0.0 
+
+  assets-api:
+    build:
+      context: ..
+      dockerfile: backend/src/services/assets/Glyph.Assets.Api/Dockerfile
+    image: glyph/assets-api:1.0.0
+
+  glyph-ui:
+    build:
+      context: ../web/glyph-ui   
+      dockerfile: Dockerfile
+    image: glyph/ui:1.0.0

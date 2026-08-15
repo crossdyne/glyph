@@ -1,0 +1,18 @@
+<div class="assets-container">
+    @if (assets()?.length === 0) {
+        <p>Список пуст</p>
+    } @else {
+        @for (group of sortingAssets()!; track group.title) {
+            <div class="asset-group">
+                <h3 class="group-title">{{ group.title }}</h3>
+                @for (asset of group.assets; track asset.assetId) {
+                    <div class="svg-card-container" (click)="assetSelected.emit(asset)">
+                        <delete-button (clicked)="onDelete(asset.assetId)">Удалить</delete-button>
+                        <img [src]="asset.url" [alt]="asset.assetName">
+                        <span class="name" [title]="asset.assetName">{{asset.assetName}}</span>
+                    </div> 
+                }
+            </div>
+        }
+    }
+</div>

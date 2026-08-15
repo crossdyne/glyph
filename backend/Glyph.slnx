@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/core/" />
+  <Folder Name="/src/">
+    <Project Path="src/services/assets/Glyph.Assets.Api/Glyph.Assets.Api.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Application/Glyph.Assets.Application.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Domain/Glyph.Assets.Domain.csproj" />
+    <Project Path="src/services/assets/Glyph.Assets.Infrastructure/Glyph.Assets.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/bff/">
+    <Project Path="src/apps/Glyph.Bff/Glyph.Bff.csproj" />
+  </Folder>
+  <Folder Name="/src/clients/">
+    <Project Path="src/clients/FileService.Client/FileService.Client.csproj" />
+  </Folder>
+  <Folder Name="/src/shared/">
+    <Project Path="src/shared/contracts/Shared.Contracts/Shared.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/shared/application/">
+    <Project Path="src/shared/application/Shared.Application/Shared.Application.csproj" />
+  </Folder>
+  <Folder Name="/src/shared/contracts/" />
+  <Folder Name="/src/shared/core/">
+    <Project Path="src/shared/core/Shared.Kernel/Shared.Kernel.csproj" />
+    <Project Path="src/shared/core/Shared.Logging/Shared.Logging.csproj" />
+  </Folder>
+  <Folder Name="/src/shared/infrastructure/">
+    <Project Path="src/shared/infrastructure/Shared.Http/Shared.Http.csproj" />
+    <Project Path="src/shared/infrastructure/Shared.Messaging/Shared.Messaging.csproj" />
+    <Project Path="src/shared/infrastructure/Shared.Redis/Shared.Redis.csproj" />
+  </Folder>
+  <Folder Name="/src/shared/web/">
+    <Project Path="src/shared/web/Shared.Web/Shared.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Glyph.Assets.Tests/Glyph.Assets.Tests.csproj" />
+  </Folder>
+</Solution>

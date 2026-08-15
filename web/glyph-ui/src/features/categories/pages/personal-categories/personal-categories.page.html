@@ -1,0 +1,33 @@
+<div class="category-page-container">
+
+    <div class="category-form">
+        @if (selectedCategory(); as cat) {
+            <category-form
+                [category]="cat"
+                (created)="onCreate($event)"
+                (updated)="onUpdate($event)"
+                (cancelled)="onCancel()">
+            </category-form>
+        } @else {
+            <category-form
+                (created)="onCreate($event)">
+            </category-form>
+        }
+    </div>
+
+    <div class="categories-list">
+        @if (loading()) {
+            <div>Загрузка...</div>
+        } @else if (error()) {
+            <div class="error">{{ error() }}</div>
+            <button (click)="loadCategories()">Повторить</button>
+        } @else {
+            <display-category
+            [categories]="categories()"
+            (delete)="onDelete($event)"
+            (edit)="onEdit($event)"></display-category>
+        }
+        
+    </div>
+
+</div>

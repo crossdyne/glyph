@@ -1,0 +1,8 @@
+using Crossdyne.Toolkit.Results;
+using Glyph.Assets.Application.Validators.Interfaces;
+using MediatR;
+
+namespace Glyph.Assets.Application.Features.Categories.Commands.UpdatePersonal
+{
+    public sealed record UpdatePersonalCategoryCommand(Guid CategoryId, Guid UserId, string Name) : IRequest<Result>, IHasCategoryId, IHasUserIdGuid, IHasCategoryName;
+}

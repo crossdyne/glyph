@@ -1,0 +1,57 @@
+services:
+  glyph-bff:
+    image: glyph/bff:1.0.0
+    container_name: glyph-bff
+    ports:
+      - "7004:80" 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Urls__AuthServices=
+      - Urls__UserManagementServices=
+      - Urls__AssetsServices=
+      - Urls__FileService=
+      - Redis__ConnectionString=
+      - Redis__DataEncryptionKey=Base64 32+ bit key, generate this command - openssl rand -base64 32
+    restart: unless-stopped
+    depends_on:
+      - glyph-assets-api
+    volumes:
+      - ./logs/bff:/logs
+    networks:
+      - glyph-network
+
+  glyph-assets-api:
+    image: glyph/assets-api:1.0.0
+    container_name: glyph-assets-api
+    ports:
+      - "7005:80" 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Urls__FileService=
+      - ConnectionStrings__DefaultConnection= <<Postgres_Sql>>
+      - JwtSettings__Secret=
+      - JwtSettings__Issuer=
+      - JwtSettings__Audience=
+      - Kafka__Consumer__BootstrapServers=
+      - Kafka__Consumer__GroupId=glyph-assets-service-consumer-group
+      - Kafka__Consumer__AutoOffsetReset=Latest
+      - Kafka__Consumer__EnableAutoCommit=false
+      - Kafka__Consumer__EnablePartitionEof=false
+    restart: unless-stopped
+    volumes:
+      - ./logs/assets:/logs
+    networks:
+      - glyph-network
+
+  glyph-ui:
+    image: glyph/ui:1.0.0
+    container_name: glyph-ui
+    ports:
+      - "7006:80"
+    restart: unless-stopped
+    networks:
+      - glyph-network
+
+networks:
+  glyph-network:
+    driver: bridge

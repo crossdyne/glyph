@@ -1,0 +1,217 @@
+@use '../../../../variables' as *;
+
+:host {
+    display: block;
+    height: 100%;
+    min-height: 0;
+}
+
+.svg-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 16px;
+    padding: 20px;
+    overflow-y: auto;
+    
+    
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #8b949e;
+    }
+
+    h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #c9d1d9;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .svg-preview {
+        height: 180px;
+        background: #21262d;
+        border: 1px dashed #30363d;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+
+        img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+        }
+
+        p {
+            color: #8b949e;
+            font-size: 14px;
+        }
+    }
+
+    input {
+        width: 100%;
+        padding: 10px 14px;
+        background: #21262d;
+        border: 1px solid #30363d;
+        border-radius: 6px;
+        color: #c9d1d9;
+        font-size: 14px;
+        transition: all 0.2s;
+        box-sizing: border-box;
+
+        &::placeholder {
+            color: #8b949e;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+        }
+    }
+
+    .error-message {
+        color: #f85149;
+        font-size: 13px;
+        padding: 8px 12px;
+        background: rgba(248, 81, 73, 0.1);
+        border-radius: 6px;
+        border: 1px solid rgba(248, 81, 73, 0.2);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: auto;
+        flex-shrink: 0;
+
+        button {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+
+            &[type="submit"] {
+                background: #58a6ff;
+                color: #0d1117;
+
+                &:hover:not(:disabled) {
+                    background: #79c0ff;
+                    box-shadow: 0 0 16px rgba(88, 166, 255, 0.3);
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+
+            &[type="button"] {
+                background: #21262d;
+                color: #c9d1d9;
+                border: 1px solid #30363d;
+
+                &:hover {
+                    background: #1c2128;
+                    border-color: #8b949e;
+                }
+            }
+        }
+    }
+
+    .saving {
+        color: #8b949e;
+        font-size: 13px;
+        text-align: center;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+    }
+}
+
+@media (max-width: 768px) {
+    :host {
+        height: auto;
+        overflow: visible;
+    }
+
+    .svg-form {
+        height: auto;
+        overflow-y: visible;
+        padding: 16px;
+        gap: 14px;
+
+        h2 {
+            font-size: 16px;
+        }
+
+        .svg-preview {
+            height: 150px;
+            border-radius: 10px;
+        }
+
+        input {
+            padding: 10px 12px;
+            font-size: 16px;
+        }
+
+        .form-actions {
+            gap: 10px;
+
+            button {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .svg-form {
+        padding: 12px;
+        gap: 12px;
+
+        .svg-preview {
+            height: 120px;
+            border-radius: 8px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+            gap: 8px;
+
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+
+        .error-message {
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+    }
+}
